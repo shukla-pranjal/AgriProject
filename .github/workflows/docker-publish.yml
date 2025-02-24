@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and Tag Docker Image
         run: |
-          docker build -t pranjalkumar09/agriproject:${{ env.SHA }} .
+          docker build -t pranjalkumar09/agriproject:${{ env.SHA }} AgriProject_java/
           docker tag pranjalkumar09/agriproject:${{ env.SHA }} pranjalkumar09/agriproject:latest
 
       - name: Push Docker Image
