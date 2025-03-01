@@ -1,14 +1,12 @@
 package com.agriproject.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class ML5Dto {
     private Integer id;
@@ -19,6 +17,4 @@ public class ML5Dto {
     private Double humidity;
     private Double ph;
     private Double rainfall ;
-
-
 }

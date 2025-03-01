@@ -5,5 +5,5 @@ numpy
 pandas
 scikit-learn
 pickle5
-
+joblib
 

@@ -22,6 +22,7 @@ public class MLController {
     public ResponseEntity<?> getPrediction(@RequestBody ML5Dto ml5Dto) {
 
         Map<String, Object> requestData = new HashMap<>();
+        System.out.println(ml5Dto);
         requestData.put("N", ml5Dto.getN());
         requestData.put("P", ml5Dto.getP());
         requestData.put("K", ml5Dto.getK());
