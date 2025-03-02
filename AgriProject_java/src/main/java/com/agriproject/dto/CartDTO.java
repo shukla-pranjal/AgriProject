@@ -11,9 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class CartDTO {
     private Long id;
-    private ProductDTO product;
-    private UserDTO user;
-    private int rating;
-    private String comment;
-    private Date reviewDate;
+    private Long userId;
+    private List<CartItemDTO> items;
+    private boolean active;
 }
