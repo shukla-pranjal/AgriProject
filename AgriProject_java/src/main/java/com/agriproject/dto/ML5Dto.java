@@ -10,9 +10,9 @@ import lombok.*;
 @NoArgsConstructor
 public class ML5Dto {
     private Integer id;
-    private Integer N;
-    private Integer P;
-    private Integer K;
+    private Integer n;
+    private Integer p;
+    private Integer k;
     private Double temperature;
     private Double humidity;
     private Double ph;
