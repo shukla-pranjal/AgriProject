@@ -1,8 +1,8 @@
-FROM openjdk:20-jdk
+FROM openjdk:21-jdk
 
 WORKDIR /app
 
-COPY AgriProject/target/AgriProject-0.0.1-SNAPSHOT.jar /app/AgriProject-0.0.1-SNAPSHOT.jar
+COPY target/AgriProject-0.0.1-SNAPSHOT.jar /app/AgriProject-0.0.1-SNAPSHOT.jar
 
 # port 8080 -- REST API
 EXPOSE 8080

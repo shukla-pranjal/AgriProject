@@ -1,0 +1,35 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch: 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Get Short Commit SHA
+        id: vars
+        run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Tag Docker Image
+        run: |
+          docker build -t pranjalkumar09/agriproject:${{ env.SHA }} AgriProject_java/
+          docker tag pranjalkumar09/agriproject:${{ env.SHA }} pranjalkumar09/agriproject:latest
+
+      - name: Push Docker Image
+        run: |
+          docker push pranjalkumar09/agriproject:${{ env.SHA }}
+          docker push pranjalkumar09/agriproject:latest
