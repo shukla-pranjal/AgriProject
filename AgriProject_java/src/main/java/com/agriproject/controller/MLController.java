@@ -2,6 +2,10 @@ package com.agriproject.controller;
 
 
 import com.agriproject.dto.ML5Dto;
+import com.agriproject.service.MLService;
+import com.agriproject.util.CommonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,27 +19,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/ml")
 public class MLController {
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final String FLASK_API_URL = "http://localhost:5000/predict"; // U
+
+    @Autowired
+    private MLService mlService;
+
+
 
     @PostMapping("/5")
     public ResponseEntity<?> getPrediction(@RequestBody ML5Dto ml5Dto) {
 
-        Map<String, Object> requestData = new HashMap<>();
-        System.out.println(ml5Dto);
-        requestData.put("N", ml5Dto.getN());
-        requestData.put("P", ml5Dto.getP());
-        requestData.put("K", ml5Dto.getK());
-        requestData.put("temperature", ml5Dto.getTemperature());
-        requestData.put("humidity", ml5Dto.getHumidity());
-        requestData.put("ph", ml5Dto.getPh());
-        requestData.put("rainfall", ml5Dto.getRainfall());
 
-        // Call the Flask API
-        ResponseEntity<String> response = restTemplate.postForEntity(FLASK_API_URL, requestData, String.class);
+        String response  =   mlService.predictM5(ml5Dto);
 
-        // Return the response from the ML model
-        return ResponseEntity.ok(response.getBody());
+        Map<String, Object> map = new HashMap<>();
+        map.put("response", response);
+        return CommonUtil.createBuildResponse(map, HttpStatus.OK);
 
     }
 
