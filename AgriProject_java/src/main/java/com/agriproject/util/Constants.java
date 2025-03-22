@@ -1,6 +1,11 @@
 package com.agriproject.util;
 
+import java.util.List;
+
 public class Constants {
-    public static final String FLASK_API_URL = "http://localhost:5000/predict/"; // U
+    // Allowed categorical values
+    public static final List<String> ALLOWED_SOIL_TYPES = List.of("Sandy", "Loamy", "Black", "Red", "Clayey");
+    public static final List<String> ALLOWED_CROP_TYPES = List.of("Maize", "Sugarcane", "Cotton", "Tobacco", "Paddy",
+            "Barley", "Wheat", "Millets", "Pulses", "Groundnuts", "Oilseeds");
 
 }
