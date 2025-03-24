@@ -2,8 +2,9 @@ package com.agriproject.exception;
 
 
 
-import com.agriproject.util.CommonUtil;
-import lombok.extern.slf4j.Slf4j;
+import java.io.FileNotFoundException;
+import java.nio.file.AccessDeniedException;
+
 import org.hibernate.query.sqm.produce.function.FunctionArgumentException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,10 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.FileNotFoundException;
-import java.nio.file.AccessDeniedException;
+import com.agriproject.util.CommonUtil;
+
+import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
@@ -38,6 +41,19 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<?> handleFeignException(FeignException e) {
+        log.error("GlobalExceptionHandler : handleFeignException() : {}", e.getMessage());
+        return CommonUtil.createErrorResponseMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlaskServiceException.class)
+    public ResponseEntity<?> handleFlaskServiceException(FlaskServiceException e) {
+        log.error("GlobalExceptionHandler : handleFlaskServiceException() : {}", e.getMessage());
+        return CommonUtil.createErrorResponseMessage("Error while handling Flask Service Exception " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<?> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
@@ -73,6 +89,11 @@ public class GlobalExceptionHandler {
         return CommonUtil.createErrorResponseMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<?> handleValidationException(ValidationException e){
+        log.error("GlobalExceptionHandler : ValidationException() : {}", e.getMessage());
+        return CommonUtil.createErrorResponse(e.getError(), HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException e){
@@ -86,6 +107,12 @@ public class GlobalExceptionHandler {
         return CommonUtil.createErrorResponseMessage(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException
+    e){
+        log.error("ResourceNotFoundException : {}", e.getMessage());
+        return CommonUtil.createErrorResponseMessage(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
 
 }
