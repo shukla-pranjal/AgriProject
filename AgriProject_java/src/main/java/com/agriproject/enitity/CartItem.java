@@ -18,11 +18,13 @@ public class CartItem extends BaseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private User user;
+    @ManyToOne
+    private Cart cart;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> items;
+    @ManyToOne
+    private Product product;
 
-    private boolean active = true;
+    private int quantity;
+
+    private double price;
 }
