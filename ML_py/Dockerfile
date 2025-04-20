@@ -12,9 +12,9 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY m5.py m5.py
-COPY m5.pkl m5.pkl
+COPY model.py .
+COPY *.pkl ./
 
 EXPOSE 5000
 
-CMD ["python3", "m5.py"]
+CMD ["python3", "app.py"]
