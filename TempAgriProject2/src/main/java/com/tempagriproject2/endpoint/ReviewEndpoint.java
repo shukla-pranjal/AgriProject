@@ -25,5 +25,8 @@ public interface ReviewEndpoint {
     ResponseEntity<?> delete(@PathVariable Integer id) throws Exception;
 
     @GetMapping("/product/{productId}")
-    ResponseEntity<?> getByProductId(@PathVariable Integer productId);
+    ResponseEntity<?> getByProductId(@PathVariable Integer productId)throws Exception;
+
+    @GetMapping("/user/{userId}")
+    ResponseEntity<?> getByUserId(@PathVariable Integer userId) throws Exception;
 }
