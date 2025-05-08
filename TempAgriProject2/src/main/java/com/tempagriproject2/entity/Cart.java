@@ -1,7 +1,10 @@
 package com.tempagriproject2.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,7 +12,12 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @ToString
-public class Category extends BaseModel {
-    private String name;
-    private String description;
+public class Cart extends BaseModel {
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> items = new ArrayList<>();
 }
