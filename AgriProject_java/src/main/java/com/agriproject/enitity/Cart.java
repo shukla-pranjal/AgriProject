@@ -2,6 +2,9 @@ package com.agriproject.enitity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
@@ -10,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Cart extends BaseModel {
 
     @Id
@@ -23,4 +27,8 @@ public class Cart extends BaseModel {
     private List<CartItem> items;
 
     private boolean active = true;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+private List<CartItem> cartItems;
+
 }
