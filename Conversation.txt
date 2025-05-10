@@ -1,0 +1,25 @@
+This file is development period file for effective communication
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Conversation
+===============
+
+    
+    P(9th May 2025)- Should user be have username too or just email will ok?
+        Also suggest changes in flowchart in logic building in improvement
+        Validation part is frontend + backend, things validation will in backend will updated
+
