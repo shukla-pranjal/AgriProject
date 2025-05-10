@@ -1,12 +1,10 @@
 package com.agriproject.enitity;
 
+import java.util.List;
+
+import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +20,7 @@ import lombok.ToString;
 @Entity
 @ToString
 @EntityListeners(AuditingEntityListener.class)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User extends BaseModel{
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -30,4 +29,8 @@ public class User extends BaseModel{
     private String email;
     private String firstName;
     private String lastName;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Address> addresses;
+
 }
