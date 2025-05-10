@@ -8,8 +8,6 @@ import com.agriproject.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +27,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDTO addItemToCart(Long userId, Long productId, int quantity)throws Exception {
+    public CartDTO addItemToCart(Long userId, Long productId, int quantity) throws Exception {
         Cart cart = cartRepository.findByUserId(userId).orElseGet(() -> {
-            User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            User user = null;
+            try {
+                user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            } catch (ResourceNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             Cart newCart = new Cart();
             newCart.setUser(user);
             newCart.setActive(true);
