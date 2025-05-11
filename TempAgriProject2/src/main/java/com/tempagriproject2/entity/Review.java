@@ -1,6 +1,7 @@
 package com.tempagriproject2.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Getter
@@ -9,7 +10,11 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @ToString
-public class Category extends BaseModel {
-    private String name;
-    private String description;
+public class Review extends BaseModel {
+    private Integer rating;
+    private String comment;
+    @ManyToOne
+    private Product product;
+    @ManyToOne
+    private User user;
 }
