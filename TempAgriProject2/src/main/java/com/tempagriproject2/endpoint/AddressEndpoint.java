@@ -21,4 +21,8 @@ public interface AddressEndpoint {
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable Integer id) throws Exception;
+
+    @GetMapping("/user/{userId}")
+    ResponseEntity<?> getByUserId(@PathVariable Integer userId)throws Exception;
+
 }
