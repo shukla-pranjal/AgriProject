@@ -1,15 +1,10 @@
 package com.tempagriproject2.config;
 
-import com.tempagriproject2.dto.AddressDTO;
-import com.tempagriproject2.dto.CategoryDTO;
-import com.tempagriproject2.dto.FarmerDTO;
-import com.tempagriproject2.dto.UserDTO;
-import com.tempagriproject2.entity.Address;
-import com.tempagriproject2.entity.Category;
-import com.tempagriproject2.entity.Farmer;
-import com.tempagriproject2.entity.User;
+import com.tempagriproject2.dto.*;
+import com.tempagriproject2.entity.*;
 import com.tempagriproject2.enums.AddressType;
 import com.tempagriproject2.enums.State;
+import com.tempagriproject2.enums.Unit;
 import com.tempagriproject2.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +61,23 @@ public class ProjectConfig {
         modelMapper.typeMap(Address.class, AddressDTO.class)
                 .addMappings(mapper -> mapper.using(ctx -> ((State) ctx.getSource()).getId()) // Convert State enum to its ID (Integer)
                         .map(Address::getState, AddressDTO::setState));
+        // Mapping from ProductDTO to Product
+        modelMapper.typeMap(ProductDTO.class, Product.class)
+                .addMappings(mapper -> {
+                    mapper.skip(Product::setId);
+                    mapper.using(ctx -> Unit.fromId((Integer) ctx.getSource()))
+                            .map(ProductDTO::getUnit, Product::setUnit);
+                });
+
+        // ✅ Mapping from Product to ProductDTO (fix for your error)
+        modelMapper.typeMap(Product.class, ProductDTO.class)
+                .addMappings(mapper -> mapper.using(ctx -> ((Unit) ctx.getSource()).getId())
+                        .map(Product::getUnit, ProductDTO::setUnit));
+
+        // Skip ID when mapping ReviewDTO to Review
+        modelMapper.typeMap(ReviewDTO.class, Review.class)
+                .addMappings(mapper -> mapper.skip(Review::setId));
+
 
         return modelMapper;
     }
