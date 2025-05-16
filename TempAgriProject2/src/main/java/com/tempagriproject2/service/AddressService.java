@@ -9,6 +9,8 @@ public interface AddressService {
 
     AddressDTO getAddressById(Integer id)  throws Exception ;
 
+    List<AddressDTO> getAddressesByUserId(Integer userId)throws Exception;
+
     AddressDTO createAddress(AddressDTO addressDTO) throws Exception;
 
     AddressDTO updateAddress(Integer id, AddressDTO addressDTO)  throws Exception ;

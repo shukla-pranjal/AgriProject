@@ -47,6 +47,16 @@ public class AddressServiceImpl implements AddressService {
         return convertToDTO(address);
     }
 
+    @Override
+    public List<AddressDTO> getAddressesByUserId(Integer userId)throws Exception{
+        userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+
+        return addressRepository.findByUserId(userId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
 
 
     @Override
