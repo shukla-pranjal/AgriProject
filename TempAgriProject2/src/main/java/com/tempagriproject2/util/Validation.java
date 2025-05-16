@@ -1,15 +1,14 @@
 package com.tempagriproject2.util;
 
-import com.tempagriproject2.dto.AddressDTO;
-import com.tempagriproject2.dto.CategoryDTO;
-import com.tempagriproject2.dto.FarmerDTO;
-import com.tempagriproject2.dto.UserDTO;
+import com.tempagriproject2.dto.*;
 import com.tempagriproject2.enums.AddressType;
 import com.tempagriproject2.enums.State;
+import com.tempagriproject2.enums.Unit;
 import com.tempagriproject2.exception.ValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -161,6 +160,107 @@ public class Validation {
         } catch (IllegalArgumentException e) {
             errors.put("state",Constants.STATE_INVALID);
         }
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
+    }
+
+    public void productValidate(ProductDTO productDTO) {
+        Map<String, Object> errors = new LinkedHashMap<>();
+
+        if (productDTO == null) {
+            throw new IllegalArgumentException(Constants.PRODUCT_DTO_NULL);
+        }
+
+        // Name
+        if (isBlank(productDTO.getName())) {
+            errors.put("name", Constants.PRODUCT_NAME_EMPTY);
+        } else if (productDTO.getName().length() < 2 || productDTO.getName().length() > 100) {
+            errors.put("name", Constants.PRODUCT_NAME_LENGTH);
+        }
+
+        // Description (optional, but max length check)
+        if (!isBlank(productDTO.getDescription()) && productDTO.getDescription().length() > 300) {
+            errors.put("description", Constants.PRODUCT_DESCRIPTION_TOO_LONG);
+        }
+
+        // Category
+        if (productDTO.getCategoryId() == null) {
+            errors.put("categoryId", Constants.CATEGORY_ID_NULL);
+        } else if (productDTO.getCategoryId() <= 0) {
+            errors.put("categoryId", Constants.CATEGORY_ID_INVALID);
+        }
+
+        // Price
+        if (productDTO.getPrice() == null) {
+            errors.put("price", Constants.PRODUCT_PRICE_NULL);
+        } else if (productDTO.getPrice() <= 0) {
+            errors.put("price", Constants.PRODUCT_PRICE_INVALID);
+        }
+
+        // Quantity
+        if (productDTO.getQuantity() == null) {
+            errors.put("quantity", Constants.PRODUCT_QUANTITY_NULL);
+        } else if (productDTO.getQuantity() <= 0) {
+            errors.put("quantity", Constants.PRODUCT_QUANTITY_INVALID);
+        }
+
+        // Unit (enum ID check)
+        try {
+            Unit.fromId(productDTO.getUnit());
+        } catch (IllegalArgumentException e) {
+            errors.put("unit", Constants.UNIT_INVALID);
+        }
+
+        // Expiry Date (optional, but if given, must be in future)
+        if (productDTO.getExpiryDate() != null && productDTO.getExpiryDate().isBefore(LocalDateTime.now())) {
+            errors.put("expiryDate", Constants.EXPIRY_DATE_INVALID);
+        }
+
+        // Farmer ID
+        if (productDTO.getFarmerId() == null) {
+            errors.put("farmerId", Constants.FARMER_ID_NULL);
+        } else if (productDTO.getFarmerId() <= 0) {
+            errors.put("farmerId", Constants.FARMER_ID_INVALID);
+        }
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
+    }
+
+    public void reviewValidate(ReviewDTO reviewDTO) {
+        Map<String, Object> errors = new LinkedHashMap<>();
+
+        if (reviewDTO == null) {
+            throw new IllegalArgumentException(Constants.REVIEW_OBJECT_NULL);
+        }
+
+        // Validate rating
+        if (reviewDTO.getRating() == null) {
+            errors.put("rating", Constants.RATING_NULL);
+        } else if (reviewDTO.getRating() < 1 || reviewDTO.getRating() > 5) {
+            errors.put("rating", Constants.RATING_INVALID);
+        }
+        if (reviewDTO.getComment() != null && reviewDTO.getComment().length() > 300) {
+            errors.put("comment", Constants.COMMENT_TOO_LONG);
+        }
+
+        // Validate productId
+        if (reviewDTO.getProductId() == null) {
+            errors.put("productId", Constants.PRODUCT_ID_NULL);
+        } else if (reviewDTO.getProductId() <= 0) {
+            errors.put("productId", Constants.PRODUCT_ID_INVALID);
+        }
+
+        // Validate userId
+        if (reviewDTO.getUserId() == null) {
+            errors.put("userId", Constants.USER_ID_NULL);
+        } else if (reviewDTO.getUserId() <= 0) {
+            errors.put("userId", Constants.USER_ID_INVALID);
+        }
+
 
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
