@@ -46,4 +46,9 @@ public class AddressController implements AddressEndpoint {
         addressService.deleteAddress(id);
         return CommonUtil.createBuildResponseMessage("Address deleted successfully", HttpStatus.OK);
     }
+    @Override
+    public ResponseEntity<?> getByUserId(Integer userId)throws Exception{
+        List<AddressDTO> addresses = addressService.getAddressesByUserId(userId);
+        return CommonUtil.createBuildResponse(addresses, HttpStatus.OK);
+    }
 }
