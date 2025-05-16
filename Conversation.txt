@@ -23,3 +23,7 @@ Conversation
         Also suggest changes in flowchart in logic building in improvement
         Validation part is frontend + backend, things validation will in backend will updated
 
+    Validation points
+        one user in one product can have atmost one review
+        
+
