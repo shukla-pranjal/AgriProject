@@ -1,0 +1,72 @@
+2025-05-25 16:24:25.630 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2025-05-25 16:24:25.632 INFO  [Thread-89] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-25 16:24:25.637 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-25 16:24:25.643 INFO  [Thread-89] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25 16:24:25.644 INFO  [Thread-89] com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Shutdown initiated...
+2025-05-25 16:24:25.653 INFO  [Thread-89] com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Shutdown completed.
+2025-05-25 16:24:25.768 INFO  [restartedMain] c.t.TempAgriProject2Application - Starting TempAgriProject2Application using Java 21.0.4 with PID 385901 (/media/pranjal/New Volume/CODES/PROJECT/AgriProject/TempAgriProject2/target/classes started by pranjal in /media/pranjal/New Volume/CODES/PROJECT/AgriProject/TempAgriProject2)
+2025-05-25 16:24:25.769 INFO  [restartedMain] c.t.TempAgriProject2Application - No active profile set, falling back to 1 default profile: "default"
+2025-05-25 16:24:25.951 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-25 16:24:25.964 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 9 JPA repository interfaces.
+2025-05-25 16:24:26.014 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-25 16:24:26.015 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-25 16:24:26.015 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-25 16:24:26.023 INFO  [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-25 16:24:26.023 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 252 ms
+2025-05-25 16:24:26.045 INFO  [restartedMain] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-25 16:24:26.046 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-25 16:24:26.052 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-25 16:24:26.053 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Starting...
+2025-05-25 16:24:26.067 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-22 - Added connection com.mysql.cj.jdbc.ConnectionImpl@e7c0099
+2025-05-25 16:24:26.067 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Start completed.
+2025-05-25 16:24:26.068 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-22)']
+	Database driver: undefined/unknown
+	Database version: 8.0.41
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-25 16:24:26.198 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-25 16:24:26.266 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25 16:24:26.676 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-25 16:24:26.753 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-25 16:24:26.760 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-25 16:24:26.762 INFO  [restartedMain] c.t.TempAgriProject2Application - Started TempAgriProject2Application in 1.036 seconds (process running for 3737.791)
+2025-05-25 16:24:26.763 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-05-25 16:24:39.414 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2025-05-25 16:24:39.415 INFO  [Thread-93] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-25 16:24:39.416 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-25 16:24:39.419 INFO  [Thread-93] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25 16:24:39.419 INFO  [Thread-93] com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Shutdown initiated...
+2025-05-25 16:24:39.422 INFO  [Thread-93] com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Shutdown completed.
+2025-05-25 16:24:39.584 INFO  [restartedMain] c.t.TempAgriProject2Application - Starting TempAgriProject2Application using Java 21.0.4 with PID 385901 (/media/pranjal/New Volume/CODES/PROJECT/AgriProject/TempAgriProject2/target/classes started by pranjal in /media/pranjal/New Volume/CODES/PROJECT/AgriProject/TempAgriProject2)
+2025-05-25 16:24:39.584 INFO  [restartedMain] c.t.TempAgriProject2Application - No active profile set, falling back to 1 default profile: "default"
+2025-05-25 16:24:39.686 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-25 16:24:39.702 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 9 JPA repository interfaces.
+2025-05-25 16:24:39.749 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-25 16:24:39.750 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-25 16:24:39.750 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-25 16:24:39.754 INFO  [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-25 16:24:39.754 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 169 ms
+2025-05-25 16:24:39.773 INFO  [restartedMain] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-25 16:24:39.774 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-25 16:24:39.778 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-25 16:24:39.778 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-23 - Starting...
+2025-05-25 16:24:39.794 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-23 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70b5b702
+2025-05-25 16:24:39.794 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-23 - Start completed.
+2025-05-25 16:24:39.795 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-23)']
+	Database driver: undefined/unknown
+	Database version: 8.0.41
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-25 16:24:39.876 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-25 16:24:39.955 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25 16:24:40.258 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-25 16:24:40.315 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-25 16:24:40.322 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-25 16:24:40.324 INFO  [restartedMain] c.t.TempAgriProject2Application - Started TempAgriProject2Application in 0.774 seconds (process running for 3751.353)
+2025-05-25 16:24:40.324 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged

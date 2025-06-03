@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: AGRI-JAVA
+  datasource:
+    url: jdbc:mysql://localhost:3306/agri
+    username: root
+    password: 09072005
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+file:
+  upload:
+    path: files/
+
+management:
+  endpoints:
+    web:
+      exposure: # TODO  change include exclude in prod
+        include: "*"
+#        exclude: beans, logger
+  endpoint:
+
+    health:
+      show-details: always
+    shutdown:
+      access: unrestricted
+
+
+springdoc:
+  api-docs:
+    path: /farmer_app_shopping-docs
+#    enabled: true # todo it false in production
+  swagger-ui:
+    path: /farmer_app_shopping-doc
+    operationsSorter: method
+server:
+  port: 8080

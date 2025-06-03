@@ -1,0 +1,38 @@
+2025-05-31 17:52:08.159 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:08.160 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - Message :/swagger-ui
+2025-05-31 17:52:08.160 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:08.165 ERROR [http-nio-8080-exec-7] c.t.exception.GlobalExceptionHandler - Exception : No static resource swagger-ui.
+2025-05-31 17:52:08.167 WARN  [http-nio-8080-exec-7] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource swagger-ui.]
+2025-05-31 17:52:08.282 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:08.282 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 17:52:08.282 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:19.300 INFO  [http-nio-8080-exec-9] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:19.300 INFO  [http-nio-8080-exec-9] c.t.config.security.JwtFilter - Message :/v3/api-docs
+2025-05-31 17:52:19.300 INFO  [http-nio-8080-exec-9] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:19.415 INFO  [http-nio-8080-exec-10] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:19.415 INFO  [http-nio-8080-exec-10] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 17:52:19.415 INFO  [http-nio-8080-exec-10] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:29.451 INFO  [http-nio-8080-exec-1] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:29.451 INFO  [http-nio-8080-exec-1] c.t.config.security.JwtFilter - Message :/farmer_app_shopping-docs
+2025-05-31 17:52:29.451 INFO  [http-nio-8080-exec-1] c.t.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs
+2025-05-31 17:52:29.454 ERROR [http-nio-8080-exec-1] c.t.exception.GlobalExceptionHandler - Exception : No static resource farmer_app_shopping-docs.
+2025-05-31 17:52:29.456 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource farmer_app_shopping-docs.]
+2025-05-31 17:52:29.574 INFO  [http-nio-8080-exec-2] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:29.574 INFO  [http-nio-8080-exec-2] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 17:52:29.574 INFO  [http-nio-8080-exec-2] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:33.156 INFO  [http-nio-8080-exec-3] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:33.156 INFO  [http-nio-8080-exec-3] c.t.config.security.JwtFilter - Message :/farmer_app_shopping-doc/
+2025-05-31 17:52:33.157 INFO  [http-nio-8080-exec-3] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:33.160 ERROR [http-nio-8080-exec-3] c.t.exception.GlobalExceptionHandler - Exception : No static resource farmer_app_shopping-doc.
+2025-05-31 17:52:33.161 WARN  [http-nio-8080-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource farmer_app_shopping-doc.]
+2025-05-31 17:52:33.243 INFO  [http-nio-8080-exec-4] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:33.244 INFO  [http-nio-8080-exec-4] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 17:52:33.244 INFO  [http-nio-8080-exec-4] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:52:35.813 INFO  [http-nio-8080-exec-5] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:35.814 INFO  [http-nio-8080-exec-5] c.t.config.security.JwtFilter - Message :/farmer_app_shopping-docs
+2025-05-31 17:52:35.814 INFO  [http-nio-8080-exec-5] c.t.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs
+2025-05-31 17:52:35.817 ERROR [http-nio-8080-exec-5] c.t.exception.GlobalExceptionHandler - Exception : No static resource farmer_app_shopping-docs.
+2025-05-31 17:52:35.819 WARN  [http-nio-8080-exec-5] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource farmer_app_shopping-docs.]
+2025-05-31 17:52:35.886 INFO  [http-nio-8080-exec-6] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:52:35.887 INFO  [http-nio-8080-exec-6] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 17:52:35.887 INFO  [http-nio-8080-exec-6] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End

@@ -1,0 +1,6 @@
+2025-05-31 17:59:03.746 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:59:03.747 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - Message :/actuator/mappings
+2025-05-31 17:59:03.747 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 17:59:03.961 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 17:59:03.962 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 17:59:03.962 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End

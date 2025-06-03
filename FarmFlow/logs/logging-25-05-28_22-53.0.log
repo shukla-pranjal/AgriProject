@@ -1,0 +1,9 @@
+2025-05-28 22:53:39.239 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h57m31s283ms971µs697ns).
+2025-05-28 22:53:39.281 ERROR [http-nio-8080-exec-10] c.t.controller.AddressController - AddressController : create :: Failed to create address, error: Access denied
+2025-05-28 22:53:39.357 ERROR [http-nio-8080-exec-10] c.t.exception.GlobalExceptionHandler - Exception : Access denied
+2025-05-28 22:53:39.471 WARN  [http-nio-8080-exec-10] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.security.access.AccessDeniedException: Access denied]
+2025-05-28 22:53:39.640 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-28 22:53:39.678 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-28 22:53:39.791 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 22:53:39.880 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-28 22:53:39.912 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

@@ -1,0 +1,4 @@
+2025-05-26 23:20:24.863 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-26 23:20:24.869 INFO  [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-26 23:20:24.884 INFO  [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Completed initialization in 13 ms
+2025-05-26 23:20:25.131 INFO  [http-nio-8080-exec-1] c.t.controller.ImageController - ImageController::getAll returned 0 images

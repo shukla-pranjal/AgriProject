@@ -1,0 +1,16 @@
+2025-06-03 15:29:19.006 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 160 class path changes (0 additions, 160 deletions, 0 modifications)
+2025-06-03 15:29:19.011 INFO  [Thread-95] o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application AGRI-JAVA with eureka with status DOWN
+2025-06-03 15:29:19.012 INFO  [Thread-95] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1748944759012, current=DOWN, previous=UP]
+2025-06-03 15:29:19.012 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/192.168.116.7:AGRI-JAVA:8080: registering service...
+2025-06-03 15:29:19.015 INFO  [Thread-95] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-03 15:29:19.018 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2025-06-03 15:29:19.020 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-03 15:29:19.021 INFO  [Thread-95] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2025-06-03 15:29:19.038 INFO  [Thread-95] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-03 15:29:19.042 INFO  [Thread-95] com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown initiated...
+2025-06-03 15:29:19.054 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/192.168.116.7:AGRI-JAVA:8080 - registration status: 204
+2025-06-03 15:29:19.082 INFO  [Thread-95] com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown completed.
+2025-06-03 15:29:19.083 INFO  [Thread-95] c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-06-03 15:29:22.083 INFO  [Thread-95] c.netflix.discovery.DiscoveryClient - Unregistering ...
+2025-06-03 15:29:22.088 INFO  [Thread-95] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/192.168.116.7:AGRI-JAVA:8080 - deregister  status: 200
+2025-06-03 15:29:22.088 INFO  [Thread-95] c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
