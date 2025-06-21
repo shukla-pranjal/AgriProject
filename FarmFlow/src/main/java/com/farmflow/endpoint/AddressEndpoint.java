@@ -105,7 +105,7 @@ public interface AddressEndpoint {
     @PostMapping("/user/me/paged")
     ResponseEntity<?> getCurrentUserAddressesPaged(
             @Parameter(description = "Pagination details (page number, size, sort)", required = true) @RequestBody PaginationRequest paginationRequest
-    ) throws Exception;
+    ) ;
 
     @Operation(summary = "Search Addresses for Current User", description = "Searches addresses of the currently authenticated user based on criteria such as pin code, district, street, state, and address type. Accessible by users and farmers.")
     @PreAuthorize(Constants.USER_OR_FARMER)

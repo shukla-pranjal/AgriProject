@@ -150,8 +150,6 @@ public class GlobalExceptionHandler {
         return CommonUtil.createErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-
-
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException
                                                                      e){
