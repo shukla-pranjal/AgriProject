@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} [%X{requestId}] [%X{userId}] %-5level %logger{36} - %msg%n
     <!-- Console Appender -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
