@@ -111,6 +111,9 @@ public class ImageController implements ImageEndpoint {
 
     @Override
     public ResponseEntity<byte[]> downloadImage(Integer id) throws Exception {  // TODO better this method
+
+//        return imageService.
+
         // Fetch the image metadata to get file details
         ImageDTO imageDTO = imageService.getImageById(id);
         if (imageDTO == null) {

@@ -2,16 +2,18 @@ package com.farmflow.service.impl;
 
 import com.farmflow.config.AuditAwareConfig;
 import com.farmflow.config.security.CustomUserDetails;
-import com.farmflow.dto.LoginRequest;
-import com.farmflow.dto.LoginResponse;
-import com.farmflow.dto.UserDTO;
-import com.farmflow.entity.AccountStatus;
+import com.farmflow.dto.*;
+import com.farmflow.entity.AccountMetadata;
 import com.farmflow.entity.User;
+import com.farmflow.enums.AccountStatus;
 import com.farmflow.enums.Role;
+import com.farmflow.exception.ResourceNotFoundException;
 import com.farmflow.exception.ValidationException;
 import com.farmflow.repository.UserRepository;
 import com.farmflow.service.AuthService;
 import com.farmflow.service.JwtService;
+import com.farmflow.service.email.EmailComposerService;
+import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,26 +47,63 @@ public class AuthServiceImpl implements AuthService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private AuditAwareConfig auditAwareConfig;
+    @Autowired
+    private EmailComposerService emailComposerService;
+
 
 
     @Override
-    public LoginResponse login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) throws ResourceNotFoundException {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        // 1️⃣ Find user
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (authentication.isAuthenticated()) {
-            CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-            String token = jwtService.generateToken(customUserDetails.getUser());
-            UserDTO userDto = modelMapper.map(customUserDetails.getUser(), UserDTO.class);
+        AccountMetadata metadata = user.getMetadata();
 
-            return LoginResponse.builder()
-                    .token(token)
-                    .user(userDto)
-                    .build();
+        // 2️⃣ Check status
+        if (metadata.getStatus() == AccountStatus.PENDING) {
+            throw new ValidationException("Account not verified. Please verify email.");
         }
-        return null;
 
+        if (metadata.getStatus() == AccountStatus.DISABLED) {
+            throw new ValidationException("Account is disabled.");
+        }
+
+        if (metadata.getStatus() == AccountStatus.LOCKED) {
+            if (metadata.getLockedUntil() != null && metadata.getLockedUntil().isAfter(LocalDateTime.now())) {
+                throw new ValidationException("Account is locked until " + metadata.getLockedUntil());
+            } else {
+                // Unlock after lock duration expires
+                metadata.setStatus(AccountStatus.ACTIVE);
+                metadata.setFailedLoginAttempts(0);
+                metadata.setLockedUntil(null);
+                userRepository.save(user);
+            }
+        }
+
+        // 3️⃣ Authenticate credentials
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(), loginRequest.getPassword()
+                )
+        );
+
+        // 4️⃣ Reset failed attempts after successful login
+        metadata.setFailedLoginAttempts(0);
+        metadata.setLockedUntil(null);
+        userRepository.save(user);
+
+        // 5️⃣ Generate token
+        String token = jwtService.generateToken(user);
+        UserDTO userDto = modelMapper.map(user, UserDTO.class);
+
+        return LoginResponse.builder()
+                .token(token)
+                .user(userDto)
+                .build();
     }
+
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         validation.userValidate(userDTO);
@@ -71,11 +111,16 @@ public class AuthServiceImpl implements AuthService {
             throw new ValidationException("User with email " + userDTO.getEmail() + " already exists.");
         }
         User user = modelMapper.map(userDTO, User.class);
-        AccountStatus status = AccountStatus.builder()
-                .isActive(true)
-                .verificationCode(UUID.randomUUID().toString())
+
+        String verficationCode = emailComposerService.sendVerificationEmail(userDTO);
+        AccountMetadata status = AccountMetadata.builder()
+                .status(AccountStatus.PENDING)
+                .verificationCodeCreatedAt(LocalDateTime.now())
+                .verificationCode(verficationCode)
+                .failedLoginAttempts(0)
                 .build();
-        user.setStatus(status);
+
+        user.setMetadata(status);
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
         user.setRoles(Set.of(Role.ROLE_USER));
@@ -98,9 +143,68 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    @Override
+    public void verifyEmail(EmailVerificationRequest request) throws Exception {
+        User user = userRepository.findByEmailIgnoreCase(request.getEmail());
+        if (user == null) {
+            throw new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS);
+        }
+
+        AccountMetadata metadata = user.getMetadata();
+        if (metadata.getStatus() != AccountStatus.PENDING) {
+            throw new ValidationException("Account already verified or inactive");
+        }
+
+        if (!request.getVerificationCode().equals(metadata.getVerificationCode())) {
+            throw new ValidationException("Invalid verification code");
+        }
+
+        if (metadata.getVerificationCodeCreatedAt()
+                .isBefore(LocalDateTime.now().minusHours(24))) {
+            throw new ValidationException("Verification code expired");
+        }
+
+        metadata.setStatus(AccountStatus.ACTIVE);
+        metadata.setVerificationCode(null);
+        metadata.setVerificationCodeCreatedAt(null);
+
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void resendVerification(ResendVerificationRequest request) throws Exception {
+        User user = userRepository.findByEmailIgnoreCase(request.getEmail());
+        if (user == null) {
+            throw new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS);
+        }
+        AccountMetadata metadata = user.getMetadata();
+        if (metadata.getStatus() == AccountStatus.ACTIVE) {
+            throw new ValidationException("Account is already verified");
+        }
+
+        if (metadata.getStatus() != AccountStatus.PENDING && metadata.getStatus() != AccountStatus.DISABLED) {
+            throw new ValidationException("Verification code can only be resent for pending or disabled accounts");
+        }
+
+        if (metadata.getVerificationCodeCreatedAt() != null &&
+                metadata.getVerificationCodeCreatedAt().isAfter(LocalDateTime.now().minusMinutes(10))) {
+            throw new ValidationException("You can request a new code after 10 minutes");
+        }
+
+        String newCode = emailComposerService.sendVerificationEmail(modelMapper.map(user, UserDTO.class));
+        metadata.setVerificationCode(newCode);
+        metadata.setVerificationCodeCreatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+    }
+
     public boolean isAdmin() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
+
+
 }
+

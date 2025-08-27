@@ -22,70 +22,69 @@ import java.util.Arrays;
 
 import static com.farmflow.util.Constants.PUBLIC_PATHS;
 
-    @Slf4j
-    @Component
-
-    public class JwtFilter extends OncePerRequestFilter {
-        private final JwtService jwtService;
-        private final ObjectMapper objectMapper;
-        private final UserDetailsServiceImpl userDetailsService;
-
-
-        public JwtFilter(JwtService jwtService, ObjectMapper objectMapper, UserDetailsServiceImpl userDetailsService) {
-            this.jwtService = jwtService;
-            this.objectMapper = objectMapper;
-            this.userDetailsService = userDetailsService;
-        }
-
-        @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-            log.info("JwtFilter : doFilterInternal() : Execution Start");
-            try {
-
-                String requestPath = request.getRequestURI();
-                log.info("Message :{}", requestPath);
-                if (Arrays.stream(PUBLIC_PATHS).anyMatch(requestPath::startsWith))
-                {
-
-                    log.info("Skipping JWT Filter for: {}", requestPath);
-                    filterChain.doFilter(request, response);
-                    return;
-                }
+@Slf4j
+@Component
+public class JwtFilter extends OncePerRequestFilter {
+    private final JwtService jwtService;
+    private final ObjectMapper objectMapper;
+    private final UserDetailsServiceImpl userDetailsService;
 
 
-                String authHeader = request.getHeader("Authorization");
-                String token = null;
-                String username = null;
-                if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                    token = authHeader.substring(7);  // Extract token
-                    username = jwtService.extractUsername(token);
-                    log.info("Extracted username: {}", username);
-                }
+    public JwtFilter(JwtService jwtService, ObjectMapper objectMapper, UserDetailsServiceImpl userDetailsService) {
+        this.jwtService = jwtService;
+        this.objectMapper = objectMapper;
+        this.userDetailsService = userDetailsService;
+    }
 
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    if (jwtService.validateToken(token, userDetails)) {
-                        UsernamePasswordAuthenticationToken authentication =
-                                new UsernamePasswordAuthenticationToken(
-                                        userDetails, null, userDetails.getAuthorities()
-                                );
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("JwtFilter : doFilterInternal() : Execution Start");
+        try {
 
+            String requestPath = request.getRequestURI();
+            log.info("Message :{}", requestPath);
+            if (Arrays.stream(PUBLIC_PATHS).anyMatch(requestPath::startsWith))
+            {
 
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                        log.info("Authentication set for user: {}", username);
-                    } else {
-                        log.warn("JWT validation failed for user: {}", username);
-                    }
-                }
-            } catch (Exception e) {
-                log.error("Error during token authentication: {}", e.getMessage());
-                generateResponseError(response, e);
+                log.info("Skipping JWT Filter for: {}", requestPath);
+                filterChain.doFilter(request, response);
                 return;
             }
-            log.info("JwtFilter : doFilterInternal() : Execution End");
-            filterChain.doFilter(request, response);
+
+
+            String authHeader = request.getHeader("Authorization");
+            String token = null;
+            String username = null;
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);  // Extract token
+                username = jwtService.extractUsername(token);
+                log.info("Extracted username: {}", username);
+            }
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                if (jwtService.validateToken(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities()
+                            );
+
+
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    log.info("Authentication set for user: {}", username);
+                } else {
+                    log.warn("JWT validation failed for user: {}", username);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error during token authentication: {}", e.getMessage());
+            generateResponseError(response, e);
+            return;
         }
+        log.info("JwtFilter : doFilterInternal() : Execution End");
+        filterChain.doFilter(request, response);
+    }
 
 
     private void generateResponseError(HttpServletResponse response, Exception e) throws IOException {

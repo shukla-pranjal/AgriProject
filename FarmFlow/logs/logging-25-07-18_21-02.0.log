@@ -1,0 +1,96 @@
+2025-07-18 21:02:06.039 INFO  [restartedMain] com.farmflow.FarmFlowApplication - Starting FarmFlowApplication using Java 21.0.4 with PID 25711 (/mnt/NewVolume/code/agri-project/FarmFlow/target/classes started by pranjal in /mnt/NewVolume/code/agri-project/FarmFlow)
+2025-07-18 21:02:06.043 INFO  [restartedMain] com.farmflow.FarmFlowApplication - No active profile set, falling back to 1 default profile: "default"
+2025-07-18 21:02:06.135 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-07-18 21:02:06.136 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-07-18 21:02:09.054 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-18 21:02:10.857 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1758 ms. Found 10 JPA repository interfaces.
+2025-07-18 21:02:12.097 INFO  [restartedMain] o.s.cloud.context.scope.GenericScope - BeanFactory id=3aa29411-fe5b-3711-8cbd-d96c64c15155
+2025-07-18 21:02:14.811 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-18 21:02:14.836 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-07-18 21:02:14.839 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-18 21:02:14.839 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-07-18 21:02:14.959 INFO  [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-18 21:02:14.960 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 8822 ms
+2025-07-18 21:02:15.889 INFO  [restartedMain] c.f.service.impl.JwtServiceImpl - JwtServiceImpl instantiated
+2025-07-18 21:02:17.604 INFO  [restartedMain] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-18 21:02:17.790 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-07-18 21:02:17.933 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-18 21:02:18.881 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-18 21:02:18.980 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-18 21:02:19.565 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8bf8928
+2025-07-18 21:02:19.567 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-18 21:02:19.741 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-07-18 21:02:21.450 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-18 21:02:22.003 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-18 21:02:23.164 INFO  [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-18 21:02:28.695 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-07-18 21:02:28.695 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-07-18 21:02:30.341 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-18 21:02:30.508 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-07-18 21:02:30.790 INFO  [restartedMain] o.s.c.o.FeignClientFactoryBean - For 'ML-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2025-07-18 21:02:33.011 INFO  [restartedMain] o.s.b.a.e.web.EndpointLinksResolver - Exposing 18 endpoints beneath base path '/actuator'
+2025-07-18 21:02:33.093 INFO  [restartedMain] c.f.config.security.SecurityConfig - SecurityConfig : securityFilterChain() : Execution Start
+2025-07-18 21:02:33.149 INFO  [restartedMain] c.f.config.security.SecurityConfig - SecurityConfig : securityFilterChain() : Execution Complete
+2025-07-18 21:02:33.515 INFO  [restartedMain] o.s.v.b.OptionalValidatorFactoryBean - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-07-18 21:02:34.857 INFO  [restartedMain] o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2025-07-18 21:02:34.933 WARN  [restartedMain] o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-07-18 21:02:35.102 INFO  [restartedMain] o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2025-07-18 21:02:35.172 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-07-18 21:02:35.181 INFO  [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-07-18 21:02:35.194 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-07-18 21:02:35.194 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-07-18 21:02:35.194 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-07-18 21:02:35.194 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-07-18 21:02:35.194 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-07-18 21:02:35.195 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-07-18 21:02:35.195 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-07-18 21:02:35.986 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-07-18 21:02:35.988 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-07-18 21:02:35.991 INFO  [restartedMain] c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-07-18 21:02:35.994 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1752852755993 with initial instances count: 0
+2025-07-18 21:02:36.015 INFO  [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry - Registering application AGRI-JAVA with eureka with status UP
+2025-07-18 21:02:36.017 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1752852756016, current=UP, previous=STARTING]
+2025-07-18 21:02:36.019 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-07-18 21:02:36.020 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.253.107:AGRI-JAVA:8080: registering service...
+2025-07-18 21:02:36.041 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-18 21:02:36.043 INFO  [restartedMain] o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8080
+2025-07-18 21:02:36.109 INFO  [restartedMain] com.farmflow.FarmFlowApplication - Started FarmFlowApplication in 30.719 seconds (process running for 32.913)
+2025-07-18 21:02:36.234 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.253.107:AGRI-JAVA:8080 - registration status: 204
+2025-07-18 21:02:36.783 INFO  [RMI TCP Connection(1)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-18 21:02:36.784 INFO  [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-18 21:02:36.793 INFO  [RMI TCP Connection(1)-127.0.0.1] o.s.web.servlet.DispatcherServlet - Completed initialization in 8 ms
+2025-07-18 21:02:42.613 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:42.613 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-18 21:02:42.615 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:42.880 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:42.880 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:42.883 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui-bundle.js
+2025-07-18 21:02:42.883 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:42.884 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui.css
+2025-07-18 21:02:42.884 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:42.885 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:42.885 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:42.885 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.css
+2025-07-18 21:02:42.886 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:42.886 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-initializer.js
+2025-07-18 21:02:42.887 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui-standalone-preset.js
+2025-07-18 21:02:42.887 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:42.888 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:42.889 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:43.461 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:43.462 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/favicon-16x16.png
+2025-07-18 21:02:43.462 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-18 21:02:43.545 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:43.546 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Message :/farmer_app_shopping-docs/swagger-config
+2025-07-18 21:02:43.546 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs/swagger-config
+2025-07-18 21:02:43.679 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-18 21:02:43.679 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - Message :/farmer_app_shopping-docs/public
+2025-07-18 21:02:43.680 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs/public
+2025-07-18 21:02:45.923 INFO  [http-nio-8080-exec-9] o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 2189 ms

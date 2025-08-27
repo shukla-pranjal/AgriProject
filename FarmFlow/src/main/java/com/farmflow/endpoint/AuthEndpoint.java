@@ -1,6 +1,8 @@
 package com.farmflow.endpoint;
 
+import com.farmflow.dto.EmailVerificationRequest;
 import com.farmflow.dto.LoginRequest;
+import com.farmflow.dto.ResendVerificationRequest;
 import com.farmflow.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,4 +27,18 @@ public interface AuthEndpoint {
     ResponseEntity<?> login(
             @Parameter(description = "Login credentials (e.g., username and password)", required = true) @RequestBody LoginRequest loginRequest
     );
+
+    @Operation(summary = "Email Verification", description = "Verifies the user's email address by checking the provided verification code.")
+    @PostMapping("/verify-email")
+    ResponseEntity<?> verifyEmail(
+            @Parameter(description = "Email verification details including email and verification code.", required = true)
+            @RequestBody EmailVerificationRequest request) throws Exception;
+
+
+    @Operation(summary = "Resend Email Verification", description = "Resends the email verification code to the provided email address.")
+    @PostMapping("/resend-verification")
+    ResponseEntity<?> resendVerification (
+            @Parameter(description = "The email address to resend the verification code", required = true)
+            @RequestBody ResendVerificationRequest request
+    ) throws  Exception;
 }

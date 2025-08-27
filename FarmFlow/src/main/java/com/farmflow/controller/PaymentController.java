@@ -25,120 +25,72 @@ public class PaymentController implements PaymentEndpoint {
 
     @Override
     public ResponseEntity<?> createPayment(PaymentDTO paymentDTO) throws Exception {
-        String methodName = "createPayment";
-        try {
             PaymentDTO created = paymentService.createPayment(paymentDTO);
             return CommonUtil.createBuildResponse(created, HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> getPaymentById(Integer id) throws Exception {
-        String methodName = "getPaymentById";
-        try {
             PaymentDTO dto = paymentService.getPaymentById(id);
             return CommonUtil.createBuildResponse(dto, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> getAllPayments() {
-        String methodName = "getAllPayments";
         List<PaymentDTO> list = paymentService.getAllPayments();
         return CommonUtil.createBuildResponse(list, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> getPaymentByOrderId(Integer orderId) throws Exception {
-        String methodName = "getPaymentByOrderId";
-        try {
             PaymentDTO dto = paymentService.getPaymentByOrderId(orderId);
             return CommonUtil.createBuildResponse(dto, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> getPaymentsByStatus(PaymentStatus status) throws Exception {
-        String methodName = "getPaymentsByStatus";
-        try {
             List<PaymentDTO> list = paymentService.getPaymentsByStatus(status);
             return CommonUtil.createBuildResponse(list, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> getPaymentsByMethod(PaymentMethod method) throws Exception {
-        String methodName = "getPaymentsByMethod";
-        try {
             List<PaymentDTO> list = paymentService.getPaymentsByMethod(method);
             return CommonUtil.createBuildResponse(list, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> updatePayment(Integer id, PaymentDTO paymentDTO) throws Exception {
-        String methodName = "updatePayment";
-        try {
             PaymentDTO updated = paymentService.updatePayment(id, paymentDTO);
             return CommonUtil.createBuildResponse(updated, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> updatePaymentStatus(Integer id, PaymentStatus status) throws Exception {
-        String methodName = "updatePaymentStatus";
-        try {
             PaymentDTO updated = paymentService.updatePaymentStatus(id, status);
             return CommonUtil.createBuildResponse(updated, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> updatePaymentMethod(Integer id, PaymentMethod method) throws Exception {
-        String methodName = "updatePaymentMethod";
-        try {
             PaymentDTO updated = paymentService.updatePaymentMethod(id, method);
             return CommonUtil.createBuildResponse(updated, HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> deletePayment(Integer id) throws Exception {
-        String methodName = "deletePayment";
-        try {
             paymentService.deletePayment(id);
             return CommonUtil.createBuildResponseMessage("Payment deleted successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Override
     public ResponseEntity<?> searchPayments(PaymentStatus status, PaymentMethod method, Double minAmount, Double maxAmount) {
-        String methodName = "searchPayments";
         List<PaymentDTO> list = paymentService.searchPayments(status, method, minAmount, maxAmount);
         return CommonUtil.createBuildResponse(list, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> getAllPaymentsPaged(PaginationRequest paginationRequest) {
-        String methodName = "getAllPaymentsPaged";
         Page<PaymentDTO> page = paymentService.getAllPaymentsPaged(paginationRequest);
         PaginatedResponse<PaymentDTO> response = PaginatedResponse.fromPage(page);
         return CommonUtil.createBuildResponse(response, HttpStatus.OK);
@@ -146,7 +98,6 @@ public class PaymentController implements PaymentEndpoint {
 
     @Override
     public ResponseEntity<?> getPaymentsByStatusPaged(PaymentStatus status, PaginationRequest paginationRequest) {
-        String methodName = "getPaymentsByStatusPaged";
         Page<PaymentDTO> page = paymentService.getPaymentsByStatusPaged(status, paginationRequest);
         PaginatedResponse<PaymentDTO> response = PaginatedResponse.fromPage(page);
         return CommonUtil.createBuildResponse(response, HttpStatus.OK);
@@ -154,7 +105,6 @@ public class PaymentController implements PaymentEndpoint {
 
     @Override
     public ResponseEntity<?> getPaymentsByMethodPaged(PaymentMethod method, PaginationRequest paginationRequest) {
-        String methodName = "getPaymentsByMethodPaged";
         Page<PaymentDTO> page = paymentService.getPaymentsByMethodPaged(method, paginationRequest);
         PaginatedResponse<PaymentDTO> response = PaginatedResponse.fromPage(page);
         return CommonUtil.createBuildResponse(response, HttpStatus.OK);
@@ -162,7 +112,6 @@ public class PaymentController implements PaymentEndpoint {
 
     @Override
     public ResponseEntity<?> searchPaymentsPaged(PaginationRequest paginationRequest, PaymentStatus status, PaymentMethod method, Double minAmount, Double maxAmount) {
-        String methodName = "searchPaymentsPaged";
         Page<PaymentDTO> page = paymentService.searchPaymentsPaged(paginationRequest, status, method, minAmount, maxAmount);
         PaginatedResponse<PaymentDTO> response = PaginatedResponse.fromPage(page);
         return CommonUtil.createBuildResponse(response, HttpStatus.OK);

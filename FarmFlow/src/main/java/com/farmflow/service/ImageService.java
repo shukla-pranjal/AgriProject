@@ -31,4 +31,5 @@ public interface ImageService {
     ImageDTO getImageById(Integer id)throws Exception ;
 
     void deleteImage(Integer id)throws Exception ;
+
 }

@@ -11,6 +11,8 @@ import com.farmflow.exception.ValidationException;
 import com.farmflow.repository.*;
 import com.farmflow.service.AuthService;
 import com.farmflow.service.OrdersService;
+import com.farmflow.service.email.EmailComposerService;
+import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,29 +26,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+
+
 @RequiredArgsConstructor
 @Transactional
+@Service
 public class OrdersServiceImpl implements OrdersService {
 
     private final OrdersRepository orderRepository;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
-    private final ProductRepository productRepository;    // <-- injected
+    private final ProductRepository productRepository;
     private final AuthService authService;
     public final Validation validation;
-
+    private final EmailComposerService emailComposerService;
 
     @Override
+    @CacheEvict(value = "orderCache", allEntries = true)
     public OrdersDTO placeOrderFromCart(Integer cartId) throws Exception {
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         if (cart.getItems().isEmpty()) {
-            throw new ValidationException("Cart is empty. Cannot place orders.");
+            throw new ValidationException(Constants.CART_EMPTY);
         }
 
         Orders orders = new Orders();
@@ -61,10 +69,10 @@ public class OrdersServiceImpl implements OrdersService {
             Product product = cartItem.getProduct();
 
             if (!product.getAvailable()) {
-                throw new ValidationException("Product " + product.getName() + " is not available.");
+                throw new ValidationException(String.format(Constants.PRODUCT_NOT_AVAILABLE, product.getName()));
             }
             if (product.getQuantity() < cartItem.getQuantity()) {
-                throw new InsufficientStockException("Insufficient stock for product " + product.getName());
+                throw new InsufficientStockException(String.format(Constants.INSUFFICIENT_STOCK, product.getName()));
             }
 
             OrderItem orderItem = new OrderItem();
@@ -81,16 +89,16 @@ public class OrdersServiceImpl implements OrdersService {
         orders.setItems(orderItems);
         orders.setTotalPrice(totalPrice);
 
-        Orders saved = orderRepository.save(orders);
 
-        // Deduct product stock
+        Orders saved = orderRepository.save(orders);
+        emailComposerService.sendOrderConfirmation(saved, saved.getUser());
+
         for (CartItem cartItem : cart.getItems()) {
             Product product = cartItem.getProduct();
             product.setQuantity(product.getQuantity() - cartItem.getQuantity());
             productRepository.save(product);
         }
 
-        // Clear cart
         cart.getItems().clear();
         cartRepository.save(cart);
 
@@ -98,17 +106,18 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    @CacheEvict(value = "orderCache", allEntries = true)
     public OrdersDTO createManualOrder(OrdersDTO ordersDTO) throws Exception {
         validation.validateOrder(ordersDTO);
 
         if (ordersDTO.getUserId() == null) {
-            throw new IllegalArgumentException("User ID is required to create an order.");
+            throw new IllegalArgumentException(Constants.USER_ID_REQUIRED);
         }
         User user = userRepository.findById(ordersDTO.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + ordersDTO.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, ordersDTO.getUserId())));
 
         if (!(authService.isOwnerOrAdmin(user.getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         Orders orders = new Orders();
         orders.setUser(user);
@@ -118,19 +127,18 @@ public class OrdersServiceImpl implements OrdersService {
         List<OrderItem> items = new ArrayList<>();
         double total = 0;
 
-        // --- NEW: Check product availability and stock before adding items ---
         for (OrderItemDTO dto : ordersDTO.getItems()) {
             if (dto.getProductId() == null) {
-                throw new IllegalArgumentException("Product ID is required in order items.");
+                throw new IllegalArgumentException(Constants.PRODUCT_ID_REQUIRED);
             }
             Product product = productRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + dto.getProductId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, dto.getProductId())));
 
             if (!product.getAvailable()) {
-                throw new IllegalStateException("Product " + product.getName() + " is not available.");
+                throw new IllegalStateException(String.format(Constants.PRODUCT_NOT_AVAILABLE, product.getName()));
             }
             if (product.getQuantity() < dto.getQuantity()) {
-                throw new IllegalStateException("Insufficient stock for product " + product.getName());
+                throw new IllegalStateException(String.format(Constants.INSUFFICIENT_STOCK, product.getName()));
             }
 
             OrderItem item = new OrderItem();
@@ -149,10 +157,9 @@ public class OrdersServiceImpl implements OrdersService {
 
         Orders saved = orderRepository.save(orders);
 
-        // --- NEW: Deduct stock for each product ordered ---
         for (OrderItem item : items) {
             Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + item.getProductId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, item.getProductId())));
             product.setQuantity(product.getQuantity() - item.getQuantity());
             productRepository.save(product);
         }
@@ -161,9 +168,10 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    @CacheEvict(value = "orderCache", allEntries = true)
     public OrdersDTO reorder(Integer id) throws Exception {
         Orders original = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Original order not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.ORDER_NOT_FOUND, id)));
 
         Orders copy = new Orders();
         copy.setUser(original.getUser());
@@ -171,22 +179,20 @@ public class OrdersServiceImpl implements OrdersService {
         copy.setStatus(OrdersStatus.PENDING);
 
         if (!(authService.isOwnerOrAdmin(original.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         List<OrderItem> newItems = new ArrayList<>();
         double total = 0;
 
-        // --- NEW: Check stock and availability before copying order items ---
         for (OrderItem oldItem : original.getItems()) {
             Product product = productRepository.findById(oldItem.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + oldItem.getProductId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, oldItem.getProductId())));
 
             if (!product.getAvailable()) {
-                throw new IllegalStateException("Product " + product.getName() + " is not available.");
+                throw new IllegalStateException(String.format(Constants.PRODUCT_NOT_AVAILABLE, product.getName()));
             }
             if (product.getQuantity() < oldItem.getQuantity()) {
-                throw new IllegalStateException("Insufficient stock for product " + product.getName());
+                throw new IllegalStateException(String.format(Constants.INSUFFICIENT_STOCK, product.getName()));
             }
 
             OrderItem newItem = new OrderItem();
@@ -204,10 +210,9 @@ public class OrdersServiceImpl implements OrdersService {
 
         Orders saved = orderRepository.save(copy);
 
-        // --- NEW: Deduct stock after reorder ---
         for (OrderItem item : newItems) {
             Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + item.getProductId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, item.getProductId())));
             product.setQuantity(product.getQuantity() - item.getQuantity());
             productRepository.save(product);
         }
@@ -219,7 +224,7 @@ public class OrdersServiceImpl implements OrdersService {
     public List<OrdersDTO> searchOrders(Integer userId, LocalDateTime fromDate, LocalDateTime toDate,
                                         OrdersStatus status, Double minTotalPrice, Double maxTotalPrice) {
         if (!(authService.isOwnerOrAdmin(userId)))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         List<Orders> orders = orderRepository.searchOrders(userId, fromDate, toDate, status, minTotalPrice, maxTotalPrice);
         return orders.stream()
@@ -235,11 +240,11 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public Page<OrdersDTO> getOrdersByUserPaged(Integer userId, PaginationRequest paginationRequest) throws Exception{
+    public Page<OrdersDTO> getOrdersByUserPaged(Integer userId, PaginationRequest paginationRequest) throws Exception {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, userId)));
         if (!(authService.isOwnerOrAdmin(userId)))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         Pageable pageable = paginationRequest.toPageable();
         Page<Orders> page = orderRepository.findByUserId(userId, pageable);
         return page.map(this::convertToDTO);
@@ -254,7 +259,7 @@ public class OrdersServiceImpl implements OrdersService {
                                              Double minTotalPrice,
                                              Double maxTotalPrice) {
         if (!(authService.isOwnerOrAdmin(userId)))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         Pageable pageable = paginationRequest.toPageable();
         Page<Orders> page = orderRepository.searchOrdersPaged(
                 userId, fromDate, toDate, status, minTotalPrice, maxTotalPrice, pageable
@@ -262,22 +267,23 @@ public class OrdersServiceImpl implements OrdersService {
         return page.map(this::convertToDTO);
     }
 
-
     @Override
+    @Cacheable(value = "orderCache", key = "#id")
     public OrdersDTO getOrderById(Integer id) throws Exception {
         Orders orders = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Orders not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, id)));
         if (!(authService.isOwnerOrAdmin(orders.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         return convertToDTO(orders);
     }
 
     @Override
+    @Cacheable(value = "orderCache", key = "#userId")
     public List<OrdersDTO> getOrdersByUser(Integer userId) throws Exception {
         userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, userId)));
         if (!(authService.isOwnerOrAdmin(userId)))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         return orderRepository.findByUserId(userId).stream()
                 .map(this::convertToDTO)
@@ -285,6 +291,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    @Cacheable(value = "orderCache", key = "'all'")
     public List<OrdersDTO> getAllOrders() {
         return orderRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -292,51 +299,57 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    @CacheEvict(value = "orderCache", key = "#orderId")
+    @CachePut(value = "orderCache", key = "#result.id")
     public OrdersDTO cancelOrder(Integer orderId) throws Exception {
         Orders orders = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Orders not found with ID: " + orderId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, orderId)));
 
         if (!(authService.isOwnerOrAdmin(orders.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         if (orders.getStatus() == OrdersStatus.DELIVERED) {
-            throw new ValidationException("Delivered orders cannot be cancelled.");
+            throw new ValidationException(Constants.CANNOT_CANCEL_DELIVERED);
         }
 
         if (orders.getStatus() != OrdersStatus.CANCELLED) {
             for (OrderItem item : orders.getItems()) {
                 Product product = productRepository.findById(item.getProductId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + item.getProductId()));
+                        .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, item.getProductId())));
                 product.setQuantity(product.getQuantity() + item.getQuantity());
                 productRepository.save(product);
             }
         }
 
         orders.setStatus(OrdersStatus.CANCELLED);
+        emailComposerService.sendOrderCancellation(orders, orders.getUser());
         return convertToDTO(orderRepository.save(orders));
     }
 
     @Override
+    @CacheEvict(value = "orderCache", key = "#orderId")
+    @CachePut(value = "orderCache", key = "#result.id")
     public OrdersDTO updateOrderStatus(Integer orderId, OrdersStatus status) throws Exception {
         Orders orders = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Orders not found with ID: " + orderId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, orderId)));
         if (!(authService.isOwnerOrAdmin(orders.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         orders.setStatus(status);
+        emailComposerService.sendStatusUpdate(orders, orders.getUser(), status );
         return convertToDTO(orderRepository.save(orders));
     }
 
     @Override
+    @CacheEvict(value = "orderCache", key = "#orderId")
     public void deleteOrder(Integer orderId) throws Exception {
         Orders orders = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Orders not found with ID: " + orderId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, orderId)));
         if (!(authService.isOwnerOrAdmin(orders.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         orderRepository.delete(orders);
     }
 
-    // --- DTO conversion ---
     private OrdersDTO convertToDTO(Orders orders) {
         OrdersDTO dto = new OrdersDTO();
         dto.setId(orders.getId());

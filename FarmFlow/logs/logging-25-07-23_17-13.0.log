@@ -1,0 +1,123 @@
+2025-07-23 17:13:15.524 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.525 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:15.526 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.792 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.793 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui.css
+2025-07-23 17:13:15.795 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.795 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.796 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.796 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.796 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui-standalone-preset.js
+2025-07-23 17:13:15.796 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.798 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.797 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-initializer.js
+2025-07-23 17:13:15.797 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui-bundle.js
+2025-07-23 17:13:15.798 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.css
+2025-07-23 17:13:15.799 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.799 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.799 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.908 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.909 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:15.909 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.928 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.928 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:15.928 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.939 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.940 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:15.940 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.943 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.944 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:15.944 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.992 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:15.993 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:15.993 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:15.999 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:16.000 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:16.000 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:16.060 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:16.061 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:16.062 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:16.102 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:16.103 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:16.103 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:16.229 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:16.230 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:16.232 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.383 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.383 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.384 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.440 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.441 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.441 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.526 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.527 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.527 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.646 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.646 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.647 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.797 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.798 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.798 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.829 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.829 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.830 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:17.979 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:17.980 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:17.980 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.037 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.037 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.038 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.065 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.066 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.066 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.100 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.101 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.101 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.131 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.132 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.133 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.165 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.166 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.167 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.358 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.358 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.359 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.426 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.427 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.427 INFO  [http-nio-8080-exec-9] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:18.997 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:18.997 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.html
+2025-07-23 17:13:18.998 INFO  [http-nio-8080-exec-8] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:19.230 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.231 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.232 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.232 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui.css
+2025-07-23 17:13:19.233 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-initializer.js
+2025-07-23 17:13:19.232 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui-standalone-preset.js
+2025-07-23 17:13:19.232 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.233 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.233 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:19.233 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:19.234 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:19.234 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/swagger-ui-bundle.js
+2025-07-23 17:13:19.234 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/index.css
+2025-07-23 17:13:19.236 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:19.236 INFO  [http-nio-8080-exec-5] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:19.916 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.917 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - Message :/farmer_app_shopping-docs/swagger-config
+2025-07-23 17:13:19.917 INFO  [http-nio-8080-exec-6] c.farmflow.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs/swagger-config
+2025-07-23 17:13:19.967 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:19.968 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - Message :/swagger-ui/favicon-16x16.png
+2025-07-23 17:13:19.968 INFO  [http-nio-8080-exec-4] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:13:20.024 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:13:20.025 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Message :/farmer_app_shopping-docs/public
+2025-07-23 17:13:20.025 INFO  [http-nio-8080-exec-7] c.farmflow.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs/public
+2025-07-23 17:13:22.232 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-07-23 17:13:22.233 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-07-23 17:13:22.233 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-07-23 17:13:22.233 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-07-23 17:13:22.234 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-07-23 17:13:22.235 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Application version is -1: false
+2025-07-23 17:13:22.237 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-07-23 17:13:22.309 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-07-23 17:13:22.917 INFO  [http-nio-8080-exec-7] o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 2858 ms

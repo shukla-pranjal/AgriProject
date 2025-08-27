@@ -1,0 +1,69 @@
+2025-07-06 00:31:45.062 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2025-07-06 00:31:45.091 INFO  [Thread-28] o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application AGRI-JAVA with eureka with status DOWN
+2025-07-06 00:31:45.092 INFO  [Thread-28] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1751742105092, current=DOWN, previous=UP]
+2025-07-06 00:31:45.093 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.228.135:AGRI-JAVA:8080: registering service...
+2025-07-06 00:31:45.129 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.228.135:AGRI-JAVA:8080 - registration status: 204
+2025-07-06 00:31:45.145 INFO  [Thread-28] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-06 00:31:45.159 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2025-07-06 00:31:45.167 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-06 00:31:45.173 INFO  [Thread-28] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2025-07-06 00:31:45.214 INFO  [Thread-28] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-06 00:31:45.246 INFO  [Thread-28] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2025-07-06 00:31:45.325 INFO  [Thread-28] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2025-07-06 00:31:45.331 INFO  [Thread-28] c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-07-06 00:31:48.342 INFO  [Thread-28] c.netflix.discovery.DiscoveryClient - Unregistering ...
+2025-07-06 00:31:48.353 INFO  [Thread-28] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.228.135:AGRI-JAVA:8080 - deregister  status: 200
+2025-07-06 00:31:48.353 INFO  [Thread-28] c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2025-07-06 00:31:49.931 INFO  [restartedMain] com.farmflow.FarmFlowApplication - Starting FarmFlowApplication using Java 21.0.4 with PID 416984 (/mnt/NewVolume/code/agri-project/FarmFlow/target/classes started by pranjal in /mnt/NewVolume/code/agri-project/FarmFlow)
+2025-07-06 00:31:49.932 INFO  [restartedMain] com.farmflow.FarmFlowApplication - No active profile set, falling back to 1 default profile: "default"
+2025-07-06 00:31:51.581 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-06 00:31:51.832 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 248 ms. Found 10 JPA repository interfaces.
+2025-07-06 00:31:52.151 INFO  [restartedMain] o.s.cloud.context.scope.GenericScope - BeanFactory id=8efd34e5-ad08-3f03-9173-1da5770e91c6
+2025-07-06 00:31:52.777 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-06 00:31:52.781 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-07-06 00:31:52.781 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-06 00:31:52.781 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-07-06 00:31:52.812 INFO  [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-06 00:31:52.812 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2866 ms
+2025-07-06 00:31:53.061 INFO  [restartedMain] c.f.service.impl.JwtServiceImpl - JwtServiceImpl instantiated
+2025-07-06 00:31:53.402 INFO  [restartedMain] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-06 00:31:53.411 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-06 00:31:53.438 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-06 00:31:53.440 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2025-07-06 00:31:53.508 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7b99b9ff
+2025-07-06 00:31:53.509 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2025-07-06 00:31:53.512 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-07-06 00:31:53.935 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-06 00:31:54.155 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-06 00:31:55.098 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-07-06 00:31:55.098 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-07-06 00:31:55.107 WARN  [restartedMain] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'addressController' defined in file [/mnt/NewVolume/code/agri-project/FarmFlow/target/classes/com/farmflow/controller/AddressController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'addressServiceImpl': Unsatisfied dependency expressed through field 'authService': Error creating bean with name 'authServiceImpl': Unsatisfied dependency expressed through field 'emailComposerService': Error creating bean with name 'emailComposerServiceImpl' defined in file [/mnt/NewVolume/code/agri-project/FarmFlow/target/classes/com/farmflow/service/email/impl/EmailComposerServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.farmflow.service.email.EmailService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2025-07-06 00:31:55.108 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-06 00:31:55.108 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2025-07-06 00:31:55.115 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2025-07-06 00:31:55.118 INFO  [restartedMain] o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-07-06 00:31:55.156 INFO  [restartedMain] o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-06 00:31:55.218 ERROR [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.farmflow.service.email.impl.EmailComposerServiceImpl required a bean of type 'com.farmflow.service.email.EmailService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.farmflow.service.email.EmailService' in your configuration.
+

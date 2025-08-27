@@ -13,6 +13,8 @@ import com.farmflow.repository.FarmerRepository;
 import com.farmflow.repository.ProductRepository;
 import com.farmflow.service.AuthService;
 import com.farmflow.service.ProductService;
+import com.farmflow.service.email.EmailComposerService;
+import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,9 +25,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
+@Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -34,8 +46,10 @@ public class ProductServiceImpl implements ProductService {
     private final ModelMapper modelMapper;
     private final Validation validation;
     private final AuthService authService;
+    private final EmailComposerService emailComposerService;
 
     @Override
+    @Cacheable(value = "productCache", key = "'all'")
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -43,84 +57,92 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(value = "productCache", key = "'available'")
     public List<ProductDTO> getAllAvailableProducts() {
-
         return productRepository.findByQuantityGreaterThanAndAvailableTrue(0.0).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-
     @Override
+    @Cacheable(value = "productCache", key = "#id")
     public ProductDTO getProductById(Integer id) throws Exception {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, id)));
         if (authService.isOwnerOrAdmin(product.getCreatedBy()))
-            throw new AccessDeniedException("Access Denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         return convertToDTO(product);
     }
 
     @Override
+    @CacheEvict(value = "productCache", allEntries = true)
     public ProductDTO createProduct(ProductDTO productDTO) throws Exception {
         validation.productValidate(productDTO);
 
         if (productDTO.getCategoryId() == null) {
-            throw new ValidationException("Category ID is required.");
+            throw new ValidationException(Constants.CATEGORY_ID_REQUIRED);
         }
         if (productDTO.getFarmerId() == null) {
-            throw new ValidationException("Farmer ID is required.");
+            throw new ValidationException(Constants.FARMER_ID_REQUIRED);
         }
 
         Category category = categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + productDTO.getCategoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CATEGORY, productDTO.getCategoryId())));
         Farmer farmer = farmerRepository.findById(productDTO.getFarmerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + productDTO.getFarmerId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, productDTO.getFarmerId())));
 
         Product product = modelMapper.map(productDTO, Product.class);
         product.setCategory(category);
         product.setFarmer(farmer);
+
+        emailComposerService.newProductCreated(farmer, product);
 
         Product savedProduct = productRepository.save(product);
         return convertToDTO(savedProduct);
     }
 
     @Override
+    @CacheEvict(value = "productCache", key = "#id")
+    @CachePut(value = "productCache", key = "#result.id")
     public ProductDTO updateProduct(Integer id, ProductDTO productDTO) throws Exception {
         validation.productValidate(productDTO);
 
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, id)));
 
         if (productDTO.getCategoryId() == null || productDTO.getFarmerId() == null) {
-            throw new ValidationException("Category ID and Farmer ID are required.");
+            throw new ValidationException(Constants.CATEGORY_AND_FARMER_REQUIRED);
         }
 
         Category category = categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + productDTO.getCategoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CATEGORY, productDTO.getCategoryId())));
         Farmer farmer = farmerRepository.findById(productDTO.getFarmerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + productDTO.getFarmerId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, productDTO.getFarmerId())));
 
         modelMapper.map(productDTO, existingProduct);
         existingProduct.setCategory(category);
         existingProduct.setFarmer(farmer);
 
         Product updatedProduct = productRepository.save(existingProduct);
+
+        emailComposerService.productUpdated(farmer, updatedProduct);
         return convertToDTO(updatedProduct);
     }
 
     @Override
+    @CacheEvict(value = "productCache", key = "#id")
     public void deleteProduct(Integer id) throws Exception {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, id)));
         productRepository.delete(product);
     }
 
     @Override
+    @Cacheable(value = "productCache", key = "#categoryId")
     public List<ProductDTO> getProductsByCategoryId(Integer categoryId) throws Exception {
         categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + categoryId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CATEGORY, categoryId)));
 
         return productRepository.findByCategoryId(categoryId).stream()
                 .map(this::convertToDTO)
@@ -128,9 +150,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(value = "productCache", key = "#farmerId")
     public List<ProductDTO> getProductsByFarmerId(Integer farmerId) throws Exception {
         Farmer farmer = farmerRepository.findById(farmerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + farmerId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, farmerId)));
         authService.validateUser(farmer.getCreatedBy());
 
         return productRepository.findByFarmerId(farmerId).stream()
@@ -142,9 +165,8 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> searchProducts(String name, Integer categoryId, Integer farmerId, Boolean available, Unit unit, Double priceMin, Double priceMax) {
         return productRepository.searchProducts(name, categoryId, farmerId, available, unit, priceMin, priceMax).stream()
                 .map(this::convertToDTO)
-                .collect(Collectors.toList());    }
-
-
+                .collect(Collectors.toList());
+    }
 
     @Override
     public Page<ProductDTO> searchProductsPaged(PaginationRequest paginationRequest,
@@ -163,7 +185,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDTO> getProductsByFarmerIdPaged(Integer farmerId, PaginationRequest paginationRequest) throws Exception {
         farmerRepository.findById(farmerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + farmerId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, farmerId)));
 
         Pageable pageable = paginationRequest.toPageable();
         Page<Product> page = productRepository.findByFarmerId(farmerId, pageable);
@@ -173,7 +195,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDTO> getProductsByCategoryIdPaged(Integer categoryId, PaginationRequest paginationRequest) throws Exception {
         categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + categoryId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CATEGORY, categoryId)));
 
         Pageable pageable = paginationRequest.toPageable();
         Page<Product> page = productRepository.findByCategoryId(categoryId, pageable);
@@ -193,8 +215,6 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> page = productRepository.findAll(pageable);
         return page.map(this::convertToDTO);
     }
-
-
 
     private ProductDTO convertToDTO(Product product) {
         return modelMapper.map(product, ProductDTO.class);

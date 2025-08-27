@@ -12,14 +12,19 @@ import com.farmflow.service.CategoryService;
 import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @RequiredArgsConstructor
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -28,6 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final Validation validation;
 
     @Override
+    @Cacheable(value = "categoryCache", key = "'all'")
     public List<CategoryDTO> getAllCategories() {
         return categoryRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -35,22 +41,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO getCategoryById(Integer id) throws Exception{
+    @Cacheable(value = "categoryCache", key = "#id")
+    public CategoryDTO getCategoryById(Integer id) throws Exception {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + id));
         return convertToDTO(category);
     }
 
     @Override
+    @CacheEvict(value = "categoryCache", allEntries = true)
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        // Custom validation logic
         try {
             validation.categoryValidate(categoryDTO);
         } catch (Exception ex) {
             throw new ValidationException("Invalid category data: " + ex.getMessage());
         }
 
-        // Check if category already exists
         if (categoryRepository.existsByNameIgnoreCase(categoryDTO.getName())) {
             throw new DuplicateResourceException("Category with name '" + categoryDTO.getName() + "' already exists.");
         }
@@ -61,6 +67,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value = "categoryCache", key = "#id")
+    @CachePut(value = "categoryCache", key = "#result.id")
     public CategoryDTO updateCategory(Integer id, CategoryDTO categoryDTO) throws Exception {
         try {
             validation.categoryValidate(categoryDTO);
@@ -71,7 +79,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + id));
 
-        // Prevent duplicate category name (only if name is changed)
         if (!existingCategory.getName().equalsIgnoreCase(categoryDTO.getName()) &&
                 categoryRepository.existsByNameIgnoreCase(categoryDTO.getName())) {
             throw new DuplicateResourceException("Category with name '" + categoryDTO.getName() + "' already exists.");
@@ -104,10 +111,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Integer id) throws Exception{
+    @CacheEvict(value = "categoryCache", key = "#id")
+    public void deleteCategory(Integer id) throws Exception {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + id));
-        if (!productRepository.findByCategoryId(category.getId()).isEmpty()){
+        if (!productRepository.findByCategoryId(category.getId()).isEmpty()) {
             throw new ResourceNotFoundException("Cannot delete category; it is used by existing products");
         }
         categoryRepository.delete(category);

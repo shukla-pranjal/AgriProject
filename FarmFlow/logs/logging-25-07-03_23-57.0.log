@@ -1,0 +1,45 @@
+2025-07-03 23:57:32.130 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-03 23:57:32.132 INFO  [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-03 23:57:32.134 INFO  [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-07-03 23:57:32.136 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-03 23:57:32.136 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - Message :/api/v1/auth
+2025-07-03 23:57:32.137 INFO  [http-nio-8080-exec-2] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-03 23:57:32.147 WARN  [http-nio-8080-exec-2] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:32.147 WARN  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:32.148 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [AuthController.create()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=pranjalmss2005@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-03 23:57:32.149 WARN  [http-nio-8080-exec-2] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:32.149 WARN  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:32.149 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [AuthServiceImpl.createUser()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=pranjalmss2005@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-03 23:57:32.235 WARN  [http-nio-8080-exec-2] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:32.235 WARN  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:32.235 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=pranjalmss2005@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-03 23:57:32.235 WARN  [http-nio-8080-exec-2] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:32.235 WARN  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:32.236 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [EmailServiceImpl.isEmailServiceEnabled()] Entering method - Args: []
+2025-07-03 23:57:32.236 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [EmailServiceImpl.isEmailServiceEnabled()] Exiting method - Duration: 0 ms, Result: true
+2025-07-03 23:57:32.236 WARN  [http-nio-8080-exec-2] c.f.s.e.i.EmailComposerServiceImpl - Email service is disabled. Verification email not sent for user: pranjalmss2005@gmail.com
+2025-07-03 23:57:32.236 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Exiting method - Duration: 1 ms, Result: void
+2025-07-03 23:57:32.248 INFO  [http-nio-8080-exec-2] c.farmflow.config.AuditAwareConfig - AuditAwareConfig : getCurrentAuditor()
+2025-07-03 23:57:32.339 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [AuthServiceImpl.createUser()] Exiting method - Duration: 190 ms, Result: UserDTO(id=25, name=John Doe, email=pranjalmss2005@gmail.com, password=$2a$10$jL4YkqWPRL.VH6NF17bTaOuPCdgbO96.TJfvakUqQn.Mfurku9Zfi, phone=9876543210, image=null)
+2025-07-03 23:57:32.342 INFO  [http-nio-8080-exec-2] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:32] [req-11728666237462-7107] [anonymous] [AuthController.create()] Exiting method - Duration: 194 ms, Result: <201 CREATED Created,{timestamp=2025-07-03T23:57:32.342303243, status=success, message=Operation Success, data=UserDTO(id=25, name=John Doe, email=pranjalmss2005@gmail.com, password=$2a$10$jL4YkqWPRL.VH6NF17bTaOuPCdgbO96.TJfvakUqQn.Mfurku9Zfi, phone=9876543210, image=null)},[]>
+2025-07-03 23:57:57.233 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-03 23:57:57.234 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/api/v1/auth
+2025-07-03 23:57:57.234 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-03 23:57:57.237 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:57.237 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:57.238 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [AuthController.create()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=pranjalmss20a5@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-03 23:57:57.238 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:57.238 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:57.238 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [AuthServiceImpl.createUser()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=pranjalmss20a5@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-03 23:57:57.318 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:57.319 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:57.319 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=pranjalmss20a5@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-03 23:57:57.319 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-03 23:57:57.319 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-03 23:57:57.319 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [EmailServiceImpl.isEmailServiceEnabled()] Entering method - Args: []
+2025-07-03 23:57:57.319 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [EmailServiceImpl.isEmailServiceEnabled()] Exiting method - Duration: 0 ms, Result: true
+2025-07-03 23:57:57.319 WARN  [http-nio-8080-exec-3] c.f.s.e.i.EmailComposerServiceImpl - Email service is disabled. Verification email not sent for user: pranjalmss20a5@gmail.com
+2025-07-03 23:57:57.320 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Exiting method - Duration: 1 ms, Result: void
+2025-07-03 23:57:57.320 INFO  [http-nio-8080-exec-3] c.farmflow.config.AuditAwareConfig - AuditAwareConfig : getCurrentAuditor()
+2025-07-03 23:57:57.329 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [AuthServiceImpl.createUser()] Exiting method - Duration: 91 ms, Result: UserDTO(id=26, name=John Doe, email=pranjalmss20a5@gmail.com, password=$2a$10$RS9erEUD9jGUcuhxC/O8tODsLaSK2e1th4PHRGYemeF.N/cO7foQ2, phone=9876543210, image=null)
+2025-07-03 23:57:57.330 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-03 23:57:57] [req-11753756725720-9419] [anonymous] [AuthController.create()] Exiting method - Duration: 92 ms, Result: <201 CREATED Created,{timestamp=2025-07-03T23:57:57.330006476, status=success, message=Operation Success, data=UserDTO(id=26, name=John Doe, email=pranjalmss20a5@gmail.com, password=$2a$10$RS9erEUD9jGUcuhxC/O8tODsLaSK2e1th4PHRGYemeF.N/cO7foQ2, phone=9876543210, image=null)},[]>

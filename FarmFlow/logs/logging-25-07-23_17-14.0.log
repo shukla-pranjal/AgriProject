@@ -1,0 +1,5 @@
+2025-07-23 17:14:27.994 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-23 17:14:27.998 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/api/v1/auth
+2025-07-23 17:14:27.998 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-23 17:14:28.019 ERROR [http-nio-8080-exec-3] c.f.exception.GlobalExceptionHandler - ResourceNotFoundException : HttpMessageNotReadableException() : JSON parse error: Unexpected character ('}' (code 125)): was expecting double-quote to start field name
+2025-07-23 17:14:28.031 WARN  [http-nio-8080-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('}' (code 125)): was expecting double-quote to start field name]

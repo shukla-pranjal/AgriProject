@@ -12,7 +12,6 @@ import java.util.Map;
 @FeignClient(name= "ML-SERVICE")
 public interface FlaskService {
 
-
     @PostMapping("/predict/5")
     Map<String, Object> model5(@RequestBody ML5Dto ml5Dto);
 

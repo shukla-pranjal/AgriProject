@@ -1,8 +1,6 @@
 package com.farmflow.controller;
 
-import com.farmflow.dto.LoginRequest;
-import com.farmflow.dto.LoginResponse;
-import com.farmflow.dto.UserDTO;
+import com.farmflow.dto.*;
 import com.farmflow.endpoint.AuthEndpoint;
 import com.farmflow.service.AuthService;
 import com.farmflow.util.CommonUtil;
@@ -32,4 +30,25 @@ public class AuthController implements AuthEndpoint {
         }
         return CommonUtil.createBuildResponse(loginResponse, HttpStatus.CREATED);
     }
+
+    @Override
+    public ResponseEntity<?> verifyEmail(EmailVerificationRequest request) throws Exception {
+        authService.verifyEmail(request);
+        return CommonUtil.createBuildResponseMessage("Email Verified", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> resendVerification(
+           ResendVerificationRequest request
+    ) throws  Exception{
+
+        authService.resendVerification(request);
+
+        // Return success message upon successful resend
+        return CommonUtil.createBuildResponseMessage("Verification email resent successfully", HttpStatus.OK);
+        }
+
+
+
+
 }

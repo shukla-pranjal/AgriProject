@@ -18,13 +18,28 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
-@Service
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
 @Slf4j
+@Service
 public class DiskFilesService implements FilesService {
 
     private final Path rootDir;
 
-    // Inject with @Value("${file.upload.path}") or @ConfigurationProperties
     public DiskFilesService(@Value("${file.upload.path}") String uploadPath) {
         this.rootDir = Paths.get(uploadPath).toAbsolutePath().normalize();
         try {
@@ -35,6 +50,7 @@ public class DiskFilesService implements FilesService {
     }
 
     @Override
+    @CacheEvict(value = "fileCache", key = "#result", beforeInvocation = true)
     public String uploadFile(MultipartFile file) throws StorageException {
         String storedName = buildStoredFileName(file.getOriginalFilename());
         Path target = rootDir.resolve(storedName);
@@ -59,6 +75,7 @@ public class DiskFilesService implements FilesService {
     }
 
     @Override
+    @Cacheable(value = "fileCache", key = "#savedName")
     public Resource downloadFile(String savedName) throws StorageException {
         try {
             Path file = rootDir.resolve(savedName).normalize();
@@ -73,6 +90,7 @@ public class DiskFilesService implements FilesService {
     }
 
     @Override
+    @CacheEvict(value = "fileCache", key = "#savedName")
     public void deleteFile(String savedName) throws StorageException {
         try {
             Files.deleteIfExists(rootDir.resolve(savedName));
@@ -82,19 +100,18 @@ public class DiskFilesService implements FilesService {
         }
     }
 
-
     private String buildStoredFileName(String original) {
         String base = removeExtension(original);
-        String ext  = getExtension(original);
+        String ext = getExtension(original);
         String uuid = UUID.randomUUID().toString();
         return base + "_" + uuid + (ext.isEmpty() ? "" : "." + ext);
     }
 
-    // Helpers:
     private static String removeExtension(String fileName) {
         if (fileName == null || fileName.lastIndexOf('.') < 0) return fileName;
         return fileName.substring(0, fileName.lastIndexOf('.'));
     }
+
     private static String getExtension(String fileName) {
         if (fileName == null || fileName.lastIndexOf('.') < 0) return "";
         return fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();

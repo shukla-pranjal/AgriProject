@@ -1,0 +1,31 @@
+2025-07-04 00:03:32.326 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-07-04 00:03:32.329 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - Message :/api/v1/auth
+2025-07-04 00:03:32.329 INFO  [http-nio-8080-exec-3] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-07-04 00:03:32.331 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-04 00:03:32.331 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-04 00:03:32.331 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [AuthController.create()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=rebelguided@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-04 00:03:32.331 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-04 00:03:32.331 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-04 00:03:32.331 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [AuthServiceImpl.createUser()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=rebelguided@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-04 00:03:32.406 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-04 00:03:32.407 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-04 00:03:32.407 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Entering method - Args: [UserDTO(id=0, name=John Doe, email=rebelguided@gmail.com, password=securePass123, phone=9876543210, image=null)]
+2025-07-04 00:03:32.407 WARN  [http-nio-8080-exec-3] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-07-04 00:03:32.407 WARN  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-07-04 00:03:32.407 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [EmailServiceImpl.isEmailServiceEnabled()] Entering method - Args: []
+2025-07-04 00:03:32.407 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [EmailServiceImpl.isEmailServiceEnabled()] Exiting method - Duration: 0 ms, Result: true
+2025-07-04 00:03:32.408 WARN  [http-nio-8080-exec-3] c.f.s.e.i.EmailComposerServiceImpl - Email service is disabled. Verification email not sent for user: rebelguided@gmail.com
+2025-07-04 00:03:32.408 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Exiting method - Duration: 1 ms, Result: void
+2025-07-04 00:03:32.408 INFO  [http-nio-8080-exec-3] c.farmflow.config.AuditAwareConfig - AuditAwareConfig : getCurrentAuditor()
+2025-07-04 00:03:32.418 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [AuthServiceImpl.createUser()] Exiting method - Duration: 87 ms, Result: UserDTO(id=27, name=John Doe, email=rebelguided@gmail.com, password=$2a$10$42Ms/s1A6GpzaVwQg37AN.gm1xLjXIGoOrAldfectz9K1aTVVEtM., phone=9876543210, image=null)
+2025-07-04 00:03:32.418 INFO  [http-nio-8080-exec-3] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:03:32] [req-12088850355734-5162] [anonymous] [AuthController.create()] Exiting method - Duration: 87 ms, Result: <201 CREATED Created,{timestamp=2025-07-04T00:03:32.418609454, status=success, message=Operation Success, data=UserDTO(id=27, name=John Doe, email=rebelguided@gmail.com, password=$2a$10$42Ms/s1A6GpzaVwQg37AN.gm1xLjXIGoOrAldfectz9K1aTVVEtM., phone=9876543210, image=null)},[]>
+2025-07-04 00:03:57.158 INFO  [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application AGRI-JAVA with eureka with status DOWN
+2025-07-04 00:03:57.160 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1751567637160, current=DOWN, previous=UP]
+2025-07-04 00:03:57.160 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.218.116:AGRI-JAVA:8080: registering service...
+2025-07-04 00:03:57.161 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-04 00:03:57.163 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-04 00:03:57.168 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.218.116:AGRI-JAVA:8080 - registration status: 204
+2025-07-04 00:03:57.203 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-04 00:03:57.204 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-07-04 00:03:57.208 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-07-04 00:03:57.209 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...

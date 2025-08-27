@@ -16,6 +16,8 @@ import com.farmflow.repository.ProductRepository;
 import com.farmflow.repository.UserRepository;
 import com.farmflow.service.AuthService;
 import com.farmflow.service.CartService;
+import com.farmflow.service.email.EmailComposerService;
+import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +30,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Transactional
+@Service
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
@@ -38,43 +51,46 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final Validation validation;
     private final AuthService authService;
+    private final EmailComposerService emailComposerService;
 
-    private void validateProductAvailability(Product product, int requestedQuantity) throws Exception{
+    private void validateProductAvailability(Product product, int requestedQuantity) throws Exception {
         if (!product.getAvailable()) {
-            throw new ResourceNotFoundException("Product with ID: " + product.getId() + " is not available");
+            throw new ResourceNotFoundException(String.format(Constants.PRODUCT_NOT_AVAILABLE, product.getId()));
         }
         if (product.getQuantity() < requestedQuantity) {
-            throw new InsufficientStockException("Product with ID: " + product.getId() + " has insufficient stock");
+            emailComposerService.sendLowStockAlert(product, product.getFarmer());
+            throw new InsufficientStockException(String.format(Constants.INSUFFICIENT_STOCK, product.getId()));
         }
     }
 
     @Override
+    @Cacheable(value = "cartCache", key = "#id")
     public CartDTO getCartById(Integer id) throws Exception {
         Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, id)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         return convertToDTO(cart);
     }
 
     @Override
-    public CartDTO createCart(CartDTO cartDTO)throws Exception {
+    @CacheEvict(value = "cartCache", allEntries = true)
+    public CartDTO createCart(CartDTO cartDTO) throws Exception {
         if (cartDTO.getUserId() == null) {
-            throw new ValidationException("UserId is required to create a cart");
+            throw new ValidationException(Constants.USER_ID_REQUIRED);
         }
 
         User user = userRepository.findById(cartDTO.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + cartDTO.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, cartDTO.getUserId())));
 
         if (!(authService.isOwnerOrAdmin(user.getId())))
-            throw new AccessDeniedException("Access denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         Optional<Cart> existingCart = cartRepository.findByUserId(cartDTO.getUserId());
         if (existingCart.isPresent()) {
-            throw new DuplicateResourceException("User with ID: " + cartDTO.getUserId() + " already has a cart");
+            throw new DuplicateResourceException(String.format(Constants.USER_HAS_CART, cartDTO.getUserId()));
         }
 
         Cart cart = new Cart();
@@ -86,7 +102,7 @@ public class CartServiceImpl implements CartService {
                 validation.cartItemValidate(itemDTO);
 
                 Product product = productRepository.findById(itemDTO.getProductId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + itemDTO.getProductId()));
+                        .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, itemDTO.getProductId())));
 
                 validateProductAvailability(product, itemDTO.getQuantity());
 
@@ -103,16 +119,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDTO updateCart(Integer id, CartDTO cartDTO)throws Exception {
+    @CacheEvict(value = "cartCache", key = "#id")
+    @CachePut(value = "cartCache", key = "#result.id")
+    public CartDTO updateCart(Integer id, CartDTO cartDTO) throws Exception {
         Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, id)));
 
         if (cartDTO.getUserId() != null && !cartDTO.getUserId().equals(cart.getUser().getId())) {
             User user = userRepository.findById(cartDTO.getUserId())
-                    .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + cartDTO.getUserId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, cartDTO.getUserId())));
 
             if (!(authService.isOwnerOrAdmin(user.getId())))
-                throw new AccessDeniedException("Access denied");
+                throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
             cart.setUser(user);
         }
@@ -124,7 +142,7 @@ public class CartServiceImpl implements CartService {
                 validation.cartItemValidate(itemDTO);
 
                 Product product = productRepository.findById(itemDTO.getProductId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + itemDTO.getProductId()));
+                        .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, itemDTO.getProductId())));
 
                 validateProductAvailability(product, itemDTO.getQuantity());
 
@@ -140,26 +158,28 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteCart(Integer id) throws Exception{
+    @CacheEvict(value = "cartCache", key = "#id")
+    public void deleteCart(Integer id) throws Exception {
         Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, id)));
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         cartRepository.delete(cart);
     }
 
     @Override
-    public CartDTO addItem(Integer cartId, CartItemDTO cartItemDTO)throws Exception {
+    @CacheEvict(value = "cartCache", key = "#cartId")
+    public CartDTO addItem(Integer cartId, CartItemDTO cartItemDTO) throws Exception {
         validation.cartItemValidate(cartItemDTO);
 
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         Product product = productRepository.findById(cartItemDTO.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + cartItemDTO.getProductId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, cartItemDTO.getProductId())));
 
         validateProductAvailability(product, cartItemDTO.getQuantity());
 
@@ -184,23 +204,22 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @CacheEvict(value = "cartCache", key = "#cartId")
     public CartDTO updateItemQuantity(Integer cartId, Integer productId, Integer quantity) throws Exception {
         if (quantity == null || quantity < 1) {
-            throw new ValidationException("Quantity must be positive");
+            throw new ValidationException(Constants.QUANTITY_MUST_BE_POSITIVE);
         }
 
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
-
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getProduct().getId().equals(productId))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found in cart with ID: " + productId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.PRODUCT_NOT_IN_CART, productId)));
 
         validateProductAvailability(item.getProduct(), quantity);
         item.setQuantity(quantity);
@@ -209,40 +228,40 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @CacheEvict(value = "cartCache", key = "#cartId")
     public CartDTO removeItem(Integer cartId, Integer productId) throws Exception {
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         boolean removed = cart.getItems().removeIf(i -> i.getProduct().getId().equals(productId));
 
         if (!removed) {
-            throw new ResourceNotFoundException("Product not found in cart with ID: " + productId);
+            throw new ResourceNotFoundException(String.format(Constants.PRODUCT_NOT_IN_CART, productId));
         }
 
         return convertToDTO(cartRepository.save(cart));
     }
 
     @Override
+    @CacheEvict(value = "cartCache", key = "#cartId")
     public CartDTO increaseItemQuantity(Integer cartId, Integer productId, Integer amount) throws Exception {
         if (amount == null || amount < 1) {
-            throw new ValidationException("Amount must be positive");
+            throw new ValidationException(Constants.AMOUNT_MUST_BE_POSITIVE);
         }
 
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getProduct().getId().equals(productId))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found in cart with ID: " + productId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.PRODUCT_NOT_IN_CART, productId)));
 
         int newQuantity = item.getQuantity() + amount;
         validateProductAvailability(item.getProduct(), newQuantity);
@@ -252,22 +271,22 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @CacheEvict(value = "cartCache", key = "#cartId")
     public CartDTO decreaseItemQuantity(Integer cartId, Integer productId, Integer amount) throws Exception {
         if (amount == null || amount < 1) {
-            throw new ValidationException("Amount must be positive");
+            throw new ValidationException(Constants.AMOUNT_MUST_BE_POSITIVE);
         }
 
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getProduct().getId().equals(productId))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found in cart with ID: " + productId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.PRODUCT_NOT_IN_CART, productId)));
 
         int newQuantity = item.getQuantity() - amount;
 
@@ -281,6 +300,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Cacheable(value = "cartCache", key = "'all'")
     public List<CartDTO> getAllCarts() {
         return cartRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -290,12 +310,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartItemDTO> searchCartItems(Integer id, String productName, Integer minQuantity) throws Exception {
         Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, id)));
         Stream<CartItem> filteredStream = cart.getItems().stream();
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
-
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         if (productName != null && !productName.isEmpty()) {
             filteredStream = filteredStream.filter(item ->
@@ -308,18 +327,17 @@ public class CartServiceImpl implements CartService {
         }
 
         return filteredStream
-                .map(this::convertToDTO)  // Assuming you have convertToDTO(CartItem) method
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
-
     }
 
     @Override
     public Page<CartItemDTO> searchCartItemsPaged(Integer cartId, PaginationRequest paginationRequest, String productName, Integer minQuantity) throws Exception {
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with ID: " + cartId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
 
         if (!(authService.isOwnerOrAdmin(cart.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         Stream<CartItem> filteredStream = cart.getItems().stream();
 
@@ -337,7 +355,6 @@ public class CartServiceImpl implements CartService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
 
-        // Pagination in-memory (since CartItems are loaded)
         int start = paginationRequest.getPage() * paginationRequest.getSize();
         int end = Math.min(start + paginationRequest.getSize(), filteredList.size());
 
@@ -359,14 +376,12 @@ public class CartServiceImpl implements CartService {
         return new PageImpl<>(pagedList, pageable, filteredList.size());
     }
 
-
     @Override
     public Page<CartDTO> getAllCartsPaged(PaginationRequest paginationRequest) {
         Pageable pageable = paginationRequest.toPageable();
         return cartRepository.findAll(pageable)
-                .map(this::convertToDTO);  // Assuming convertToDTO(Cart)
+                .map(this::convertToDTO);
     }
-
 
     private CartItemDTO convertToDTO(CartItem item) {
         return CartItemDTO.builder()
@@ -374,7 +389,6 @@ public class CartServiceImpl implements CartService {
                 .quantity(item.getQuantity())
                 .build();
     }
-
 
     private CartDTO convertToDTO(Cart cart) {
         CartDTO cartDTO = new CartDTO();

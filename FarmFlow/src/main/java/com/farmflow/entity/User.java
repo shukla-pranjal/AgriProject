@@ -31,9 +31,7 @@ public class User extends BaseModel {
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id")
-    private AccountStatus status;
-
-
+    @JoinColumn(name = "metadata_id")
+    private AccountMetadata metadata;
 
 }

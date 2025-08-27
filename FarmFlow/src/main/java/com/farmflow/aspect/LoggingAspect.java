@@ -1,12 +1,13 @@
 package com.farmflow.aspect;
 
+import com.farmflow.entity.User;
+import com.farmflow.util.CommonUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -24,31 +25,25 @@ public class LoggingAspect {
     private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final Random RANDOM = new Random();
 
-    // Common method to log execution details
     private Object logExecution(ProceedingJoinPoint joinPoint, String layer) throws Throwable {
-        // Extract method and class details
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String methodName = signature.getName();
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String executionContext = String.format("%s.%s()", className, methodName);
 
-        // Get contextual information
         String requestId = getRequestId();
-        String userId = getUserId();
+        String userId = getUserIdentifier(); // Use enhanced user ID retrieval
         String timestamp = LocalDateTime.now().format(TIMESTAMP_FORMATTER);
 
-        // Log method entry with arguments
         Object[] args = joinPoint.getArgs();
         log.info("[{}] [{}] [{}] [{}] Entering method - Args: {}",
                 timestamp, requestId, userId, executionContext, Arrays.toString(args));
 
-        // Measure execution time
         long startTime = System.currentTimeMillis();
         try {
             Object result = joinPoint.proceed();
             long duration = System.currentTimeMillis() - startTime;
 
-            // Log method exit with result and duration
             log.info("[{}] [{}] [{}] [{}] Exiting method - Duration: {} ms, Result: {}",
                     timestamp, requestId, userId, executionContext, duration, result != null ? result : "void");
 
@@ -72,7 +67,7 @@ public class LoggingAspect {
         return logExecution(joinPoint, "Service");
     }
 
-    // Helper method to get a unique request ID without using UUID
+    // Helper method to get a unique request ID
     private String getRequestId() {
         try {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -94,19 +89,18 @@ public class LoggingAspect {
         return "unknown-request";
     }
 
-    // Helper method to get the authenticated user ID
-    private String getUserId() {
+    // Helper method to get user identifier using CommonUtil.getLoggedInUser()
+    private String getUserIdentifier() {
         try {
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof String) {
-                return (String) principal; // e.g., user ID or username
-            } else if (principal != null) {
-                // Assuming principal is a custom UserDetails object with a getId() method
-                return principal.toString();
+            User loggedInUser = CommonUtil.getLoggedInUser();
+            if (loggedInUser != null) {
+                return String.valueOf(loggedInUser.getId()); // Assuming User has a getId() method
             }
+            log.warn("No authenticated user found, falling back to anonymous.");
+            return "anonymous";
         } catch (Exception e) {
-            log.warn("Could not retrieve user ID: {}", e.getMessage());
+            log.warn("Could not retrieve user identifier: {}", e.getMessage());
+            return "anonymous";
         }
-        return "anonymous";
     }
 }

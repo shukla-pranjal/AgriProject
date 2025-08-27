@@ -12,6 +12,8 @@ import com.farmflow.repository.FarmerRepository;
 import com.farmflow.repository.UserRepository;
 import com.farmflow.service.AuthService;
 import com.farmflow.service.FarmerService;
+import com.farmflow.service.email.EmailComposerService;
+import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,8 +26,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
+@Service
 public class FarmerServiceImpl implements FarmerService {
 
     private final FarmerRepository farmerRepository;
@@ -33,8 +47,10 @@ public class FarmerServiceImpl implements FarmerService {
     private final ModelMapper modelMapper;
     private final Validation validation;
     private final AuthService authService;
+    private final EmailComposerService emailComposerService;
 
     @Override
+    @Cacheable(value = "farmerCache", key = "'all'")
     public List<FarmerDTO> getAllFarmers() {
         return farmerRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -42,32 +58,34 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
+    @Cacheable(value = "farmerCache", key = "#id")
     public FarmerDTO getFarmerById(Integer id) throws Exception {
         Farmer farmer = farmerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, id)));
 
         if (!(authService.isOwnerOrAdmin(farmer.getUser().getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         return convertToDTO(farmer);
     }
 
     @Override
+    @CacheEvict(value = "farmerCache", allEntries = true)
     public FarmerDTO createFarmer(FarmerDTO farmerDTO) throws Exception {
         try {
             validation.farmerValidate(farmerDTO);
         } catch (Exception ex) {
-            throw new ValidationException("Invalid farmer data: " + ex.getMessage());
+            throw new ValidationException(String.format(Constants.INVALID_FARMER_DATA, ex.getMessage()));
         }
 
         User user = userRepository.findById(farmerDTO.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + farmerDTO.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, farmerDTO.getUserId())));
 
         if (!(authService.isOwnerOrAdmin(user.getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         if (farmerRepository.findByUserId(user.getId()).isPresent()) {
-            throw new DuplicateResourceException("User with ID " + user.getId() + " is already registered as a Farmer.");
+            throw new DuplicateResourceException(String.format(Constants.USER_ALREADY_FARMER, user.getId()));
         }
 
         Farmer farmer = modelMapper.map(farmerDTO, Farmer.class);
@@ -78,20 +96,27 @@ public class FarmerServiceImpl implements FarmerService {
 
         userRepository.save(user);
 
+        emailComposerService.sendFarmerWelcomeEmail(farmerDTO, user);
+
         Farmer savedFarmer = farmerRepository.save(farmer);
         return convertToDTO(savedFarmer);
     }
 
     @Override
+    @CacheEvict(value = "farmerCache", key = "#id")
+    @CachePut(value = "farmerCache", key = "#result.id")
     public FarmerDTO updateFarmer(Integer id, FarmerDTO farmerDTO) throws Exception {
         try {
             validation.farmerValidate(farmerDTO);
         } catch (Exception ex) {
-            throw new ValidationException("Invalid farmer data: " + ex.getMessage());
+            throw new ValidationException(String.format(Constants.INVALID_FARMER_DATA, ex.getMessage()));
         }
 
         Farmer existingFarmer = farmerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, id)));
+
+        if (!(authService.isOwnerOrAdmin(existingFarmer.getUser().getId())))
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         modelMapper.map(farmerDTO, existingFarmer);
         Farmer updatedFarmer = farmerRepository.save(existingFarmer);
@@ -99,14 +124,15 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
+    @CacheEvict(value = "farmerCache", key = "#id")
     public void deleteFarmer(Integer id) throws Exception {
         Farmer existingFarmer = farmerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, id)));
 
         User user = existingFarmer.getUser();
 
         if (!(authService.isOwnerOrAdmin(user.getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
 
         Set<Role> roles = user.getRoles();
         if (roles != null && roles.contains(Role.ROLE_FARMER)) {
@@ -119,11 +145,12 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
+    @Cacheable(value = "farmerCache", key = "#userId")
     public boolean isUserFarmer(Integer userId) throws Exception {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, userId)));
         if (!(authService.isOwnerOrAdmin(user.getId())))
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         return farmerRepository.findByUserId(userId).isPresent();
     }
 
