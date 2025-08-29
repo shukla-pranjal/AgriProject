@@ -78,6 +78,17 @@ def predict(model_id):
         print("Error:", traceback.format_exc())  # Debugging
         return jsonify({"error": f"Something went wrong: {str(e)}"}), 500
 
+
+
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify({
+        "service": "ML Service",
+        "status": "running"
+    }), 200
+    
+    
+    
 # Run Flask App
 if __name__ == "__main__":
     app.run(port=ML_REST_PORT, debug=True, host='0.0.0.0')
