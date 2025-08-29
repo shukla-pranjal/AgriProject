@@ -543,3 +543,8 @@ Maybe even Cacheable at the same time
 
 
 
+agri_eureka/Dockerfile
+ML_py/Dockerfile
+FarmFlow/Dockerfile
+
+i removed agriproject_java this 

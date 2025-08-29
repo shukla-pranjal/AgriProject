@@ -5,9 +5,6 @@ services:
   ml_service:
     image: pranjalkumar09/agriproject_ml:latest
     container_name: ml_service
-    build:
-      context: ./ML_py    # Adjust to the folder containing your ML Dockerfile
-      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     networks:
@@ -15,9 +12,7 @@ services:
 
   # Eureka Server
   eureka:
-    build:
-      context: ./agri_eureka   # Adjust to your Eureka project folder
-      dockerfile: Dockerfile
+    image: pranjalkumar09/agri_eureka:latest 
     container_name: agri_eureka
     ports:
       - "8761:8761"
@@ -26,9 +21,7 @@ services:
 
   # FarmFlow App
   farmflow:
-    build:
-      context: ./FarmFlow    # Adjust to your FarmFlow project folder
-      dockerfile: Dockerfile
+    image: pranjalkumar09/farmflow:latest    # Replace with your published FarmFlow image
     container_name: farmflow-app
     ports:
       - "8080:8080"
