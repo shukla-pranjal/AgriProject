@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY model.py .
+COPY app.py .
 COPY *.pkl ./
 
 EXPOSE 5000
