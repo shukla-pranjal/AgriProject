@@ -128,7 +128,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(value = "paymentCache", key = "#id")
+    @CacheEvict(value = "paymentCache", allEntries = true)
     @CachePut(value = "paymentCache", key = "#result.id")
     public PaymentDTO updatePayment(Integer id, PaymentDTO paymentDTO) throws Exception { // TODO
         Payment payment = paymentRepository.findById(id)
@@ -157,7 +157,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(value = "paymentCache", key = "#id")
+    @CacheEvict(value = "paymentCache", allEntries = true)
     @CachePut(value = "paymentCache", key = "#result.id")
     public PaymentDTO updatePaymentStatus(Integer id, PaymentStatus status) throws Exception {
         Payment payment = paymentRepository.findById(id)
@@ -179,7 +179,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(value = "paymentCache", key = "#id")
+    @CacheEvict(value = "paymentCache", allEntries = true)
     @CachePut(value = "paymentCache", key = "#result.id")
     public PaymentDTO updatePaymentMethod(Integer id, PaymentMethod method) throws Exception {
         Payment payment = paymentRepository.findById(id)

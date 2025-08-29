@@ -87,6 +87,20 @@ public class Validation {
             throw new ValidationException(errors);
         }
     }
+    public void userValidateUpdate(UserDTO userDTO) {
+        Map<String, Object> errors = new LinkedHashMap<>();
+
+        if (ObjectUtils.isEmpty(userDTO)) {
+            throw new IllegalArgumentException(Constants.USER_OBJECT_EMPTY);
+        }
+
+        validateName(userDTO.getName(), errors);
+        validatePhone(userDTO.getPhone(), errors);
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
+    }
 
     public void farmerValidate(FarmerDTO farmerDTO) {
         Map<String, Object> errors = new LinkedHashMap<>();

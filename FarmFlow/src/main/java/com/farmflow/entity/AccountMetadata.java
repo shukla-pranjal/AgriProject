@@ -30,6 +30,7 @@ public class AccountMetadata {
     private Integer failedLoginAttempts;
     private LocalDateTime lockedUntil;
 
+    private LocalDateTime lastLoginAt;
 
     @OneToOne(mappedBy = "metadata", optional = false)
     private User user;

@@ -17,6 +17,7 @@ import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -70,7 +71,10 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
-    @CacheEvict(value = "farmerCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "farmerCache", key = "'all'"),
+            @CacheEvict(value = "farmerCache", key = "#farmerDTO.userId")
+    })
     public FarmerDTO createFarmer(FarmerDTO farmerDTO) throws Exception {
         try {
             validation.farmerValidate(farmerDTO);

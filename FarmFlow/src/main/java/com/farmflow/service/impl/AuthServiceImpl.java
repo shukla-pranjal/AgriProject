@@ -50,13 +50,11 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private EmailComposerService emailComposerService;
 
-
-
     @Override
     public LoginResponse login(LoginRequest loginRequest) throws ResourceNotFoundException {
 
         // 1️⃣ Find user
-        User user = userRepository.findByEmail(loginRequest.getEmail())
+        User user = userRepository.findByEmail(loginRequest.getEmail().toLowerCase())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         AccountMetadata metadata = user.getMetadata();
@@ -92,6 +90,7 @@ public class AuthServiceImpl implements AuthService {
         // 4️⃣ Reset failed attempts after successful login
         metadata.setFailedLoginAttempts(0);
         metadata.setLockedUntil(null);
+        metadata.setLastLoginAt(LocalDateTime.now());
         userRepository.save(user);
 
         // 5️⃣ Generate token
@@ -113,14 +112,21 @@ public class AuthServiceImpl implements AuthService {
         User user = modelMapper.map(userDTO, User.class);
 
         String verficationCode = emailComposerService.sendVerificationEmail(userDTO);
-        AccountMetadata status = AccountMetadata.builder()
+        AccountMetadata accountMetadata = AccountMetadata.builder()
                 .status(AccountStatus.PENDING)
                 .verificationCodeCreatedAt(LocalDateTime.now())
                 .verificationCode(verficationCode)
                 .failedLoginAttempts(0)
                 .build();
 
-        user.setMetadata(status);
+        user.setMetadata(accountMetadata);
+
+        if (verficationCode == null){
+            accountMetadata.setStatus(AccountStatus.ACTIVE);
+            accountMetadata.setVerificationCode(null);
+            accountMetadata.setVerificationCodeCreatedAt(null);
+        }
+
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
         user.setRoles(Set.of(Role.ROLE_USER));
@@ -145,10 +151,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void verifyEmail(EmailVerificationRequest request) throws Exception {
-        User user = userRepository.findByEmailIgnoreCase(request.getEmail());
-        if (user == null) {
-            throw new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS);
-        }
+        User user = userRepository.findByEmail(request.getEmail().toLowerCase())
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS));
 
         AccountMetadata metadata = user.getMetadata();
         if (metadata.getStatus() != AccountStatus.PENDING) {
@@ -174,10 +178,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void resendVerification(ResendVerificationRequest request) throws Exception {
-        User user = userRepository.findByEmailIgnoreCase(request.getEmail());
-        if (user == null) {
-            throw new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS);
-        }
+        User user = userRepository.findByEmail(request.getEmail().toLowerCase())
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS));
+
         AccountMetadata metadata = user.getMetadata();
         if (metadata.getStatus() == AccountStatus.ACTIVE) {
             throw new ValidationException("Account is already verified");
@@ -198,6 +201,110 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public void changePassword(ChangePasswordRequest request) throws ResourceNotFoundException {
+
+        Integer currentUserId = auditAwareConfig.getCurrentUserId();
+        if (currentUserId == null) {
+            throw new AccessDeniedException("Not logged in");
+        }
+
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!bCryptPasswordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new ValidationException("Old password does not match");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void forgotPassword(ForgotPasswordRequest request) throws ResourceNotFoundException {
+        User user = userRepository.findByEmail(request.getEmail().toLowerCase())
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS));
+
+        AccountMetadata metadata = user.getMetadata();
+
+        // prevent spamming reset requests
+        if (metadata.getVerificationCodeCreatedAt() != null &&
+                metadata.getVerificationCodeCreatedAt().isAfter(LocalDateTime.now().minusMinutes(10))) {
+            throw new ValidationException("You can request a new reset code after 10 minutes");
+        }
+
+        String resetCode = emailComposerService.sendPasswordResetEmail(modelMapper.map(user, UserDTO.class));
+        metadata.setVerificationCode(resetCode);
+        metadata.setVerificationCodeCreatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest request) throws ResourceNotFoundException {
+        User user = userRepository.findByEmail(request.getEmail().toLowerCase())
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.USER_EMAIL_NOT_EXISTS));
+
+        AccountMetadata metadata = user.getMetadata();
+
+        if (!request.getVerificationCode().equals(metadata.getVerificationCode())) {
+            throw new ValidationException("Invalid verification code");
+        }
+
+        if (metadata.getVerificationCodeCreatedAt()
+                .isBefore(LocalDateTime.now().minusHours(1))) {
+            throw new ValidationException("Reset code expired");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(request.getNewPassword()));
+        metadata.setVerificationCode(null);
+        metadata.setVerificationCodeCreatedAt(null);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void changeEmail(ChangeEmailRequest request) throws ResourceNotFoundException {
+        Integer currentUserId = auditAwareConfig.getCurrentUserId();
+        if (currentUserId == null) {
+            throw new AccessDeniedException("Not logged in");
+        }
+
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (userRepository.existsByEmailIgnoreCase(request.getNewEmail())) {
+            throw new ValidationException("Email already in use");
+        }
+
+        AccountMetadata metadata = user.getMetadata();
+
+        String verficationCode = emailComposerService.sendVerificationEmail( modelMapper.map(user, UserDTO.class));
+
+
+        AccountMetadata accountMetadata = AccountMetadata.builder()
+                .status(AccountStatus.PENDING)
+                .verificationCodeCreatedAt(LocalDateTime.now())
+                .verificationCode(verficationCode)
+                .build();
+
+
+        if (verficationCode == null){
+            accountMetadata.setStatus(AccountStatus.ACTIVE);
+            accountMetadata.setVerificationCode(null);
+            accountMetadata.setVerificationCodeCreatedAt(null);
+        }
+        user.setMetadata(accountMetadata);
+
+        user.setEmail(request.getNewEmail());
+
+
+        emailComposerService.sendEmailChangeAlert(request);
+
+        userRepository.save(user);
+    }
+
 
     public boolean isAdmin() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

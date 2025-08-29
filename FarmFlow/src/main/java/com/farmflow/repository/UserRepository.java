@@ -44,9 +44,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByEmailIgnoreCase(String email);
 
+
     List<User> findAllByMetadataStatusAndMetadataVerificationCodeCreatedAtBefore(AccountStatus status, LocalDateTime dateTime);
 
     Optional<User> findByEmail(String email);
+
+    List<User> findAllByMetadataLastLoginAtBefore(LocalDateTime localDateTime);
 }
 
 

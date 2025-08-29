@@ -46,6 +46,16 @@ public class AccountScheduler {
         for (User user : oldDisabledUsers) {
             log.info("Deleting DISABLED account: {}", user.getEmail());
         }
+
+        // 3️⃣ Delete accounts inactive for 3 years
+        List<User> inactiveUsers = userRepository
+                .findAllByMetadataLastLoginAtBefore(now.minusYears(3));
+
+        for (User user : inactiveUsers) {
+            log.info("Deleting inactive account (3+ years): {}", user.getEmail());
+        }
+        userRepository.deleteAll(inactiveUsers);
+
         userRepository.deleteAll(oldDisabledUsers);
     }
 }

@@ -21,6 +21,7 @@ import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -63,7 +64,11 @@ public class ImageServiceImpl implements ImageService {
     private final AuthService authService;
 
     @Override
-    @CacheEvict(value = "imageCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "imageCache", key = "'all'"),
+            @CacheEvict(value = "imageCache", key = "#entityType + '-' + #entityId"),
+            @CacheEvict(value = "imageCache", key = "#file.contentType != null ? T(com.yourpackage.FileType).fromMimeType(#file.contentType).name() : null")
+    })
     public ImageDTO createImage(MultipartFile file, EntityType entityType, Integer entityId) throws Exception {
         log.debug("createImage: validating file and entity");
         validation.imageValidate(file, entityType, entityId);
@@ -146,8 +151,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @CacheEvict(value = "imageCache", key = "#id")
-    @CachePut(value = "imageCache", key = "#result.id")
+    @Caching(evict = {
+            @CacheEvict(value = "imageCache", key = "'all'"),
+            @CacheEvict(value = "imageCache", key = "#entityType + '-' + #entityId"),
+            @CacheEvict(value = "imageCache", key = "#existing.fileType.name()")
+    },
+            put = {
+                    @CachePut(value = "imageCache", key = "#result.id")
+            })
+
     public ImageDTO updateImage(Integer id, MultipartFile file, EntityType entityType, Integer entityId) throws Exception {
         log.debug("updateImage: fetching existing image[id={}]", id);
         Image existing = imageRepository.findById(id)
@@ -210,7 +222,12 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @CacheEvict(value = "imageCache", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "imageCache", key = "#id"),
+            @CacheEvict(value = "imageCache", key = "'all'"),
+            @CacheEvict(value = "imageCache", key = "#img.entityType + '-' + #img.entityId"),
+            @CacheEvict(value = "imageCache", key = "#img.fileType.name()")
+    })
     public void deleteImage(Integer id) throws Exception {
         log.debug("deleteImage: fetching image[id={}]", id);
         Image img = imageRepository.findById(id)

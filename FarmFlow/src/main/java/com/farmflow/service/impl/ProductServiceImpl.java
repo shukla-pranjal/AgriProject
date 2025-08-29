@@ -18,6 +18,7 @@ import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -35,7 +36,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
     private final EmailComposerService emailComposerService;
 
     @Override
-    @Cacheable(value = "productCache", key = "'all'")
+    @Cacheable(value = "productCacheAll", key = "'all'")
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "productCache", key = "'available'")
+    @Cacheable(value = "productCacheAvailable", key = "'available'")
     public List<ProductDTO> getAllAvailableProducts() {
         return productRepository.findByQuantityGreaterThanAndAvailableTrue(0.0).stream()
                 .map(this::convertToDTO)
@@ -65,18 +65,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "productCache", key = "#id")
+    @Cacheable(value = "productCacheById", key = "#id")
     public ProductDTO getProductById(Integer id) throws Exception {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, id)));
-        if (authService.isOwnerOrAdmin(product.getCreatedBy()))
+
+        // ✅ Fixed: deny only if not owner/admin
+        if (!authService.isOwnerOrAdmin(product.getCreatedBy())) {
             throw new AccessDeniedException(Constants.ACCESS_DENIED);
+        }
 
         return convertToDTO(product);
     }
 
     @Override
-    @CacheEvict(value = "productCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "productCacheAll", allEntries = true),
+            @CacheEvict(value = "productCacheAvailable", allEntries = true),
+            @CacheEvict(value = "productCacheByCategory", key = "#productDTO.categoryId"),
+            @CacheEvict(value = "productCacheByFarmer", key = "#productDTO.farmerId")
+    })
     public ProductDTO createProduct(ProductDTO productDTO) throws Exception {
         validation.productValidate(productDTO);
 
@@ -103,8 +111,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @CacheEvict(value = "productCache", key = "#id")
-    @CachePut(value = "productCache", key = "#result.id")
+    @Caching(evict = {
+            @CacheEvict(value = "productCacheAll", allEntries = true),
+            @CacheEvict(value = "productCacheAvailable", allEntries = true),
+            @CacheEvict(value = "productCacheByCategory", allEntries = true),
+            @CacheEvict(value = "productCacheByFarmer", allEntries = true)
+    }, put = {
+            @CachePut(value = "productCacheById", key = "#result.id")
+    })
     public ProductDTO updateProduct(Integer id, ProductDTO productDTO) throws Exception {
         validation.productValidate(productDTO);
 
@@ -131,7 +145,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @CacheEvict(value = "productCache", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "productCacheAll", allEntries = true),
+            @CacheEvict(value = "productCacheAvailable", allEntries = true),
+            @CacheEvict(value = "productCacheById", key = "#id"),
+            @CacheEvict(value = "productCacheByCategory", allEntries = true),
+            @CacheEvict(value = "productCacheByFarmer", allEntries = true)
+    })
     public void deleteProduct(Integer id) throws Exception {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, id)));
@@ -139,7 +159,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "productCache", key = "#categoryId")
+    @Cacheable(value = "productCacheByCategory", key = "#categoryId")
     public List<ProductDTO> getProductsByCategoryId(Integer categoryId) throws Exception {
         categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CATEGORY, categoryId)));
@@ -150,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "productCache", key = "#farmerId")
+    @Cacheable(value = "productCacheByFarmer", key = "#farmerId")
     public List<ProductDTO> getProductsByFarmerId(Integer farmerId) throws Exception {
         Farmer farmer = farmerRepository.findById(farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.FARMER, farmerId)));
@@ -160,6 +180,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<ProductDTO> searchProducts(String name, Integer categoryId, Integer farmerId, Boolean available, Unit unit, Double priceMin, Double priceMax) {
@@ -181,6 +202,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> page = productRepository.searchProductsPaged(name, categoryId, farmerId, available, unit, priceMin, priceMax, pageable);
         return page.map(this::convertToDTO);
     }
+
 
     @Override
     public Page<ProductDTO> getProductsByFarmerIdPaged(Integer farmerId, PaginationRequest paginationRequest) throws Exception {

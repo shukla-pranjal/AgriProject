@@ -1,5 +1,6 @@
 package com.farmflow.service.email;
 
+import com.farmflow.dto.ChangeEmailRequest;
 import com.farmflow.dto.FarmerDTO;
 import com.farmflow.dto.PaymentDTO;
 import com.farmflow.dto.UserDTO;
@@ -9,6 +10,7 @@ import com.farmflow.enums.PaymentMethod;
 
 public interface EmailComposerService {
     String sendVerificationEmail(UserDTO userDTO);
+    String sendPasswordResetEmail(UserDTO userDTO);
 
     void sendLowStockAlert(Product product, Farmer farmer);
 
@@ -35,4 +37,6 @@ public interface EmailComposerService {
     void sendRolePromoted(User user);
 
     void sendRoleDemoted(User user);
+
+    void sendEmailChangeAlert(ChangeEmailRequest request);
 }

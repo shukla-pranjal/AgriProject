@@ -16,6 +16,7 @@ import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -45,7 +46,11 @@ public class OrdersServiceImpl implements OrdersService {
     private final EmailComposerService emailComposerService;
 
     @Override
-    @CacheEvict(value = "orderCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "orderCache", allEntries = true) // clear lists
+    }, put = {
+            @CachePut(value = "orderCache", key = "#result.id") // add created order
+    })
     public OrdersDTO placeOrderFromCart(Integer cartId) throws Exception {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.CART, cartId)));
@@ -106,7 +111,11 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @CacheEvict(value = "orderCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "orderCache", allEntries = true)
+    }, put = {
+            @CachePut(value = "orderCache", key = "#result.id")
+    })
     public OrdersDTO createManualOrder(OrdersDTO ordersDTO) throws Exception {
         validation.validateOrder(ordersDTO);
 
@@ -168,7 +177,11 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @CacheEvict(value = "orderCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "orderCache", allEntries = true)
+    }, put = {
+            @CachePut(value = "orderCache", key = "#result.id")
+    })
     public OrdersDTO reorder(Integer id) throws Exception {
         Orders original = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.ORDER_NOT_FOUND, id)));
@@ -299,8 +312,11 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @CacheEvict(value = "orderCache", key = "#orderId")
-    @CachePut(value = "orderCache", key = "#result.id")
+    @Caching(evict = {
+            @CacheEvict(value = "orderCache", allEntries = true) // clear lists
+    }, put = {
+            @CachePut(value = "orderCache", key = "#result.id")  // update single order
+    })
     public OrdersDTO cancelOrder(Integer orderId) throws Exception {
         Orders orders = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, orderId)));
@@ -327,8 +343,11 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @CacheEvict(value = "orderCache", key = "#orderId")
-    @CachePut(value = "orderCache", key = "#result.id")
+    @Caching(evict = {
+            @CacheEvict(value = "orderCache", allEntries = true) // clear lists
+    }, put = {
+            @CachePut(value = "orderCache", key = "#result.id")  // update single order
+    })
     public OrdersDTO updateOrderStatus(Integer orderId, OrdersStatus status) throws Exception {
         Orders orders = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, orderId)));
@@ -341,7 +360,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @CacheEvict(value = "orderCache", key = "#orderId")
+    @CacheEvict(value = "orderCache", allEntries = true)
     public void deleteOrder(Integer orderId) throws Exception {
         Orders orders = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ORDER, orderId)));

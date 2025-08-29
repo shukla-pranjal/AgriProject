@@ -12,6 +12,7 @@ import com.farmflow.service.CategoryService;
 import com.farmflow.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,8 +68,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @CacheEvict(value = "categoryCache", key = "#id")
-    @CachePut(value = "categoryCache", key = "#result.id")
+    @Caching(
+    evict = { @CacheEvict(value = "categoryCache", key = "#id"),
+            @CacheEvict(value = "categoryCache", key = "'all'", beforeInvocation = true)},
+    put = @CachePut(value = "categoryCache", key = "#result.id")
+    )
     public CategoryDTO updateCategory(Integer id, CategoryDTO categoryDTO) throws Exception {
         try {
             validation.categoryValidate(categoryDTO);
@@ -111,7 +115,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @CacheEvict(value = "categoryCache", key = "#id")
+    @Caching(
+            evict = {   @CacheEvict(value = "categoryCache", key = "#id"),
+                    @CacheEvict(value = "categoryCache", key = "'all'", beforeInvocation = true)}
+    )
     public void deleteCategory(Integer id) throws Exception {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + id));

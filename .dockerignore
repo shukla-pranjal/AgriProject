@@ -1,0 +1,23 @@
+# Python temp files
+ML_py/tempCodeRunnerFile.py
+ML_py/__pycache__/
+
+# agri_eureka Spring Boot
+agri_eureka/target/
+!agri_eureka/target/agri_eureka-0.0.1-SNAPSHOT.jar
+
+# IDE files
+*.iml
+*.idea/
+*.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore

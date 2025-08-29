@@ -1,9 +1,6 @@
 package com.farmflow.service.email.impl;
 
-import com.farmflow.dto.EmailRequest;
-import com.farmflow.dto.FarmerDTO;
-import com.farmflow.dto.PaymentDTO;
-import com.farmflow.dto.UserDTO;
+import com.farmflow.dto.*;
 import com.farmflow.entity.*;
 import com.farmflow.enums.OrdersStatus;
 import com.farmflow.enums.PaymentMethod;
@@ -29,7 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmailComposerServiceImpl implements EmailComposerService {
     private final EmailService emailService;
-    private final SpringTemplateEngine templateEngine;
+
 
     @Override
     public String sendVerificationEmail(UserDTO userDTO) {
@@ -518,6 +515,83 @@ public class EmailComposerServiceImpl implements EmailComposerService {
         } catch (Exception e) {
             log.error("Failed to send account deletion notification email to {}: {}",
                     existingUser.getEmail(), e.getMessage());
+        }
+    }
+
+    @Override
+    public String sendPasswordResetEmail(UserDTO userDTO) {
+        if (!emailService.isEmailServiceEnabled()) {
+            log.warn("Email service is disabled. Password reset email not sent to user: {}", userDTO.getEmail());
+            return null;
+        }
+
+        final String RESET_SUBJECT = "Password Reset Request";
+        final String TEMPLATE_NAME = "password-reset-email";
+
+        String resetCode = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+        // Prepare context variables
+        Map<String, Object> contextVariables = new HashMap<>();
+        contextVariables.put("name", userDTO.getName());
+        contextVariables.put("resetCode", resetCode);
+        contextVariables.put("supportEmail", "support@yourdomain.com");
+        contextVariables.put("currentYear", LocalDate.now().getYear());
+
+        try {
+            // Build email request
+            EmailRequest emailRequest = EmailRequest.builder()
+                    .title(RESET_SUBJECT)
+                    .subject(RESET_SUBJECT)
+                    .recipientEmail(userDTO.getEmail())
+                    .isHtml(true)
+                    .templateName(TEMPLATE_NAME)
+                    .contextVariables(contextVariables)
+                    .build();
+
+            // Send email
+            emailService.sendEmail(emailRequest);
+            log.info("Password reset email sent successfully to {}", userDTO.getEmail());
+            return resetCode;
+        } catch (Exception e) {
+            log.error("Failed to send password reset email to {}: {}", userDTO.getEmail(), e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void sendEmailChangeAlert(ChangeEmailRequest request) {
+        if (!emailService.isEmailServiceEnabled()) {
+            log.warn("Email service is disabled. Email change alert not sent for user: {}", request.getCurrentPassword());
+            return;
+        }
+
+        final String CHANGE_ALERT_SUBJECT = "Email Change Notification";
+        final String TEMPLATE_NAME = "email-change-alert";
+
+        // Prepare context variables
+        Map<String, Object> contextVariables = new HashMap<>();
+        contextVariables.put("oldEmail", request.getCurrentPassword());
+        contextVariables.put("newEmail", request.getNewEmail());
+        contextVariables.put("supportEmail", "support@yourdomain.com");
+        contextVariables.put("currentYear", LocalDate.now().getYear());
+
+        try {
+            // Build email request
+            EmailRequest emailRequest = EmailRequest.builder()
+                    .title(CHANGE_ALERT_SUBJECT)
+                    .subject(CHANGE_ALERT_SUBJECT)
+                    .recipientEmail(request.getCurrentPassword()) // send to old email for security reasons
+                    .isHtml(true)
+                    .templateName(TEMPLATE_NAME)
+                    .contextVariables(contextVariables)
+                    .build();
+
+            // Send email
+            emailService.sendEmail(emailRequest);
+            log.info("Email change alert sent successfully to old email {} about change to {}",
+                    request.getCurrentPassword(), request.getNewEmail());
+        } catch (Exception e) {
+            log.error("Failed to send email change alert to {}: {}", request.getCurrentPassword(), e.getMessage());
         }
     }
 

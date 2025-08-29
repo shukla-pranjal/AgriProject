@@ -18,29 +18,16 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
 @Slf4j
 @Service
-public class DiskFilesService implements FilesService {
+public class FilesServiceImpl implements FilesService {
 
     private final Path rootDir;
 
-    public DiskFilesService(@Value("${file.upload.path}") String uploadPath) {
+    public FilesServiceImpl(@Value("${file.upload.path}") String uploadPath) {
         this.rootDir = Paths.get(uploadPath).toAbsolutePath().normalize();
         try {
             Files.createDirectories(rootDir);
@@ -50,7 +37,6 @@ public class DiskFilesService implements FilesService {
     }
 
     @Override
-    @CacheEvict(value = "fileCache", key = "#result", beforeInvocation = true)
     public String uploadFile(MultipartFile file) throws StorageException {
         String storedName = buildStoredFileName(file.getOriginalFilename());
         Path target = rootDir.resolve(storedName);

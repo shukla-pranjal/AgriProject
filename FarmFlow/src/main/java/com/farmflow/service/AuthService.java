@@ -12,4 +12,12 @@ public interface AuthService  {
     void verifyEmail(EmailVerificationRequest request)throws Exception;
 
     void resendVerification(ResendVerificationRequest request) throws  Exception;
+
+    void changePassword(ChangePasswordRequest request) throws ResourceNotFoundException;
+
+    void forgotPassword(ForgotPasswordRequest request) throws ResourceNotFoundException;
+
+    void resetPassword(ResetPasswordRequest request) throws ResourceNotFoundException;
+
+    void changeEmail(ChangeEmailRequest request) throws ResourceNotFoundException;
 }

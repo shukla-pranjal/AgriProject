@@ -23,7 +23,7 @@ public class AuthController implements AuthEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> login(LoginRequest loginRequest) {
+    public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception{
         LoginResponse loginResponse = authService.login(loginRequest);
         if (ObjectUtils.isEmpty(loginResponse)) {
             return CommonUtil.createErrorResponseMessage("Invalid Credential", HttpStatus.BAD_REQUEST);
@@ -44,11 +44,32 @@ public class AuthController implements AuthEndpoint {
 
         authService.resendVerification(request);
 
-        // Return success message upon successful resend
         return CommonUtil.createBuildResponseMessage("Verification email resent successfully", HttpStatus.OK);
         }
 
+    @Override
+    public ResponseEntity<?> changePassword(ChangePasswordRequest request) throws Exception{
+        authService.changePassword(request);
+        return CommonUtil.createBuildResponseMessage("Password changed successfully", HttpStatus.OK);
+    }
 
+    @Override
+    public ResponseEntity<?> forgotPassword (ForgotPasswordRequest request)throws Exception  {
+        authService.forgotPassword(request);
+        return CommonUtil.createBuildResponseMessage("Password reset link sent to email", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> resetPassword(ResetPasswordRequest request)throws Exception {
+        authService.resetPassword(request);
+        return CommonUtil.createBuildResponseMessage("Password reset successfully", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> changeEmail(ChangeEmailRequest request) throws Exception {
+        authService.changeEmail(request);
+        return CommonUtil.createBuildResponseMessage("Email change request processed successfully. Please verify your new email.", HttpStatus.OK);
+    }
 
 
 }

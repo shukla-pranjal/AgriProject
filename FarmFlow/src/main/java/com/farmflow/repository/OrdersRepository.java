@@ -37,4 +37,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer>, Orders
             Pageable pageable
     );
 
+    List<Orders> findByStatusAndOrderDateBefore(OrdersStatus ordersStatus, LocalDateTime threshold);
+
 }
+

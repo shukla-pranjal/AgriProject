@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -41,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final AuthService authService;
 
     @Override
-    @Cacheable(value = "reviewCache", key = "'all'")
+    @Cacheable(value = "reviewCacheAll", key = "'all'")
     public List<ReviewDTO> getAllReviews() {
         return reviewRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -49,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Cacheable(value = "reviewCache", key = "#id")
+    @Cacheable(value = "reviewCacheById", key = "#id")
     public ReviewDTO getReviewById(Integer id) throws Exception {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.REVIEW, id)));
@@ -59,7 +60,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @CacheEvict(value = "reviewCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "reviewCacheAll", allEntries = true),
+            @CacheEvict(value = "reviewCacheByProduct", key = "#reviewDTO.productId"),
+            @CacheEvict(value = "reviewCacheByUser", key = "#reviewDTO.userId")
+    })
     public ReviewDTO createReview(ReviewDTO reviewDTO) throws Exception {
         validation.reviewValidate(reviewDTO);
 
@@ -86,8 +91,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @CacheEvict(value = "reviewCache", key = "#reviewDTO.id")
-    @CachePut(value = "reviewCache", key = "#result.id")
+    @Caching(evict = {
+            @CacheEvict(value = "reviewCacheAll", allEntries = true),
+            @CacheEvict(value = "reviewCacheByProduct", key = "#reviewDTO.productId"),
+            @CacheEvict(value = "reviewCacheByUser", key = "#reviewDTO.userId")
+    }, put = {
+            @CachePut(value = "reviewCacheById", key = "#result.id")
+    })
     public ReviewDTO updateReview(ReviewDTO reviewDTO) throws Exception {
         validation.reviewValidate(reviewDTO);
 
@@ -110,7 +120,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @CacheEvict(value = "reviewCache", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "reviewCacheAll", allEntries = true),
+            @CacheEvict(value = "reviewCacheById", key = "#id"),
+            @CacheEvict(value = "reviewCacheByProduct", allEntries = true),
+            @CacheEvict(value = "reviewCacheByUser", allEntries = true)
+    })
     public void deleteReview(Integer id) throws Exception {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.REVIEW, id)));
@@ -120,7 +135,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Cacheable(value = "reviewCache", key = "#productId")
+    @Cacheable(value = "reviewCacheByProduct", key = "#productId")
     public List<ReviewDTO> getReviewsByProductId(Integer productId) throws Exception {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.PRODUCT, productId)));
@@ -131,7 +146,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Cacheable(value = "reviewCache", key = "#userId")
+    @Cacheable(value = "reviewCacheByUser", key = "#userId")
     public List<ReviewDTO> getReviewsByUserId(Integer userId) throws Exception {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, userId)));
@@ -143,8 +158,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDTO> searchReviews(Integer productId, Integer userId, Integer minRating, Integer maxRating, String comment) {
-        if (userId == null || authService.isOwnerOrAdmin(userId))
+        // ✅ Fixed Access Control
+        if (userId != null && !authService.isOwnerOrAdmin(userId)) {
             throw new AccessDeniedException(Constants.ACCESS_DENIED);
+        }
 
         return reviewRepository.searchReviews(productId, userId, minRating, maxRating, comment).stream()
                 .map(this::convertToDTO)
@@ -187,8 +204,10 @@ public class ReviewServiceImpl implements ReviewService {
                                               Integer minRating,
                                               Integer maxRating,
                                               String comment) {
-        if (userId == null || authService.isOwnerOrAdmin(userId))
+        // ✅ Fixed Access Control
+        if (userId != null && !authService.isOwnerOrAdmin(userId)) {
             throw new AccessDeniedException(Constants.ACCESS_DENIED);
+        }
         Pageable pageable = paginationRequest.toPageable();
         Page<Review> page = reviewRepository.searchReviewsPaged(productId, userId, minRating, maxRating, comment, pageable);
         return page.map(this::convertToDTO);

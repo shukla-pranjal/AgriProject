@@ -379,3 +379,167 @@ public class CacheController {
 ---
 spring.cache.type=caffeine
 spring.cache.caffeine.spec=maximumSize=500,expireAfterWrite=30m
+
+
+
+
+=============
+=============
+=============
+=============
+=============
+=============
+
+
+Redis
+Remote Distribution Server
+extremely fast
+
+In memory data structure store that can be used as db, cache and message broker
+
+reddis supports various data structure such as strings, hashes, lists, sets, sorted sets, bit maps, hyperloglogs and geospatial indexes
+
+
+Feature of Redis
+
+    in memory storage
+        fast read & write operation
+        ideal for real time requirement
+    
+    presentence
+        provide option to dump data to disk
+
+    data structure
+        support various data structures
+    
+    replication
+        redis support master slave application, allowing data to be replicated to multiple servers for redundancy & failover
+
+    pub sub messaging
+        redis can be act as message broker using its publish/subscribe capabilities, allowing for real time messing application
+
+redis architecture
+    works on server client architecture
+
+client/slave <-> redis server / master  
+
+
+
+cahicng 
+    for reducing latency
+    improve speed
+
+    types of caching
+        in memory
+        distributed
+
+but in horizontal scalling in memory cause problem
+
+distributed -> reddis
+
+
+
+CachePut -> for consistency in updating cache
+
+key => #-- its like key 
+
+@Cacheable(value="weather", key="#city")
+
+
+similarly with 
+
+@CacheEvict
+
+
+
+
+so Caffeine  caching is in memory no network latency
+
+and redis is distributed (we have to download it & configure like mysql) it support horizontal scaling
+
+
+
+we can check cahing else in test 
+
+also by assert in test
+
+
+but 
+
+
+
+in reddis website told reddis is in memory data stored  by miilions  in Ram (however it is distributed cache)
+
+
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+
+sudo apt-get install redis
+sudo service redis-server start
+
+
+redis-cli
+127.0.0.1:6379> set name pranjal
+OK
+127.0.0.1:6379> get name
+"pranjal"
+127.0.0.1:6379> 
+
+
+
+then in properties we have to put the
+
+    sping:
+        redis:
+            host: localhost
+            port: 6479
+
+
+setting up the reddis bean
+
+
+@Bean
+public RedisTemplate redisTemplate(RedisConnectionFactory  factory){
+    RedisTemplate redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(factory);
+
+    redisTemplate.setKeySerializer(new StringRedisSerializer());
+    redisTemplate.setValueSerializer(new StringRedisSerializer());
+}
+
+
+
+further redisService putten like for get, set
+
+
+
+
+1. @Cacheable
+
+Purpose → Used for reading (lookup) methods.
+
+It checks if the result is already in the cache:
+
+If present, it returns from cache (method is not executed).
+
+If absent, it executes the method, stores the result in cache, and returns it.
+
+
+
+@Caching
+Purpose → A container annotation that lets you combine multiple cache annotations on the same method.
+Useful when you need to:
+Evict some cache(s)
+Put into another cache
+Maybe even Cacheable at the same time
+
+
+
+
+
+
+

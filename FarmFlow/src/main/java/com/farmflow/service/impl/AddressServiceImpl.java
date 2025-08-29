@@ -15,6 +15,7 @@ import com.farmflow.util.Constants;
 import com.farmflow.util.Validation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,12 +27,6 @@ import java.util.stream.Collectors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -51,8 +46,9 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private AuthService authService;
 
+    // ========================= GET =========================
     @Override
-    @Cacheable(value = "addressCache", key = "'all'")
+    @Cacheable(value = "addressAllCache", key = "'all'")
     public List<AddressDTO> getAllAddresses() {
         return addressRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -60,7 +56,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Cacheable(value = "addressCache", key = "#id")
+    @Cacheable(value = "addressByIdCache", key = "#id")
     public AddressDTO getAddressById(Integer id) throws Exception {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ADDRESS, id)));
@@ -72,7 +68,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Cacheable(value = "addressCache", key = "#userId")
+    @Cacheable(value = "addressByUserCache", key = "#userId")
     public List<AddressDTO> getAddressesByUserId(Integer userId) throws Exception {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.USER, userId)));
@@ -82,8 +78,12 @@ public class AddressServiceImpl implements AddressService {
                 .collect(Collectors.toList());
     }
 
+    // ========================= CREATE =========================
     @Override
-    @CacheEvict(value = "addressCache", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "addressAllCache", allEntries = true),
+            @CacheEvict(value = "addressByUserCache", key = "#addressDTO.userId")
+    })
     public AddressDTO createAddress(AddressDTO addressDTO) throws Exception {
         validation.addressValidate(addressDTO);
         User user = userRepository.findById(addressDTO.getUserId())
@@ -99,9 +99,14 @@ public class AddressServiceImpl implements AddressService {
         return convertToDTO(savedAddress);
     }
 
+    // ========================= UPDATE =========================
     @Override
-    @CacheEvict(value = "addressCache", key = "#id")
-    @CachePut(value = "addressCache", key = "#result.id")
+    @Caching(evict = {
+            @CacheEvict(value = "addressAllCache", allEntries = true),
+            @CacheEvict(value = "addressByUserCache", key = "#addressDTO.userId"),
+            @CacheEvict(value = "addressByIdCache", key = "#id")
+    })
+    @CachePut(value = "addressByIdCache", key = "#id")
     public AddressDTO updateAddress(Integer id, AddressDTO addressDTO) throws Exception {
         validation.addressValidate(addressDTO);
 
@@ -119,8 +124,13 @@ public class AddressServiceImpl implements AddressService {
         return convertToDTO(updatedAddress);
     }
 
+    // ========================= DELETE =========================
     @Override
-    @CacheEvict(value = "addressCache", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "addressAllCache", allEntries = true),
+            @CacheEvict(value = "addressByUserCache", key = "#id"),
+            @CacheEvict(value = "addressByIdCache", key = "#id")
+    })
     public void deleteAddress(Integer id) throws Exception {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(Constants.RESOURCE_NOT_FOUND, Constants.ADDRESS, id)));
@@ -131,6 +141,7 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.delete(address);
     }
 
+    // ========================= OTHER METHODS =========================
     @Override
     public List<AddressDTO> searchAddresses(Integer pinCode, String district, String street,
                                             Integer state, Integer addressType, Integer userId) {
