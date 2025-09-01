@@ -17,7 +17,7 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/logging-%d{yy-MM-dd_HH-mm}.%i.log</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
+            <maxFileSize>25MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>3GB</totalSizeCap>
         </rollingPolicy>
@@ -28,5 +28,6 @@
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </root>
+
 
 </configuration>

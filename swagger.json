@@ -1,0 +1,7000 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Farm Management API",
+    "description": "API documentation for the Farm Management System. All responses are wrapped in a GenericResponse object with fields: timestamp (string, date-time), status (string), message (string), and optional data (object).",
+    "contact": {
+      "name": "Pranjal Kumar Shukla & Amritesh Singh",
+      "url": "https://www.farmmanagement.com",
+      "email": "support@farmmanagement.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://api.farmmanagement.com",
+      "description": "Production Server"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Address Management",
+      "description": "Endpoints for managing user addresses"
+    },
+    {
+      "name": "Payment Management",
+      "description": "Endpoints for managing payments"
+    },
+    {
+      "name": "Authentication",
+      "description": "Endpoints for user authentication and registration"
+    },
+    {
+      "name": "Cart Management",
+      "description": "Endpoints for managing user carts"
+    },
+    {
+      "name": "Machine Learning Predictions",
+      "description": "Endpoints for machine learning-based predictions for crop recommendation, pump operation, and fertilizer selection"
+    },
+    {
+      "name": "Review Management",
+      "description": "Endpoints for managing product reviews"
+    },
+    {
+      "name": "Category Management",
+      "description": "Endpoints for managing product categories"
+    },
+    {
+      "name": "Admin Management",
+      "description": "Endpoints for managing admin roles and permissions"
+    },
+    {
+      "name": "Image Management",
+      "description": "Endpoints for managing images associated with entities"
+    },
+    {
+      "name": "Farmer Management",
+      "description": "Endpoints for managing farmers"
+    },
+    {
+      "name": "Order Management",
+      "description": "Endpoints for managing orders"
+    },
+    {
+      "name": "Product Management",
+      "description": "Endpoints for managing products"
+    },
+    {
+      "name": "Cache Management",
+      "description": "Endpoints for managing application caches"
+    },
+    {
+      "name": "User Management",
+      "description": "Endpoints for managing users"
+    }
+  ],
+  "paths": {
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Get User by ID",
+        "description": "Retrieves a specific user by their ID. Accessible by admins and the user themselves.",
+        "operationId": "getById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Update a User",
+        "description": "Updates an existing user by their ID with new details. Accessible by admins and the user themselves.",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Delete a User",
+        "description": "Deletes a user by their ID. Accessible by admins only.",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/{id}": {
+      "get": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get Review by ID",
+        "description": "Retrieves a specific review by its ID. Accessible by admins and the review owner.",
+        "operationId": "getById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the review to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Update a Review",
+        "description": "Updates an existing review by its ID. Accessible by admins and the review owner.",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the review to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Delete a Review",
+        "description": "Deletes a review by its ID. Accessible by admins and the review owner.",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the review to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get Product by ID",
+        "description": "Retrieves a specific product by its ID. Accessible by admins, users, and farmers.",
+        "operationId": "getById_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the product to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Update a Product",
+        "description": "Updates an existing product by its ID with new details. Accessible by admins and farmers.",
+        "operationId": "update_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the product to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Delete a Product",
+        "description": "Deletes a product by its ID. Accessible by admins and farmers.",
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the product to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/{id}": {
+      "get": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get Payment by ID",
+        "description": "Retrieves a specific payment by its ID. Accessible by admins and users.",
+        "operationId": "getPaymentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the payment to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Update a Payment",
+        "description": "Updates an existing payment by its ID with new details. Accessible by admins only.",
+        "operationId": "updatePayment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the payment to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Delete a Payment",
+        "description": "Deletes a payment by its ID. Accessible by admins only.",
+        "operationId": "deletePayment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the payment to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{id}/status": {
+      "put": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Update Order Status",
+        "description": "Updates the status of an existing order by its ID. Accessible by admins only.",
+        "operationId": "updateOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the order to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "New status of the order (e.g., PENDING, PAID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "PAID",
+                "CONFIRMED",
+                "SHIPPED",
+                "DELIVERED",
+                "CANCELLED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{id}/cancel": {
+      "put": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Cancel an Order",
+        "description": "Cancels an existing order by its ID. Accessible by admins and users.",
+        "operationId": "cancelOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the order to cancel",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/{id}": {
+      "get": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Get Image by ID",
+        "description": "Retrieves a specific image by its ID. Accessible by admins, users, and farmers.",
+        "operationId": "getById_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the image to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Update an Image",
+        "description": "Updates an existing image by its ID with a new file. Accessible by admins and farmers.",
+        "operationId": "update_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the image to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "entityType",
+            "in": "query",
+            "description": "Type of entity the image is associated with (e.g., USER, PRODUCT)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "PRODUCT",
+                "FARMER"
+              ]
+            }
+          },
+          {
+            "name": "entityId",
+            "in": "query",
+            "description": "ID of the entity the image is associated with",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "New image file to upload"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Delete an Image",
+        "description": "Deletes an image by its ID. Accessible by admins and farmers.",
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the image to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/farmers/{id}": {
+      "get": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Get Farmer by ID",
+        "description": "Retrieves a specific farmer by their ID. Accessible by admins and the farmer themselves.",
+        "operationId": "getById_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the farmer to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Update a Farmer",
+        "description": "Updates an existing farmer by their ID. Accessible by admins and the farmer themselves.",
+        "operationId": "update_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the farmer to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FarmerDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Delete a Farmer",
+        "description": "Deletes a farmer by their ID. Accessible by admins and the farmer themselves.",
+        "operationId": "delete_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the farmer to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories/{id}": {
+      "get": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Get Category by ID",
+        "description": "Retrieves a specific category by its ID. Accessible by admins, users, and farmers.",
+        "operationId": "getById_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the category to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Update a Category",
+        "description": "Updates an existing category by its ID. Accessible by admins only.",
+        "operationId": "update_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the category to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Delete a Category",
+        "description": "Deletes a category by its ID. Accessible by admins only.",
+        "operationId": "delete_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the category to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}": {
+      "get": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Get Cart by ID",
+        "description": "Retrieves a specific cart by its ID. Accessible by admins and the cart owner.",
+        "operationId": "getById_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Update a Cart",
+        "description": "Updates an existing cart by its ID. Accessible by admins and the cart owner.",
+        "operationId": "update_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Delete a Cart",
+        "description": "Deletes a cart by its ID. Accessible by admins and the cart owner.",
+        "operationId": "delete_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}/items/{productId}": {
+      "put": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Update Item Quantity in Cart",
+        "description": "Updates the quantity of a specific item in a cart by cart ID and product ID. Accessible by admins and the cart owner.",
+        "operationId": "updateItemQuantity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart containing the item",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartItemDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Remove Item from Cart",
+        "description": "Removes a specific item from a cart by cart ID and product ID. Accessible by admins and the cart owner.",
+        "operationId": "removeItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to remove the item from",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product to remove",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}/items/{productId}/increase": {
+      "put": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Increase Item Quantity in Cart",
+        "description": "Increases the quantity of a specific item in a cart by a specified amount (default is 1). Accessible by admins and the cart owner.",
+        "operationId": "increaseItemQuantity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart containing the item",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product to increase quantity for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "Amount to increase the quantity by (default is 1)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}/items/{productId}/decrease": {
+      "put": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Decrease Item Quantity in Cart",
+        "description": "Decreases the quantity of a specific item in a cart by a specified amount (default is 1). Accessible by admins and the cart owner.",
+        "operationId": "decreaseItemQuantity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart containing the item",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product to decrease quantity for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "Amount to decrease the quantity by (default is 1)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/{id}": {
+      "get": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get Address by ID",
+        "description": "Retrieves a specific address by its ID. Accessible by admins and the address owner.",
+        "operationId": "getById_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the address to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Update an Address",
+        "description": "Updates an existing address by its ID. Accessible by admins and the address owner.",
+        "operationId": "update_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the address to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Delete an Address",
+        "description": "Deletes an address by its ID. Accessible by admins and the address owner.",
+        "operationId": "delete_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the address to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/search/paged": {
+      "post": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Search Users (Paged)",
+        "description": "Searches users with pagination based on name, email, and phone number. Accessible by admins only.",
+        "operationId": "searchUsersPaged",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "Phone number of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/paged": {
+      "post": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Get All Users (Paged)",
+        "description": "Retrieves a paginated list of all users in the system. Accessible by admins only.",
+        "operationId": "getAllPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews": {
+      "get": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get All Reviews",
+        "description": "Retrieves a list of all reviews in the system. Accessible by admins only.",
+        "operationId": "getAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Create a New Review",
+        "description": "Creates a new review for a product. Accessible by admins and users.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/user/{userId}/paged": {
+      "post": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get Reviews by User ID (Paged)",
+        "description": "Retrieves a paginated list of reviews submitted by a specific user by user ID. Accessible by admins and the user.",
+        "operationId": "getByUserIdPaged",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose reviews are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/search/paged": {
+      "post": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Search Reviews (Paged)",
+        "description": "Searches reviews with pagination based on product ID, user ID, rating range, and comment content. Accessible by admins and users.",
+        "operationId": "searchReviewsPaged",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "ID of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "minRating",
+            "in": "query",
+            "description": "Minimum rating to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "maxRating",
+            "in": "query",
+            "description": "Maximum rating to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "comment",
+            "in": "query",
+            "description": "Comment content to filter by (partial match, optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/product/{productId}/paged": {
+      "post": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get Reviews by Product ID (Paged)",
+        "description": "Retrieves a paginated list of reviews for a specific product by product ID. Accessible by admins and farmers.",
+        "operationId": "getByProductIdPaged",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product to retrieve reviews for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/paged": {
+      "post": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get All Reviews (Paged)",
+        "description": "Retrieves a paginated list of all reviews in the system. Accessible by admins only.",
+        "operationId": "getAllPaged_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get All Products",
+        "description": "Retrieves a list of all products in the system. Accessible by admins, users, and farmers.",
+        "operationId": "getAll_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Create a New Product",
+        "description": "Creates a new product with the provided details. Accessible by admins and farmers.",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/search/paged": {
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Search Products (Paged)",
+        "description": "Searches products with pagination based on name, category ID, farmer ID, availability, unit, and price range. Accessible by admins, users, and farmers.",
+        "operationId": "searchProductsPaged",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "ID of the category to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "farmerId",
+            "in": "query",
+            "description": "ID of the farmer to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "available",
+            "in": "query",
+            "description": "Availability status to filter by (true/false, optional)",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "unit",
+            "in": "query",
+            "description": "Unit of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "KG",
+                "TON",
+                "LITRE",
+                "GRAM",
+                "QUINTAL",
+                "BAG"
+              ]
+            }
+          },
+          {
+            "name": "priceMin",
+            "in": "query",
+            "description": "Minimum price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "priceMax",
+            "in": "query",
+            "description": "Maximum price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/paged": {
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get All Products (Paged)",
+        "description": "Retrieves a paginated list of all products in the system. Accessible by admins, users, and farmers.",
+        "operationId": "getAllPaged_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/farmer/{farmerId}/paged": {
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get Products by Farmer ID (Paged)",
+        "description": "Retrieves a paginated list of products created by a specific farmer by farmer ID. Accessible by admins and the farmer.",
+        "operationId": "getByFarmerIdPaged",
+        "parameters": [
+          {
+            "name": "farmerId",
+            "in": "path",
+            "description": "ID of the farmer to retrieve products for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/category/{categoryId}/paged": {
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get Products by Category ID (Paged)",
+        "description": "Retrieves a paginated list of products belonging to a specific category by category ID. Accessible by admins, users, and farmers.",
+        "operationId": "getByCategoryIdPaged",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID of the category to retrieve products for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/available/paged": {
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get All Available Products (Paged)",
+        "description": "Retrieves a paginated list of all available products (quantity > 0 and marked as available). Accessible by admins, users, and farmers.",
+        "operationId": "getAllAvailablePaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments": {
+      "get": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get All Payments",
+        "description": "Retrieves a list of all payments in the system. Accessible by admins only.",
+        "operationId": "getAllPayments",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Create a New Payment",
+        "description": "Creates a new payment with the provided details. Accessible by admins and users.",
+        "operationId": "createPayment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/status/paged": {
+      "post": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get Payments by Status (Paged)",
+        "description": "Retrieves a paginated list of payments with a specific status (e.g., COMPLETED, PENDING). Accessible by admins only.",
+        "operationId": "getPaymentsByStatusPaged",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of the payments to filter by (e.g., COMPLETED, PENDING)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/search/paged": {
+      "post": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Search Payments (Paged)",
+        "description": "Searches payments with pagination based on status, payment method, and amount range. Accessible by admins only.",
+        "operationId": "searchPaymentsPaged",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of the payments to filter by (e.g., COMPLETED, PENDING, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED"
+              ]
+            }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "Payment method to filter by (e.g., CREDIT_CARD, PAYPAL, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CARD",
+                "UPI",
+                "COD",
+                "WALLET"
+              ]
+            }
+          },
+          {
+            "name": "minAmount",
+            "in": "query",
+            "description": "Minimum amount to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "maxAmount",
+            "in": "query",
+            "description": "Maximum amount to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/paged": {
+      "post": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get All Payments (Paged)",
+        "description": "Retrieves a paginated list of all payments in the system. Accessible by admins only.",
+        "operationId": "getAllPaymentsPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/method/paged": {
+      "post": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get Payments by Method (Paged)",
+        "description": "Retrieves a paginated list of payments made using a specific payment method (e.g., CREDIT_CARD, PAYPAL). Accessible by admins only.",
+        "operationId": "getPaymentsByMethodPaged",
+        "parameters": [
+          {
+            "name": "method",
+            "in": "query",
+            "description": "Payment method to filter by (e.g., CREDIT_CARD, PAYPAL)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CARD",
+                "UPI",
+                "COD",
+                "WALLET"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders": {
+      "get": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Get All Orders",
+        "description": "Retrieves a list of all orders in the system. Accessible by admins only.",
+        "operationId": "getAllOrders",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Create a New Order",
+        "description": "Creates a new order with the provided details. Accessible by admins and users.",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{id}/reorder": {
+      "post": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Reorder a Previous Order",
+        "description": "Reorders a previous order by its ID. Accessible by admins and users.",
+        "operationId": "reorder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the order to reorder",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/user/{userId}/paged": {
+      "post": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Get Orders by User ID (Paged)",
+        "description": "Retrieves a paginated list of orders associated with a specific user ID. Accessible by admins and the user.",
+        "operationId": "getOrdersByUserPaged",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose orders are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/search/paged": {
+      "post": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Search Orders (Paged)",
+        "description": "Searches orders with pagination based on user ID, date range, status, and total price range. Accessible by admins and users.",
+        "operationId": "searchOrdersPaged",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "description": "Start date and time to filter by (ISO format, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "description": "End date and time to filter by (ISO format, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of the order to filter by (e.g., PENDING, PAID, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "PAID",
+                "CONFIRMED",
+                "SHIPPED",
+                "DELIVERED",
+                "CANCELLED"
+              ]
+            }
+          },
+          {
+            "name": "minTotalPrice",
+            "in": "query",
+            "description": "Minimum total price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "maxTotalPrice",
+            "in": "query",
+            "description": "Maximum total price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/paged": {
+      "post": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Get All Orders (Paged)",
+        "description": "Retrieves a paginated list of all orders in the system. Accessible by admins only.",
+        "operationId": "getAllOrdersPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/cart/{cartId}": {
+      "post": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Place Order from Cart",
+        "description": "Places a new order using the items in a specific cart by cart ID. Accessible by admins and users.",
+        "operationId": "placeOrderFromCart",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "description": "ID of the cart to place the order from",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ml/7": {
+      "post": {
+        "tags": [
+          "Machine Learning Predictions"
+        ],
+        "summary": "Predict Fertilizer Recommendation (Model 7)",
+        "description": "Uses ML Model 7 to predict the best fertilizer based on input parameters like soil nutrients and crop type. Accessible by admins and farmers.",
+        "operationId": "getPredictionModel7",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ML7Dto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully predicted fertilizer",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ml/6": {
+      "post": {
+        "tags": [
+          "Machine Learning Predictions"
+        ],
+        "summary": "Predict Pump Operation (Model 6)",
+        "description": "Uses ML Model 6 to predict whether a pump should be turned on based on input parameters like soil moisture and weather. Accessible by admins and farmers.",
+        "operationId": "getPredictionModel6",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ML6Dto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully predicted pump operation",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ml/5": {
+      "post": {
+        "tags": [
+          "Machine Learning Predictions"
+        ],
+        "summary": "Predict Crop Recommendation (Model 5)",
+        "description": "Uses ML Model 5 to predict the best crop based on input parameters like soil and weather conditions. Accessible by admins and farmers.",
+        "operationId": "getPredictionModel5",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ML5Dto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully predicted the crop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images": {
+      "get": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Get All Images",
+        "description": "Retrieves a list of all images in the system. Accessible by admins only.",
+        "operationId": "getAll_2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Create a New Image",
+        "description": "Uploads a new image associated with an entity (e.g., user, product). Accessible by admins and farmers.",
+        "operationId": "create_2",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "query",
+            "description": "Type of entity the image is associated with (e.g., USER, PRODUCT)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "PRODUCT",
+                "FARMER"
+              ]
+            }
+          },
+          {
+            "name": "entityId",
+            "in": "query",
+            "description": "ID of the entity the image is associated with",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image file to upload"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/search/paged": {
+      "post": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Search Images (Paged)",
+        "description": "Searches images with pagination based on entity type, entity ID, file type, size range, and file name. Accessible by admins only.",
+        "operationId": "searchImagesPaged",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "query",
+            "description": "Type of entity (e.g., USER, PRODUCT) to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "PRODUCT",
+                "FARMER"
+              ]
+            }
+          },
+          {
+            "name": "entityId",
+            "in": "query",
+            "description": "ID of the entity to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fileType",
+            "in": "query",
+            "description": "Type of file (e.g., JPEG, PNG) to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IMAGE_JPEG",
+                "IMAGE_PNG",
+                "VIDEO_MP4",
+                "VIDEO_MOV"
+              ]
+            }
+          },
+          {
+            "name": "minSize",
+            "in": "query",
+            "description": "Minimum size of the image in bytes (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "maxSize",
+            "in": "query",
+            "description": "Maximum size of the image in bytes (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "Name of the file to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/paged": {
+      "post": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Get All Images (Paged)",
+        "description": "Retrieves a paginated list of all images in the system. Accessible by admins only.",
+        "operationId": "getAllPaged_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/entity/{entityType}/{entityId}/paged": {
+      "post": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Get Images by Entity (Paged)",
+        "description": "Retrieves a paginated list of images associated with a specific entity by entity type and ID. Accessible by admins, users, and farmers.",
+        "operationId": "getByEntityPaged",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "path",
+            "description": "Type of entity (e.g., USER, PRODUCT)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "PRODUCT",
+                "FARMER"
+              ]
+            }
+          },
+          {
+            "name": "entityId",
+            "in": "path",
+            "description": "ID of the entity",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/farmers": {
+      "get": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Get All Farmers",
+        "description": "Retrieves a list of all farmers in the system. Accessible by admins only.",
+        "operationId": "getAll_3",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Create a New Farmer",
+        "description": "Creates a new farmer profile. Accessible by admins and users.",
+        "operationId": "create_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FarmerDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/farmers/search/paged": {
+      "post": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Search Farmers (Paged)",
+        "description": "Searches farmers with pagination based on farm name, farm type, location description, and government ID. Accessible by admins only.",
+        "operationId": "searchFarmersPaged",
+        "parameters": [
+          {
+            "name": "farmName",
+            "in": "query",
+            "description": "Name of the farm to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "farmType",
+            "in": "query",
+            "description": "Type of the farm to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "locationDiscription",
+            "in": "query",
+            "description": "Location description of the farm to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "governmentId",
+            "in": "query",
+            "description": "Government ID of the farmer to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/farmers/paged": {
+      "post": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Get All Farmers (Paged)",
+        "description": "Retrieves a paginated list of all farmers in the system. Accessible by admins only.",
+        "operationId": "getAllFarmersPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Get All Categories",
+        "description": "Retrieves a list of all categories in the system. Accessible by admins, users, and farmers.",
+        "operationId": "getAll_4",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Create a New Category",
+        "description": "Creates a new category. Accessible by admins only.",
+        "operationId": "create_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories/search/paged": {
+      "post": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Search Categories (Paged)",
+        "description": "Searches categories with pagination based on name and description. Accessible by admins, users, and farmers.",
+        "operationId": "searchCategoriesPaged",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the category to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Description of the category to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories/paged": {
+      "post": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Get All Categories (Paged)",
+        "description": "Retrieves a paginated list of all categories in the system. Accessible by admins, users, and farmers.",
+        "operationId": "getAllCategoriesPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts": {
+      "get": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Get All Carts",
+        "description": "Retrieves a list of all carts in the system. Accessible by admins only.",
+        "operationId": "getAll_5",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Create a New Cart",
+        "description": "Creates a new cart for a user. Accessible by admins and users.",
+        "operationId": "create_5",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}/items": {
+      "post": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Add Item to Cart",
+        "description": "Adds an item to a specific cart by its ID. Accessible by admins and the cart owner.",
+        "operationId": "addItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to add the item to",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartItemDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}/items/paged": {
+      "post": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Search Items in Cart (Paged)",
+        "description": "Searches for items in a specific cart with pagination, by cart ID, with optional filters for product name and minimum quantity. Accessible by admins and the cart owner.",
+        "operationId": "searchItemsInCartPaged",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to search items in",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "description": "Name of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "minQuantity",
+            "in": "query",
+            "description": "Minimum quantity of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/paged": {
+      "post": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Get All Carts (Paged)",
+        "description": "Retrieves a paginated list of all carts in the system. Accessible by admins only.",
+        "operationId": "getAllCartsPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Register a New User",
+        "description": "Creates a new user account with the provided details. Returns the created user details upon successful registration.",
+        "operationId": "create_6",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/verify-email": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Email Verification",
+        "description": "Verifies the user's email address by checking the provided verification code.",
+        "operationId": "verifyEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailVerificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Forgot Password - Verify Reset",
+        "description": "Verifies the reset token and sets a new password.",
+        "operationId": "resetPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/resend-verification": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Resend Email Verification",
+        "description": "Resends the email verification code to the provided email address.",
+        "operationId": "resendVerification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendVerificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "User Login",
+        "description": "Authenticates a user with the provided credentials and returns a JWT token or authentication response upon successful login.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Forgot Password - Request Reset",
+        "description": "Requests a password reset by sending a reset link/token to the user's email.",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/change-password": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Change Password",
+        "description": "Changes the user's password. Requires current password and new password.",
+        "operationId": "changePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/change-email": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Change Email",
+        "description": "Requests an email change. Requires new email, password confirmation, and re-verification.",
+        "operationId": "changeEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeEmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/promote/{userId}": {
+      "post": {
+        "tags": [
+          "Admin Management"
+        ],
+        "summary": "Promote User to Admin",
+        "description": "Promotes a user to admin role by their user ID. Accessible by admins only.",
+        "operationId": "promote",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user to promote to admin",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/email-service/toggle": {
+      "post": {
+        "tags": [
+          "Admin Management"
+        ],
+        "summary": "Toggle Email Service",
+        "description": "Toggles the email service on or off. Accessible by admins only.",
+        "operationId": "toggleEmailService",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/demote/{userId}": {
+      "post": {
+        "tags": [
+          "Admin Management"
+        ],
+        "summary": "Demote User from Admin",
+        "description": "Demotes a user from admin role by their user ID. Accessible by admins only.",
+        "operationId": "demote",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user to demote from admin",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses": {
+      "get": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get All Addresses",
+        "description": "Retrieves a list of all addresses in the system. Accessible by admins, users, and farmers.",
+        "operationId": "getAll_6",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Create a New Address",
+        "description": "Creates a new address for a user. Accessible by admins and users.",
+        "operationId": "create_7",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/user/{userId}/paged": {
+      "post": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get Addresses by User ID (Paged)",
+        "description": "Retrieves a paginated list of addresses associated with a specific user ID. Accessible by admins and the user.",
+        "operationId": "getByUserIdPaged_1",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose addresses are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/user/me/paged": {
+      "post": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get Addresses of Current User (Paged)",
+        "description": "Retrieves a paginated list of addresses of the currently authenticated user. Accessible by users and farmers.",
+        "operationId": "getCurrentUserAddressesPaged",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/search/paged": {
+      "post": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Search Addresses (Paged)",
+        "description": "Searches addresses with pagination based on criteria such as pin code, district, street, state, address type, and user ID. Accessible by admins, users, and farmers.",
+        "operationId": "searchAddressesPaged",
+        "parameters": [
+          {
+            "name": "pinCode",
+            "in": "query",
+            "description": "Pin code of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "description": "District of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Street name of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "State ID of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "addressType",
+            "in": "query",
+            "description": "Type of the address (e.g., billing, shipping)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID of the user associated with the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/search/me/paged": {
+      "post": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Search Addresses for Current User (Paged)",
+        "description": "Searches addresses of the currently authenticated user with pagination, based on criteria such as pin code, district, street, state, and address type. Accessible by users and farmers.",
+        "operationId": "searchAddressesForCurrentUserPaged",
+        "parameters": [
+          {
+            "name": "pinCode",
+            "in": "query",
+            "description": "Pin code of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "description": "District of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Street name of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "State ID of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "addressType",
+            "in": "query",
+            "description": "Type of the address (e.g., billing, shipping)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/paged": {
+      "post": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get All Addresses (Paged)",
+        "description": "Retrieves a paginated list of all addresses in the system. Accessible by admins, users, and farmers.",
+        "operationId": "getAllPaged_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaginationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/{id}/status": {
+      "patch": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Update Payment Status",
+        "description": "Updates the status of an existing payment by its ID. Accessible by admins only.",
+        "operationId": "updatePaymentStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the payment to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "New status of the payment (e.g., COMPLETED, PENDING)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/{id}/method": {
+      "patch": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Update Payment Method",
+        "description": "Updates the payment method of an existing payment by its ID. Accessible by admins only.",
+        "operationId": "updatePaymentMethod",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the payment to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "New payment method (e.g., CREDIT_CARD, PAYPAL)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CARD",
+                "UPI",
+                "COD",
+                "WALLET"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Get All Users",
+        "description": "Retrieves a list of all users in the system. Accessible by admins only.",
+        "operationId": "getAll_7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/search": {
+      "get": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Search Users",
+        "description": "Searches users based on name, email, and phone number. Accessible by admins only.",
+        "operationId": "searchUsers",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "Phone number of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile": {
+      "get": {
+        "tags": [
+          "User Management"
+        ],
+        "summary": "Get Current User Profile",
+        "description": "Retrieves the profile of the currently authenticated user. Accessible by admins and users.",
+        "operationId": "getProfile",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/user/{userId}": {
+      "get": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get Reviews by User ID",
+        "description": "Retrieves all reviews submitted by a specific user by user ID. Accessible by admins and the user.",
+        "operationId": "getByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose reviews are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/search": {
+      "get": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Search Reviews",
+        "description": "Searches reviews based on product ID, user ID, rating range, and comment content. Accessible by admins and users.",
+        "operationId": "searchReviews",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "ID of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "minRating",
+            "in": "query",
+            "description": "Minimum rating to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "maxRating",
+            "in": "query",
+            "description": "Maximum rating to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "comment",
+            "in": "query",
+            "description": "Comment content to filter by (partial match, optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/product/{productId}": {
+      "get": {
+        "tags": [
+          "Review Management"
+        ],
+        "summary": "Get Reviews by Product ID",
+        "description": "Retrieves all reviews for a specific product by product ID. Accessible by admins and farmers.",
+        "operationId": "getByProductId",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product to retrieve reviews for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/search": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Search Products",
+        "description": "Searches products based on name, category ID, farmer ID, availability, unit, and price range. Accessible by admins, users, and farmers.",
+        "operationId": "searchProducts",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "ID of the category to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "farmerId",
+            "in": "query",
+            "description": "ID of the farmer to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "available",
+            "in": "query",
+            "description": "Availability status to filter by (true/false, optional)",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "unit",
+            "in": "query",
+            "description": "Unit of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "KG",
+                "TON",
+                "LITRE",
+                "GRAM",
+                "QUINTAL",
+                "BAG"
+              ]
+            }
+          },
+          {
+            "name": "priceMin",
+            "in": "query",
+            "description": "Minimum price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "priceMax",
+            "in": "query",
+            "description": "Maximum price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/farmer/{farmerId}": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get Products by Farmer ID",
+        "description": "Retrieves all products created by a specific farmer by farmer ID. Accessible by admins and the farmer.",
+        "operationId": "getByFarmerId",
+        "parameters": [
+          {
+            "name": "farmerId",
+            "in": "path",
+            "description": "ID of the farmer to retrieve products for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/category/{categoryId}": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get Products by Category ID",
+        "description": "Retrieves all products belonging to a specific category by category ID. Accessible by admins, users, and farmers.",
+        "operationId": "getByCategoryId",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID of the category to retrieve products for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/available": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Get All Available Products",
+        "description": "Retrieves a list of all available products (quantity > 0 and marked as available). Accessible by admins, users, and farmers.",
+        "operationId": "getAllAvailable",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/status": {
+      "get": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get Payments by Status",
+        "description": "Retrieves all payments with a specific status (e.g., COMPLETED, PENDING). Accessible by admins only.",
+        "operationId": "getPaymentsByStatus",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of the payments to filter by (e.g., COMPLETED, PENDING)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/search": {
+      "get": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Search Payments",
+        "description": "Searches payments based on status, payment method, and amount range. Accessible by admins only.",
+        "operationId": "searchPayments",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of the payments to filter by (e.g., COMPLETED, PENDING, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED"
+              ]
+            }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "Payment method to filter by (e.g., CREDIT_CARD, PAYPAL, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CARD",
+                "UPI",
+                "COD",
+                "WALLET"
+              ]
+            }
+          },
+          {
+            "name": "minAmount",
+            "in": "query",
+            "description": "Minimum amount to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "maxAmount",
+            "in": "query",
+            "description": "Maximum amount to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/order/{orderId}": {
+      "get": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get Payment by Order ID",
+        "description": "Retrieves the payment associated with a specific order ID. Accessible by admins and users.",
+        "operationId": "getPaymentByOrderId",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of the order to retrieve the payment for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/method": {
+      "get": {
+        "tags": [
+          "Payment Management"
+        ],
+        "summary": "Get Payments by Method",
+        "description": "Retrieves all payments made using a specific payment method (e.g., CREDIT_CARD, PAYPAL). Accessible by admins only.",
+        "operationId": "getPaymentsByMethod",
+        "parameters": [
+          {
+            "name": "method",
+            "in": "query",
+            "description": "Payment method to filter by (e.g., CREDIT_CARD, PAYPAL)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CARD",
+                "UPI",
+                "COD",
+                "WALLET"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "get": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Get Order by ID",
+        "description": "Retrieves a specific order by its ID. Accessible by admins and users.",
+        "operationId": "getOrderById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the order to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Delete an Order",
+        "description": "Deletes an order by its ID. Accessible by admins only.",
+        "operationId": "deleteOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the order to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/user/{userId}": {
+      "get": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Get Orders by User ID",
+        "description": "Retrieves all orders associated with a specific user ID. Accessible by admins and the user.",
+        "operationId": "getOrdersByUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose orders are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/search": {
+      "get": {
+        "tags": [
+          "Order Management"
+        ],
+        "summary": "Search Orders",
+        "description": "Searches orders based on user ID, date range, status, and total price range. Accessible by admins and users.",
+        "operationId": "searchOrders",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID of the user to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "description": "Start date and time to filter by (ISO format, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "description": "End date and time to filter by (ISO format, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of the order to filter by (e.g., PENDING, PAID, optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "PAID",
+                "CONFIRMED",
+                "SHIPPED",
+                "DELIVERED",
+                "CANCELLED"
+              ]
+            }
+          },
+          {
+            "name": "minTotalPrice",
+            "in": "query",
+            "description": "Minimum total price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "maxTotalPrice",
+            "in": "query",
+            "description": "Maximum total price to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/{id}/download": {
+      "get": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Download an Image",
+        "description": "Downloads a specific image by its ID as a byte array. Accessible by admins, users, and farmers.",
+        "operationId": "downloadImage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the image to download",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/search": {
+      "get": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Search Images",
+        "description": "Searches images based on entity type, entity ID, file type, size range, and file name. Accessible by admins only.",
+        "operationId": "searchImages",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "query",
+            "description": "Type of entity (e.g., USER, PRODUCT) to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "PRODUCT",
+                "FARMER"
+              ]
+            }
+          },
+          {
+            "name": "entityId",
+            "in": "query",
+            "description": "ID of the entity to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fileType",
+            "in": "query",
+            "description": "Type of file (e.g., JPEG, PNG) to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IMAGE_JPEG",
+                "IMAGE_PNG",
+                "VIDEO_MP4",
+                "VIDEO_MOV"
+              ]
+            }
+          },
+          {
+            "name": "minSize",
+            "in": "query",
+            "description": "Minimum size of the image in bytes (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "maxSize",
+            "in": "query",
+            "description": "Maximum size of the image in bytes (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "Name of the file to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/fileType/{fileType}": {
+      "get": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Get Images by File Type",
+        "description": "Retrieves all images of a specific file type (e.g., JPEG, PNG). Accessible by admins only.",
+        "operationId": "getByFileType",
+        "parameters": [
+          {
+            "name": "fileType",
+            "in": "path",
+            "description": "Type of file (e.g., JPEG, PNG)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "IMAGE_JPEG",
+                "IMAGE_PNG",
+                "VIDEO_MP4",
+                "VIDEO_MOV"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/images/entity/{entityType}/{entityId}": {
+      "get": {
+        "tags": [
+          "Image Management"
+        ],
+        "summary": "Get Images by Entity",
+        "description": "Retrieves all images associated with a specific entity (e.g., user, product) by entity type and ID. Accessible by admins, users, and farmers.",
+        "operationId": "getByEntity",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "path",
+            "description": "Type of entity (e.g., USER, PRODUCT)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "PRODUCT",
+                "FARMER"
+              ]
+            }
+          },
+          {
+            "name": "entityId",
+            "in": "path",
+            "description": "ID of the entity",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/farmers/search": {
+      "get": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Search Farmers",
+        "description": "Searches farmers based on farm name, farm type, location description, and government ID. Accessible by admins only.",
+        "operationId": "searchFarmers",
+        "parameters": [
+          {
+            "name": "farmName",
+            "in": "query",
+            "description": "Name of the farm to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "farmType",
+            "in": "query",
+            "description": "Type of the farm to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "locationDiscription",
+            "in": "query",
+            "description": "Location description of the farm to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "governmentId",
+            "in": "query",
+            "description": "Government ID of the farmer to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/farmers/isFarmer/{userId}": {
+      "get": {
+        "tags": [
+          "Farmer Management"
+        ],
+        "summary": "Check if User is a Farmer",
+        "description": "Checks if a user with the specified ID is a farmer. Accessible by admins and users.",
+        "operationId": "isUserFarmer",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user to check for farmer status",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories/search": {
+      "get": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Search Categories",
+        "description": "Searches categories based on name and description. Accessible by admins, users, and farmers.",
+        "operationId": "searchCategories",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the category to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Description of the category to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carts/{id}/items/search": {
+      "get": {
+        "tags": [
+          "Cart Management"
+        ],
+        "summary": "Search Items in Cart",
+        "description": "Searches for items in a specific cart by cart ID, with optional filters for product name and minimum quantity. Accessible by admins and the cart owner.",
+        "operationId": "searchItemsInCart",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cart to search items in",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "description": "Name of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "minQuantity",
+            "in": "query",
+            "description": "Minimum quantity of the product to filter by (optional)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cache/{cacheName}": {
+      "get": {
+        "tags": [
+          "Cache Management"
+        ],
+        "summary": "Get Cache Contents",
+        "description": "Retrieves the contents of a specified cache. Accessible only by admins.",
+        "operationId": "getCache",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "path",
+            "description": "Name of the cache to retrieve (e.g., orderCache, reviewCache)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cache Management"
+        ],
+        "summary": "Clear a Specific Cache",
+        "description": "Clears a specified cache (e.g., orderCache, paymentCache). Accessible only by admins.",
+        "operationId": "clearCache",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "path",
+            "description": "Name of the cache to clear (e.g., orderCache, reviewCache)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cache/status/{cacheName}": {
+      "get": {
+        "tags": [
+          "Cache Management"
+        ],
+        "summary": "Check Cache Status",
+        "description": "Checks if a specified cache is empty. Accessible only by admins.",
+        "operationId": "isCacheEmpty",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "path",
+            "description": "Name of the cache to check (e.g., orderCache, reviewCache)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cache/all": {
+      "get": {
+        "tags": [
+          "Cache Management"
+        ],
+        "summary": "Get All Cache Names",
+        "description": "Retrieves a list of all cache names in the application. Accessible only by admins.",
+        "operationId": "getAllCaches",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cache Management"
+        ],
+        "summary": "Clear All Caches",
+        "description": "Clears all caches in the application. Accessible only by admins.",
+        "operationId": "clearAllCaches",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/email-service/status": {
+      "get": {
+        "tags": [
+          "Admin Management"
+        ],
+        "summary": "Get Email Service Status",
+        "description": "Checks the current status of the email service. Accessible by admins only.",
+        "operationId": "getEmailServiceStatus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/user/{userId}": {
+      "get": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get Addresses by User ID",
+        "description": "Retrieves all addresses associated with a specific user ID. Accessible by admins and the user.",
+        "operationId": "getByUserId_1",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose addresses are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/user/me": {
+      "get": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Get Addresses of Current User",
+        "description": "Retrieves all addresses of the currently authenticated user. Accessible by users and farmers.",
+        "operationId": "getByCurrentUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/search": {
+      "get": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Search Addresses",
+        "description": "Searches addresses based on various criteria such as pin code, district, street, state, address type, and user ID. Accessible by admins, users, and farmers.",
+        "operationId": "searchAddresses",
+        "parameters": [
+          {
+            "name": "pinCode",
+            "in": "query",
+            "description": "Pin code of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "description": "District of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Street name of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "State ID of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "addressType",
+            "in": "query",
+            "description": "Type of the address (e.g., billing, shipping)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID of the user associated with the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/addresses/search/me": {
+      "get": {
+        "tags": [
+          "Address Management"
+        ],
+        "summary": "Search Addresses for Current User",
+        "description": "Searches addresses of the currently authenticated user based on criteria such as pin code, district, street, state, and address type. Accessible by users and farmers.",
+        "operationId": "searchAddressesForCurrentUser",
+        "parameters": [
+          {
+            "name": "pinCode",
+            "in": "query",
+            "description": "Pin code of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "description": "District of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Street name of the address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "State ID of the address",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "addressType",
+            "in": "query",
+            "description": "Type of the address (e.g., billing, shipping)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenericResponse": {
+        "type": "object",
+        "description": "Generic API response wrapper",
+        "properties": {
+          "responseStatus": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the response",
+            "example": "success"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "properties": {
+          "message": {
+            "example": "Error message"
+          },
+          "timestamp": {
+            "format": "date-time"
+          },
+          "status": {
+            "example": "failed"
+          }
+        }
+      },
+      "ImageDTO": {
+        "type": "object",
+        "description": "Data Transfer Object for an image associated with an entity",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the image",
+            "example": 1
+          },
+          "fileName": {
+            "type": "string",
+            "description": "Original name of the uploaded file",
+            "example": "image.jpg"
+          },
+          "savedName": {
+            "type": "string",
+            "description": "Name under which the file is stored",
+            "example": "image_20250603_1511.jpg"
+          },
+          "fileType": {
+            "type": "string",
+            "description": "Type of the file",
+            "enum": [
+              "IMAGE_JPEG",
+              "IMAGE_PNG",
+              "VIDEO_MP4",
+              "VIDEO_MOV"
+            ],
+            "example": "IMAGE_PNG"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Size of the file in bytes",
+            "example": 102400
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Type of entity associated with the image",
+            "enum": [
+              "USER",
+              "PRODUCT",
+              "FARMER"
+            ],
+            "example": "FARMER"
+          },
+          "entityId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the entity associated with the image",
+            "example": 1,
+            "minimum": 1
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "description": "Indicates if this is the primary image for the entity",
+            "example": true
+          }
+        },
+        "required": [
+          "entityId",
+          "entityType",
+          "fileName",
+          "fileType"
+        ]
+      },
+      "UserDTO": {
+        "type": "object",
+        "description": "User details for registration",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the user",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the user",
+            "example": "John Doe",
+            "maxLength": 50,
+            "minLength": 3
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the user",
+            "example": "john.doe@example.com",
+            "pattern": "^[A-Za-z0-9+_.-]+@(.+)$"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the user account",
+            "example": "securePass123",
+            "maxLength": 20,
+            "minLength": 6
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number of the user",
+            "example": 9876543210,
+            "pattern": "^\\d{10}$"
+          },
+          "image": {
+            "$ref": "#/components/schemas/ImageDTO",
+            "description": "Image associated with the user"
+          }
+        },
+        "required": [
+          "email",
+          "name",
+          "password",
+          "phone"
+        ]
+      },
+      "ReviewDTO": {
+        "type": "object",
+        "description": "Review details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the review",
+            "example": 1
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Rating given in the review (1 to 5)",
+            "example": 4,
+            "maximum": 5,
+            "minimum": 1
+          },
+          "comment": {
+            "type": "string",
+            "description": "Comment provided in the review",
+            "example": "Great product!",
+            "maxLength": 300
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the product being reviewed",
+            "example": 1,
+            "minimum": 1
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the user who submitted the review",
+            "example": 1,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "productId",
+          "rating",
+          "userId"
+        ]
+      },
+      "ProductDTO": {
+        "type": "object",
+        "description": "Product details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the product",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product",
+            "example": "Fresh Tomatoes",
+            "maxLength": 100,
+            "minLength": 2
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the product",
+            "example": "Organic tomatoes grown locally",
+            "maxLength": 300
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the category the product belongs to",
+            "example": 1,
+            "minimum": 1
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "Price of the product",
+            "example": 50.0,
+            "minimum": 0.01
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double",
+            "description": "Quantity of the product",
+            "example": 10.5,
+            "minimum": 0.01
+          },
+          "unit": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unit of measurement for the product quantity",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ],
+            "example": 1
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Expiry date of the product (must be in the future if provided)",
+            "example": "2025-12-31T23:59:59"
+          },
+          "farmerId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the farmer who owns the product",
+            "example": 1,
+            "minimum": 1
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Availability status of the product",
+            "example": true
+          },
+          "images": {
+            "type": "array",
+            "description": "List of images associated with the product",
+            "items": {
+              "$ref": "#/components/schemas/ImageDTO"
+            }
+          }
+        },
+        "required": [
+          "available",
+          "categoryId",
+          "farmerId",
+          "name",
+          "price",
+          "quantity",
+          "unit"
+        ]
+      },
+      "PaymentDTO": {
+        "type": "object",
+        "description": "Payment details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the payment",
+            "example": 1
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Transaction ID for the payment",
+            "example": "TXN123456789"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Amount of the payment",
+            "example": 1500.5,
+            "minimum": 0.01
+          },
+          "ordersId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the order associated with the payment",
+            "example": 1,
+            "minimum": 1
+          },
+          "paymentStatus": {
+            "type": "string",
+            "description": "Status of the payment",
+            "enum": [
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "CANCELLED"
+            ],
+            "example": "COMPLETED"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Method used for the payment",
+            "enum": [
+              "CARD",
+              "UPI",
+              "COD",
+              "WALLET"
+            ],
+            "example": "CARD"
+          }
+        },
+        "required": [
+          "amount",
+          "ordersId",
+          "paymentMethod",
+          "paymentStatus",
+          "transactionId"
+        ]
+      },
+      "FarmerDTO": {
+        "type": "object",
+        "description": "Farmer details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the farmer",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the user associated with the farmer",
+            "example": 1,
+            "minimum": 1
+          },
+          "farmName": {
+            "type": "string",
+            "description": "Name of the farm",
+            "example": "Green Acres",
+            "maxLength": 50,
+            "minLength": 2
+          },
+          "farmType": {
+            "type": "string",
+            "description": "Type of the farm",
+            "example": "Organic"
+          },
+          "locationDiscription": {
+            "type": "string",
+            "description": "Description of the farm's location",
+            "example": "Near River Road, Village X",
+            "maxLength": 200
+          },
+          "governmentId": {
+            "type": "string",
+            "description": "Government-issued ID of the farmer",
+            "example": "ABC123456789"
+          },
+          "images": {
+            "type": "array",
+            "description": "List of images associated with the farmer",
+            "items": {
+              "$ref": "#/components/schemas/ImageDTO"
+            }
+          }
+        },
+        "required": [
+          "farmName",
+          "farmType",
+          "locationDiscription",
+          "userId"
+        ]
+      },
+      "CategoryDTO": {
+        "type": "object",
+        "description": "Category details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the category",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category",
+            "example": "Vegetables",
+            "maxLength": 50,
+            "minLength": 3
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the category",
+            "example": "Fresh vegetables"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CartDTO": {
+        "type": "object",
+        "description": "Cart details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the cart",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the user associated with the cart",
+            "example": 1,
+            "minimum": 1
+          },
+          "items": {
+            "type": "array",
+            "description": "List of items in the cart",
+            "items": {
+              "$ref": "#/components/schemas/CartItemDTO"
+            }
+          }
+        },
+        "required": [
+          "userId"
+        ]
+      },
+      "CartItemDTO": {
+        "type": "object",
+        "description": "Details of the cart item to add",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the product in the cart",
+            "example": 1,
+            "minimum": 1
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Quantity of the product in the cart",
+            "example": 2,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "productId",
+          "quantity"
+        ]
+      },
+      "AddressDTO": {
+        "type": "object",
+        "description": "Address details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the address",
+            "example": 1
+          },
+          "pinCode": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Postal PIN code (must be a 6-digit number)",
+            "example": 123456,
+            "maximum": 999999,
+            "minimum": 100000
+          },
+          "street": {
+            "type": "string",
+            "description": "Street address",
+            "example": 123,
+            "maxLength": 100
+          },
+          "district": {
+            "type": "string",
+            "description": "District of the address",
+            "example": "Mumbai",
+            "maxLength": 50
+          },
+          "addressType": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Type of address (e.g., Home, Work)",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "example": 1
+          },
+          "state": {
+            "type": "integer",
+            "format": "int32",
+            "description": "State identifier (e.g., representing Indian states)",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24",
+              "25",
+              "26",
+              "27",
+              "28",
+              "29",
+              "30",
+              "31",
+              "32",
+              "33",
+              "34",
+              "35",
+              "36"
+            ],
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the user associated with this address",
+            "example": 1
+          }
+        },
+        "required": [
+          "addressType",
+          "district",
+          "pinCode",
+          "state",
+          "street"
+        ]
+      },
+      "PaginationRequest": {
+        "type": "object",
+        "description": "Pagination details (page number, size, sort)",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Page number (0-based)",
+            "example": 0,
+            "minimum": 0
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items per page",
+            "example": 10,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "sortBy": {
+            "type": "string",
+            "description": "Field to sort by",
+            "enum": [
+              "id",
+              "name",
+              "price",
+              "createdAt"
+            ],
+            "example": "id"
+          },
+          "ascending": {
+            "type": "boolean",
+            "description": "Sort direction (true for ascending, false for descending)",
+            "example": true
+          }
+        }
+      },
+      "OrderItemDTO": {
+        "type": "object",
+        "description": "Request DTO for an item in an order",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the product",
+            "example": 1,
+            "minimum": 1
+          },
+          "productName": {
+            "type": "string",
+            "description": "Name of the product",
+            "example": "Fresh Tomatoes",
+            "maxLength": 100,
+            "minLength": 2
+          },
+          "priceAtPurchase": {
+            "type": "number",
+            "format": "double",
+            "description": "Price of the product at the time of purchase",
+            "example": 50.0,
+            "minimum": 0.01
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Quantity of the product ordered",
+            "example": 2,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "priceAtPurchase",
+          "productId",
+          "productName",
+          "quantity"
+        ]
+      },
+      "OrdersDTO": {
+        "type": "object",
+        "description": "Order details to create",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the order (optional for creation, required for update)",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the user who placed the order",
+            "example": 101,
+            "minimum": 1
+          },
+          "orderDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time when the order was placed (auto-generated if not provided)",
+            "example": "2025-06-23T00:31:00"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the order",
+            "enum": [
+              "PENDING",
+              "PAID",
+              "CONFIRMED",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ],
+            "example": "PENDING"
+          },
+          "totalPrice": {
+            "type": "number",
+            "format": "double",
+            "description": "Total price of the order (auto-calculated if not provided)",
+            "example": 150.5,
+            "minimum": 0.01
+          },
+          "items": {
+            "type": "array",
+            "description": "List of items in the order",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDTO"
+            }
+          }
+        },
+        "required": [
+          "items",
+          "status",
+          "userId"
+        ]
+      },
+      "ML7Dto": {
+        "type": "object",
+        "description": "Input data for Model 7 prediction (e.g., soil NPK levels, crop type)",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the ML7 data entry",
+            "example": 1
+          },
+          "temparature": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Temperature in degrees Celsius",
+            "example": 30,
+            "maximum": 39,
+            "minimum": 24
+          },
+          "humidity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Humidity percentage",
+            "example": 60,
+            "maximum": 73,
+            "minimum": 49
+          },
+          "moisture": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Moisture level (sensor reading)",
+            "example": 50,
+            "maximum": 66,
+            "minimum": 24
+          },
+          "nitrogen": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Nitrogen level in the soil",
+            "example": 30,
+            "maximum": 43,
+            "minimum": 3
+          },
+          "potassium": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Potassium level in the soil",
+            "example": 15,
+            "maximum": 20,
+            "minimum": 0
+          },
+          "phosphorous": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Phosphorus level in the soil",
+            "example": 20,
+            "maximum": 43,
+            "minimum": 0
+          },
+          "soil_type": {
+            "type": "string",
+            "description": "Type of soil",
+            "enum": [
+              "Sandy",
+              "Loamy",
+              "Clay",
+              "Silty"
+            ],
+            "example": "Loamy"
+          },
+          "crop_type": {
+            "type": "string",
+            "description": "Type of crop",
+            "enum": [
+              "Wheat",
+              "Rice",
+              "Maize",
+              "Barley"
+            ],
+            "example": "Wheat"
+          }
+        },
+        "required": [
+          "crop_type",
+          "humidity",
+          "moisture",
+          "nitrogen",
+          "phosphorous",
+          "potassium",
+          "soil_type",
+          "temparature"
+        ]
+      },
+      "ML6Dto": {
+        "type": "object",
+        "description": "Input data for Model 6 prediction (e.g., soil moisture, rainfall)",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the ML6 data entry",
+            "example": 1
+          },
+          "moisture": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Moisture level (sensor reading)",
+            "example": 500,
+            "maximum": 1023,
+            "minimum": 4
+          },
+          "temp": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Temperature in degrees Celsius",
+            "example": 25,
+            "maximum": 46,
+            "minimum": 9
+          }
+        },
+        "required": [
+          "moisture",
+          "temp"
+        ]
+      },
+      "ML5Dto": {
+        "type": "object",
+        "description": "Input data for Model 5 prediction (e.g., soil pH, temperature)",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Unique identifier for the ML5 data entry",
+            "example": 1
+          },
+          "n": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Nitrogen (N) level in the soil",
+            "example": 100,
+            "maximum": 145,
+            "minimum": 0
+          },
+          "p": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Phosphorus (P) level in the soil",
+            "example": 50,
+            "maximum": 150,
+            "minimum": 0
+          },
+          "k": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Potassium (K) level in the soil",
+            "example": 150,
+            "maximum": 210,
+            "minimum": 0
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double",
+            "description": "Temperature in degrees Celsius",
+            "example": 25.5,
+            "maximum": 44,
+            "minimum": 8
+          },
+          "humidity": {
+            "type": "number",
+            "format": "double",
+            "description": "Humidity percentage",
+            "example": 65.5,
+            "maximum": 99.99,
+            "minimum": 14
+          },
+          "ph": {
+            "type": "number",
+            "format": "double",
+            "description": "pH level of the soil",
+            "example": 6.5,
+            "maximum": 10,
+            "minimum": 3
+          },
+          "rainfall": {
+            "type": "number",
+            "format": "double",
+            "description": "Rainfall in millimeters",
+            "example": 150.0,
+            "maximum": 300,
+            "minimum": 10
+          }
+        },
+        "required": [
+          "humidity",
+          "k",
+          "n",
+          "p",
+          "ph",
+          "rainfall",
+          "temperature"
+        ]
+      },
+      "EmailVerificationRequest": {
+        "type": "object",
+        "description": "Email verification details including email and verification code.",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email address of the user to verify",
+            "example": "user@example.com"
+          },
+          "verificationCode": {
+            "type": "string",
+            "description": "The verification code sent to the email for verification",
+            "example": 123456
+          }
+        }
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "description": "Request object to reset password using a verification token",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address of the user",
+            "example": "john.doe@example.com",
+            "pattern": "^[A-Za-z0-9+_.-]+@(.+)$"
+          },
+          "verificationCode": {
+            "type": "string",
+            "description": "The verification code sent to the email for verification",
+            "example": "1A2BC3",
+            "maxLength": 6,
+            "minLength": 6
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "New password to be set for the account",
+            "example": "newStrongPass456",
+            "maxLength": 30,
+            "minLength": 8
+          }
+        },
+        "required": [
+          "email",
+          "newPassword",
+          "verificationCode"
+        ]
+      },
+      "ResendVerificationRequest": {
+        "type": "object",
+        "description": "The email address to resend the verification code",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email address of the user to resend the verification code to",
+            "example": "user@example.com"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "description": "Login credentials (e.g., username and password)",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address of the user",
+            "example": "john.doe@example.com",
+            "pattern": "^[A-Za-z0-9+_.-]+@(.+)$"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the user account",
+            "example": "securePass123",
+            "maxLength": 20,
+            "minLength": 6
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "description": "Request object to initiate a password reset process",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address of the user requesting password reset",
+            "example": "john.doe@example.com",
+            "pattern": "^[A-Za-z0-9+_.-]+@(.+)$"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "description": "Request object for changing user password",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "description": "Current password of the user (used for confirmation)",
+            "example": "oldSecurePass123",
+            "maxLength": 20,
+            "minLength": 6
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "New password for the user account",
+            "example": "newStrongPass456",
+            "maxLength": 20,
+            "minLength": 6
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
+      },
+      "ChangeEmailRequest": {
+        "type": "object",
+        "description": "Request object to change the user's registered email address",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "description": "Current password of the user (required for confirmation before changing email)",
+            "example": "securePass123"
+          },
+          "newEmail": {
+            "type": "string",
+            "description": "New email address to be linked with the account",
+            "example": "new.email@example.com",
+            "pattern": "^[A-Za-z0-9+_.-]+@(.+)$"
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newEmail"
+        ]
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request due to invalid input",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Access forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "name": "Authorization",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

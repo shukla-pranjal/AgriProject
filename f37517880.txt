@@ -541,10 +541,116 @@ Maybe even Cacheable at the same time
 
 
 
+127.0.0.1:6379> ACL USERS
+1) "default"
+127.0.0.1:6379> ACL WHOAMI
+"default"
+127.0.0.1:6379> TIME
+1) "1756486873"
+2) "168100"
+127.0.0.1
+:6379> help
+redis-cli 7.0.15
 
 
-agri_eureka/Dockerfile
-ML_py/Dockerfile
-FarmFlow/Dockerfile
 
-i removed agriproject_java this 
+
+7.0.0.1:6379> client info
+id=3 addr=127.0.0.1:48750 laddr=127.0.0.1:6379 fd=8 name= age=91 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 qbuf=26 qbuf-free=20448 argv-mem=10 multi-mem=0 rbs=1024 rbp=0 obl=0 oll=0 omem=0 tot-mem=22298 events=r cmd=client|info user=default redir=-1 resp=2
+
+
+echo hello\
+"hello\\"
+
+
+client list
+id=3 addr=127.0.0.1:48750 laddr=127.0.0.1:6379 fd=8 name= age=134 idle=0 flags=N db=0 sub=0 psub=0 
+
+
+
+127.0.0.1:6379> help string
+
+127.0.0.1:6379> help @string
+
+  APPEND key value
+  summary: Append 
+
+
+
+
+REDIS types
+    String
+        The most basic redis string any type of data or binary data
+
+        SET key value
+        GET key
+        INCR key
+        APPEND key value
+
+    getrange <key> <start> <end> 
+        getting substring, inclusive
+
+
+    Hashes
+        a collection of key - value both string,   representing object
+
+        HSET key field value
+        HSET key field
+        HGETALL key
+        HDEL key field
+        HEXIST key
+        HKEYS key
+            to get all keys
+
+        HMSET key value [field value ..]
+            setting multiple value
+
+
+
+    Lists
+        ordered collection of string
+
+        LPUSH key val1 val2
+
+        LSET 
+        LLEN key
+        LRANGE key start end
+
+
+
+        it is in reverse as, we are pushing
+
+
+        for same ordering we can use RPUSH
+            (right push)
+
+        LPOP
+        RPOP
+         
+
+
+        LINDEX key index
+            returns value in that index
+
+        LINSERT key BEFORE | AFTER pivot element
+
+        inserts an element before or after another elemeent in list
+
+
+    Set 
+        unordered collection of unque striing
+
+
+        SADD key x1 s2 x3
+        SACARD
+
+
+    geospatial indexes
+        store geospatial indexes & perform queries by radius or bouding box
+
+    stream
+        used for managing data logs & real time messaging streaming
+
+
+
+

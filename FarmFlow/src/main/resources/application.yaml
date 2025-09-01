@@ -1,58 +1,60 @@
-version: '3.9'
+spring:
+  application:
+    name: AGRI-JAVA
+  datasource:
+    url: jdbc:mysql://localhost:3306/agri
+    username: root
+    password: 09072005
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
-services:
-  # ML Service
-  ml_service:
-    image: pranjalkumar09/agriproject_ml:latest
-    container_name: ml_service
-    ports:
-      - "5000:5000"
-    networks:
-      - agri-network
+  cache: #TODO
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=3h
 
-  # Eureka Server
-  eureka:
-    image: pranjalkumar09/agri_eureka:latest 
-    container_name: agri_eureka
-    ports:
-      - "8761:8761"
-    networks:
-      - agri-network
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: debuggerdiaries@gmail.com
+    password: pawgeywzrvxhkmqx
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.debug: true
 
-  # FarmFlow App
-  farmflow:
-    image: pranjalkumar09/farmflow:latest    # Replace with your published FarmFlow image
-    container_name: farmflow-app
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/agri
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 09072005
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
-    depends_on:
-      - mysql
-      - eureka
-    networks:
-      - agri-network
 
-  # MySQL Database
-  mysql:
-    image: mysql:8.1
-    container_name: farmflow-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: 09072005
-      MYSQL_DATABASE: agri
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - agri-network
 
-volumes:
-  mysql-data:
 
-networks:
-  agri-network:
-    driver: bridge
+file:
+  upload:
+    path: files/
+management:
+  endpoints:
+    web:
+      exposure: # TODO  change include exclude in prod
+        include: "*"
+#        exclude: beans, logger
+  endpoint:
+
+    health:
+      show-details: always
+    shutdown:
+      access: unrestricted
+
+
+springdoc:
+  api-docs:
+    path: /farmer_app_shopping-docs
+#    enabled: true # todo it false in production
+  swagger-ui:
+    path: /farmer_app_shopping-doc
+    operationsSorter: method
+server:
+  port: 8080
