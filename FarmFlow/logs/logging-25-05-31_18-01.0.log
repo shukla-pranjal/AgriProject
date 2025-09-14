@@ -1,0 +1,12 @@
+2025-05-31 18:01:01.987 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 18:01:01.989 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - Message :/farmer_app_shopping-docs
+2025-05-31 18:01:01.989 INFO  [http-nio-8080-exec-8] c.t.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs
+2025-05-31 18:01:02.147 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 18:01:02.147 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 18:01:02.148 INFO  [http-nio-8080-exec-7] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-05-31 18:01:05.589 INFO  [http-nio-8080-exec-9] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 18:01:05.589 INFO  [http-nio-8080-exec-9] c.t.config.security.JwtFilter - Message :/farmer_app_shopping-docs/
+2025-05-31 18:01:05.589 INFO  [http-nio-8080-exec-9] c.t.config.security.JwtFilter - Skipping JWT Filter for: /farmer_app_shopping-docs/
+2025-05-31 18:01:05.718 INFO  [http-nio-8080-exec-10] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-05-31 18:01:05.719 INFO  [http-nio-8080-exec-10] c.t.config.security.JwtFilter - Message :/favicon.ico
+2025-05-31 18:01:05.719 INFO  [http-nio-8080-exec-10] c.t.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End

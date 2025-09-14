@@ -1,0 +1,18 @@
+2025-06-29 18:18:07.845 INFO  [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-06-29 18:18:15.305 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-06-29 18:18:15.305 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Message :/api/v1/cache/all
+2025-06-29 18:18:15.306 WARN  [http-nio-8080-exec-10] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-06-29 18:18:15.306 WARN  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-06-29 18:18:15.306 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [anonymous] [JwtServiceImpl.extractUsername()] Entering method - Args: [eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfQURNSU4iXSwiaWQiOjI0LCJzdGF0dXMiOnRydWUsInN1YiI6ImVtYXNzc2VmaWwxMjNAZ21haWwuY29tIiwiaWF0IjoxNzUxMjAxMTg0LCJleHAiOjE3NTEyODc1ODR9.Cj-qGCMFVrmSqNCNSDZgiv6_eZNx_CwwFHvgp6dkfTU]
+2025-06-29 18:18:15.324 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [anonymous] [JwtServiceImpl.extractUsername()] Exiting method - Duration: 18 ms, Result: emasssefil123@gmail.com
+2025-06-29 18:18:15.324 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Extracted username: emasssefil123@gmail.com
+2025-06-29 18:18:15.413 WARN  [http-nio-8080-exec-10] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-06-29 18:18:15.413 WARN  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-06-29 18:18:15.413 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [anonymous] [JwtServiceImpl.validateToken()] Entering method - Args: [eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfQURNSU4iXSwiaWQiOjI0LCJzdGF0dXMiOnRydWUsInN1YiI6ImVtYXNzc2VmaWwxMjNAZ21haWwuY29tIiwiaWF0IjoxNzUxMjAxMTg0LCJleHAiOjE3NTEyODc1ODR9.Cj-qGCMFVrmSqNCNSDZgiv6_eZNx_CwwFHvgp6dkfTU, com.farmflow.config.security.CustomUserDetails@96b9159]
+2025-06-29 18:18:15.417 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [anonymous] [JwtServiceImpl.validateToken()] Exiting method - Duration: 3 ms, Result: true
+2025-06-29 18:18:15.418 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Authentication set for user: emasssefil123@gmail.com
+2025-06-29 18:18:15.418 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-06-29 18:18:15.449 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [24] [CacheController.getAllCaches()] Entering method - Args: []
+2025-06-29 18:18:15.450 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [24] [CacheManagerServiceImpl.getAllCacheNames()] Entering method - Args: []
+2025-06-29 18:18:15.450 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [24] [CacheManagerServiceImpl.getAllCacheNames()] Exiting method - Duration: 0 ms, Result: []
+2025-06-29 18:18:15.450 INFO  [http-nio-8080-exec-10] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:18:15] [req-40876422780270-6125] [24] [CacheController.getAllCaches()] Exiting method - Duration: 0 ms, Result: <200 OK OK,{timestamp=2025-06-29T18:18:15.450856506, status=success, message=Operation Success},[]>

@@ -1,0 +1,60 @@
+2025-06-29 18:13:00.120 INFO  [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-06-29 18:13:03.223 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-06-29 18:13:03.224 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-06-29 18:13:04.033 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-29 18:13:04.193 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-06-29 18:13:04.340 INFO  [restartedMain] o.s.c.o.FeignClientFactoryBean - For 'ML-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2025-06-29 18:13:05.759 INFO  [restartedMain] o.s.b.a.e.web.EndpointLinksResolver - Exposing 18 endpoints beneath base path '/actuator'
+2025-06-29 18:13:05.841 INFO  [restartedMain] c.f.config.security.SecurityConfig - SecurityConfig : securityFilterChain() : Execution Start
+2025-06-29 18:13:05.886 INFO  [restartedMain] c.f.config.security.SecurityConfig - SecurityConfig : securityFilterChain() : Execution Complete
+2025-06-29 18:13:06.185 INFO  [restartedMain] o.s.v.b.OptionalValidatorFactoryBean - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-06-29 18:13:07.515 INFO  [restartedMain] o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2025-06-29 18:13:07.614 WARN  [restartedMain] o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-06-29 18:13:07.782 INFO  [restartedMain] o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2025-06-29 18:13:07.823 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-06-29 18:13:07.829 INFO  [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-06-29 18:13:07.841 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-06-29 18:13:07.842 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-06-29 18:13:07.842 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-06-29 18:13:07.842 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-06-29 18:13:07.842 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-06-29 18:13:07.842 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-06-29 18:13:07.842 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-06-29 18:13:08.545 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-06-29 18:13:08.547 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-06-29 18:13:08.550 INFO  [restartedMain] c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-06-29 18:13:08.552 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1751200988551 with initial instances count: 0
+2025-06-29 18:13:08.569 INFO  [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry - Registering application AGRI-JAVA with eureka with status UP
+2025-06-29 18:13:08.570 INFO  [restartedMain] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1751200988570, current=UP, previous=STARTING]
+2025-06-29 18:13:08.572 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-06-29 18:13:08.572 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.236.2:AGRI-JAVA:8080: registering service...
+2025-06-29 18:13:08.587 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-06-29 18:13:08.588 INFO  [restartedMain] o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8080
+2025-06-29 18:13:08.646 INFO  [restartedMain] com.farmflow.FarmFlowApplication - Started FarmFlowApplication in 19.69 seconds (process running for 22.067)
+2025-06-29 18:13:08.760 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.236.2:AGRI-JAVA:8080 - registration status: 204
+2025-06-29 18:13:09.155 INFO  [RMI TCP Connection(2)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-29 18:13:09.156 INFO  [RMI TCP Connection(2)-127.0.0.1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-29 18:13:09.165 INFO  [RMI TCP Connection(2)-127.0.0.1] o.s.web.servlet.DispatcherServlet - Completed initialization in 8 ms
+2025-06-29 18:13:17.982 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
+2025-06-29 18:13:17.983 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - Message :/api/v1/auth/login
+2025-06-29 18:13:17.985 INFO  [http-nio-8080-exec-1] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End
+2025-06-29 18:13:18.188 WARN  [http-nio-8080-exec-1] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-06-29 18:13:18.189 WARN  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-06-29 18:13:18.191 INFO  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:13:18] [req-40579301787060-1164] [anonymous] [AuthController.login()] Entering method - Args: [LoginRequest(email=emasssefil123@gmail.com, password=password)]
+2025-06-29 18:13:18.192 WARN  [http-nio-8080-exec-1] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-06-29 18:13:18.193 WARN  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-06-29 18:13:18.193 INFO  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:13:18] [req-40579301787060-1164] [anonymous] [AuthServiceImpl.login()] Entering method - Args: [LoginRequest(email=emasssefil123@gmail.com, password=password)]
+2025-06-29 18:13:18.969 WARN  [http-nio-8080-exec-1] com.farmflow.util.CommonUtil - No authenticated user found, returning null.
+2025-06-29 18:13:18.969 WARN  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - No authenticated user found, falling back to anonymous.
+2025-06-29 18:13:18.971 INFO  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:13:18] [req-40579301787060-1164] [anonymous] [JwtServiceImpl.generateToken()] Entering method - Args: [User(name=email23, email=emasssefil123@gmail.com, password=$2a$10$RJoTmzG5sR7Jnc/uW5gyF.JsHMYZZTRyLheBgTZJDb9Lbh5whZ.ZS, phone=1234567890, image=null, roles=[ROLE_USER], status=com.farmflow.entity.AccountMetadata@1aaa7431)]
+2025-06-29 18:13:19.164 INFO  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:13:18] [req-40579301787060-1164] [anonymous] [JwtServiceImpl.generateToken()] Exiting method - Duration: 193 ms, Result: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJpZCI6MjQsInN0YXR1cyI6dHJ1ZSwic3ViIjoiZW1hc3NzZWZpbDEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NTEyMDA5OTksImV4cCI6MTc1MTI4NzM5OX0.DbSmf1NbA9C87_ZpTeOBwyDgp3e0aPWkMo-UuyvuNns
+2025-06-29 18:13:19.180 INFO  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:13:18] [req-40579301787060-1164] [anonymous] [AuthServiceImpl.login()] Exiting method - Duration: 986 ms, Result: LoginResponse(user=UserDTO(id=24, name=email23, email=emasssefil123@gmail.com, password=$2a$10$RJoTmzG5sR7Jnc/uW5gyF.JsHMYZZTRyLheBgTZJDb9Lbh5whZ.ZS, phone=1234567890, image=null), token=eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJpZCI6MjQsInN0YXR1cyI6dHJ1ZSwic3ViIjoiZW1hc3NzZWZpbDEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NTEyMDA5OTksImV4cCI6MTc1MTI4NzM5OX0.DbSmf1NbA9C87_ZpTeOBwyDgp3e0aPWkMo-UuyvuNns)
+2025-06-29 18:13:19.193 INFO  [http-nio-8080-exec-1] com.farmflow.aspect.LoggingAspect - [2025-06-29 18:13:18] [req-40579301787060-1164] [anonymous] [AuthController.login()] Exiting method - Duration: 1001 ms, Result: <201 CREATED Created,{timestamp=2025-06-29T18:13:19.192964886, status=success, message=Operation Success, data=LoginResponse(user=UserDTO(id=24, name=email23, email=emasssefil123@gmail.com, password=$2a$10$RJoTmzG5sR7Jnc/uW5gyF.JsHMYZZTRyLheBgTZJDb9Lbh5whZ.ZS, phone=1234567890, image=null), token=eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJpZCI6MjQsInN0YXR1cyI6dHJ1ZSwic3ViIjoiZW1hc3NzZWZpbDEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NTEyMDA5OTksImV4cCI6MTc1MTI4NzM5OX0.DbSmf1NbA9C87_ZpTeOBwyDgp3e0aPWkMo-UuyvuNns)},[]>
+2025-06-29 18:13:38.548 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-06-29 18:13:38.548 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-06-29 18:13:38.549 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-06-29 18:13:38.549 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-06-29 18:13:38.549 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-06-29 18:13:38.549 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Application version is -1: false
+2025-06-29 18:13:38.550 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-06-29 18:13:38.588 INFO  [DiscoveryClient-CacheRefreshExecutor-%d] c.netflix.discovery.DiscoveryClient - The response status is 200

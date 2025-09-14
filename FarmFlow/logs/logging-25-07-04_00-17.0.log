@@ -1,0 +1,19 @@
+2025-07-04 00:17:17.852 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m7s993ms979µs336ns).
+2025-07-04 00:17:17.854 ERROR [http-nio-8080-exec-6] c.f.s.e.i.EmailComposerServiceImpl - Failed to send verification email to rebelguided@gmail.com: Error resolving template [generic-email], template might not exist or might not be accessible by any of the configured Template Resolvers
+2025-07-04 00:17:17.855 INFO  [http-nio-8080-exec-6] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:15:20] [req-12794767778336-556] [anonymous] [EmailComposerServiceImpl.sendVerificationEmail()] Exiting method - Duration: 117275 ms, Result: void
+2025-07-04 00:17:17.856 INFO  [http-nio-8080-exec-6] c.farmflow.config.AuditAwareConfig - AuditAwareConfig : getCurrentAuditor()
+2025-07-04 00:17:17.886 INFO  [http-nio-8080-exec-6] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:15:18] [req-12794767778336-556] [anonymous] [AuthServiceImpl.createUser()] Exiting method - Duration: 119636 ms, Result: UserDTO(id=31, name=John Doe, email=rebelguided@gmail.com, password=$2a$10$vBUvhxqSUzcOM72DBg.I1ua.3iwxayAyczouFgAOzmLakzKHJqHBG, phone=9876543210, image=null)
+2025-07-04 00:17:17.888 INFO  [http-nio-8080-exec-6] com.farmflow.aspect.LoggingAspect - [2025-07-04 00:15:18] [req-12794767778336-556] [anonymous] [AuthController.create()] Exiting method - Duration: 119639 ms, Result: <201 CREATED Created,{timestamp=2025-07-04T00:17:17.888082019, status=success, message=Operation Success, data=UserDTO(id=31, name=John Doe, email=rebelguided@gmail.com, password=$2a$10$vBUvhxqSUzcOM72DBg.I1ua.3iwxayAyczouFgAOzmLakzKHJqHBG, phone=9876543210, image=null)},[]>
+2025-07-04 00:17:17.945 INFO  [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application AGRI-JAVA with eureka with status DOWN
+2025-07-04 00:17:17.946 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1751568437946, current=DOWN, previous=UP]
+2025-07-04 00:17:17.946 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.218.116:AGRI-JAVA:8080: registering service...
+2025-07-04 00:17:17.953 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-04 00:17:17.954 INFO  [DiscoveryClient-InstanceInfoReplicator-%d] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.218.116:AGRI-JAVA:8080 - registration status: 204
+2025-07-04 00:17:17.960 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-04 00:17:18.068 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-04 00:17:18.071 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-07-04 00:17:18.076 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-07-04 00:17:18.077 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-07-04 00:17:21.078 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Unregistering ...
+2025-07-04 00:17:21.097 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AGRI-JAVA/172.25.218.116:AGRI-JAVA:8080 - deregister  status: 200
+2025-07-04 00:17:21.098 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient

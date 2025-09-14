@@ -1,10 +1,11 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Images
 
 on:
   push:
     branches:
       - dev 
       - p-ml_m-5
+      - p_ml_models
   workflow_dispatch: 
 
 jobs:
@@ -25,22 +26,35 @@ jobs:
         id: vars
         run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Build and Tag Docker Image
-        run: |
-          docker build -t pranjalkumar09/agriproject_java:${{ env.SHA }} AgriProject_java/
-          docker tag pranjalkumar09/agriproject_java:${{ env.SHA }} pranjalkumar09/agriproject_java:latest
-
-      - name: Push Docker Image
-        run: |
-          docker push pranjalkumar09/agriproject_java:${{ env.SHA }}
-          docker push pranjalkumar09/agriproject_java:latest
-
-      - name: Build and Tag Docker Image for ML
+      # ===== Build and Push ML Service =====
+      - name: Build and Tag ML Service Image
         run: |
           docker build -t pranjalkumar09/agriproject_ml:${{ env.SHA }} ML_py/
           docker tag pranjalkumar09/agriproject_ml:${{ env.SHA }} pranjalkumar09/agriproject_ml:latest
 
-      - name: Push Docker Image for ML
+      - name: Push ML Service Image
         run: |
           docker push pranjalkumar09/agriproject_ml:${{ env.SHA }}
           docker push pranjalkumar09/agriproject_ml:latest
+
+      # ===== Build and Push Eureka Server =====
+      - name: Build and Tag Eureka Image
+        run: |
+          docker build -t pranjalkumar09/agri_eureka:${{ env.SHA }} agri_eureka/
+          docker tag pranjalkumar09/agri_eureka:${{ env.SHA }} pranjalkumar09/agri_eureka:latest
+
+      - name: Push Eureka Image
+        run: |
+          docker push pranjalkumar09/agri_eureka:${{ env.SHA }}
+          docker push pranjalkumar09/agri_eureka:latest
+
+      # ===== Build and Push FarmFlow App =====
+      - name: Build and Tag FarmFlow Image
+        run: |
+          docker build -t pranjalkumar09/farmflow:${{ env.SHA }} FarmFlow/
+          docker tag pranjalkumar09/farmflow:${{ env.SHA }} pranjalkumar09/farmflow:latest
+
+      - name: Push FarmFlow Image
+        run: |
+          docker push pranjalkumar09/farmflow:${{ env.SHA }}
+          docker push pranjalkumar09/farmflow:latest
