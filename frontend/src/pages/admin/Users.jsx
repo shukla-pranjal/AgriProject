@@ -20,8 +20,8 @@ const AdminUsers = () => {
             if (response.status === 'success') {
                 setUsers(response.data || []);
             }
-        } catch (err) {
-            console.error('Failed to fetch users:', err);
+        } catch {
+            console.error('Failed to fetch users:');
         } finally {
             setLoading(false);
         }
@@ -31,8 +31,8 @@ const AdminUsers = () => {
         try {
             await userAPI.promoteToAdmin(userId);
             fetchUsers();
-        } catch (err) {
-            console.error('Failed to promote user:', err);
+        } catch {
+            console.error('Failed to promote user:');
         }
     };
 
@@ -40,8 +40,8 @@ const AdminUsers = () => {
         try {
             await userAPI.demoteFromAdmin(userId);
             fetchUsers();
-        } catch (err) {
-            console.error('Failed to demote user:', err);
+        } catch {
+            console.error('Failed to demote user:');
         }
     };
 

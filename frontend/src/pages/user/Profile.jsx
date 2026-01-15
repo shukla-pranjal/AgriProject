@@ -26,27 +26,27 @@ const Profile = () => {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    const fetchUserData = async () => {
-        try {
-            setLoading(true);
-            const response = await userAPI.getById(currentUser.id);
-            if (response.status === 'success') {
-                const userData = response.data;
-                setFormData({
-                    name: userData.name || '',
-                    email: userData.email || '',
-                    phone: userData.phone || ''
-                });
+        const fetchUserData = async () => {
+            try {
+                setLoading(true);
+                const response = await userAPI.getById(currentUser.id);
+                if (response.status === 'success') {
+                    const userData = response.data;
+                    setFormData({
+                        name: userData.name || '',
+                        email: userData.email || '',
+                        phone: userData.phone || ''
+                    });
+                }
+            } catch {
+                console.error('Failed to fetch user data');
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            console.error('Failed to fetch user data:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchUserData();
+    }, [currentUser.id]);
 
     const handleChange = (e) => {
         setFormData({
@@ -82,7 +82,7 @@ const Profile = () => {
                 setUser(response.data);
                 setMessage('Profile updated successfully!');
             }
-        } catch (err) {
+        } catch {
             setErrors({ submit: 'Failed to update profile' });
         } finally {
             setUpdating(false);
@@ -118,7 +118,7 @@ const Profile = () => {
 
             setMessage('Password changed successfully!');
             setPasswordData({ oldPassword: '', newPassword: '', confirmPassword: '' });
-        } catch (err) {
+        } catch {
             setErrors({ passwordSubmit: 'Failed to change password. Check your current password.' });
         } finally {
             setChangingPassword(false);

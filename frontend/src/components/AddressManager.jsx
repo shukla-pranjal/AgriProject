@@ -54,8 +54,8 @@ const AddressManager = ({ onSelect, selectedId }) => {
             if (response.status === 'success') {
                 setAddresses(response.data || []);
             }
-        } catch (err) {
-            console.error('Failed to fetch addresses:', err);
+        } catch {
+            console.error('Failed to fetch addresses:');
         } finally {
             setLoading(false);
         }
@@ -111,7 +111,7 @@ const AddressManager = ({ onSelect, selectedId }) => {
             setEditingAddress(null);
             setFormData({ street: '', district: '', pinCode: '', state: '', addressType: '' });
             fetchAddresses();
-        } catch (err) {
+        } catch {
             setErrors({ submit: 'Failed to save address' });
         }
     };
@@ -134,8 +134,8 @@ const AddressManager = ({ onSelect, selectedId }) => {
         try {
             await addressAPI.delete(id);
             fetchAddresses();
-        } catch (err) {
-            console.error('Failed to delete address:', err);
+        } catch {
+            console.error('Failed to delete address:');
         }
     };
 

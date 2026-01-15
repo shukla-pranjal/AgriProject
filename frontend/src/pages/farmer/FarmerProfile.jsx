@@ -34,45 +34,45 @@ const FarmerProfile = () => {
     ];
 
     useEffect(() => {
-        fetchFarmerProfile();
-    }, []);
-
-    const fetchFarmerProfile = async () => {
-        try {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user || !user.id) {
-                toast.error('Please login to continue');
-                navigate('/login');
-                return;
-            }
-
-            // Check if user is a farmer
-            const isFarmerResponse = await farmerAPI.isFarmer(user.id);
-
-            if (isFarmerResponse.data.status === 'success' && isFarmerResponse.data.data) {
-                const farmerResponse = await farmerAPI.getById(isFarmerResponse.data.data.id);
-
-                if (farmerResponse.data.status === 'success') {
-                    setFarmerData(farmerResponse.data.data);
-                    setFormData({
-                        farmName: farmerResponse.data.data.farmName || '',
-                        farmType: farmerResponse.data.data.farmType || '',
-                        locationDiscription: farmerResponse.data.data.locationDiscription || '',
-                        governmentId: farmerResponse.data.data.governmentId || '',
-                    });
+        const fetchFarmerProfile = async () => {
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (!user || !user.id) {
+                    toast.error('Please login to continue');
+                    navigate('/login');
+                    return;
                 }
-            } else {
-                toast.info('You are not registered as a farmer yet');
+
+                // Check if user is a farmer
+                const isFarmerResponse = await farmerAPI.isFarmer(user.id);
+
+                if (isFarmerResponse.data.status === 'success' && isFarmerResponse.data.data) {
+                    const farmerResponse = await farmerAPI.getById(isFarmerResponse.data.data.id);
+
+                    if (farmerResponse.data.status === 'success') {
+                        setFarmerData(farmerResponse.data.data);
+                        setFormData({
+                            farmName: farmerResponse.data.data.farmName || '',
+                            farmType: farmerResponse.data.data.farmType || '',
+                            locationDiscription: farmerResponse.data.data.locationDiscription || '',
+                            governmentId: farmerResponse.data.data.governmentId || '',
+                        });
+                    }
+                } else {
+                    toast.info('You are not registered as a farmer yet');
+                    navigate('/become-farmer');
+                }
+            } catch (error) {
+                console.error('Error fetching farmer profile:', error);
+                toast.error('Failed to load farmer profile');
                 navigate('/become-farmer');
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error fetching farmer profile:', error);
-            toast.error('Failed to load farmer profile');
-            navigate('/become-farmer');
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchFarmerProfile();
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

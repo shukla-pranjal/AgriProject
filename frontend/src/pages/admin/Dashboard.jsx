@@ -37,8 +37,8 @@ const AdminDashboard = () => {
                 totalOrders: orders.length,
                 pendingOrders: orders.filter(o => o.status === 'PENDING').length
             });
-        } catch (err) {
-            console.error('Failed to fetch dashboard data:', err);
+        } catch {
+            console.error('Failed to fetch dashboard data:');
         } finally {
             setLoading(false);
         }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { productAPI, orderAPI } from '../../utils/api';
+import { productAPI } from '../../utils/api';
 import { getUser } from '../../utils/auth';
 import Card from '../../components/common/Card';
 import Loading from '../../components/common/Loading';
@@ -16,28 +16,28 @@ const FarmerDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchDashboardData();
-    }, []);
+        const fetchDashboardData = async () => {
+            try {
+                setLoading(true);
+                const productsResponse = await productAPI.getByFarmer(user.farmerId);
 
-    const fetchDashboardData = async () => {
-        try {
-            setLoading(true);
-            const productsResponse = await productAPI.getByFarmer(user.farmerId);
-
-            if (productsResponse.status === 'success') {
-                const products = productsResponse.data || [];
-                setStats({
-                    totalProducts: products.length,
-                    availableProducts: products.filter(p => p.available).length,
-                    totalOrders: 0 // Would need order endpoint for farmer
-                });
+                if (productsResponse.status === 'success') {
+                    const products = productsResponse.data || [];
+                    setStats({
+                        totalProducts: products.length,
+                        availableProducts: products.filter(p => p.available).length,
+                        totalOrders: 0 // Would need order endpoint for farmer
+                    });
+                }
+            } catch {
+                console.error('Failed to fetch dashboard data');
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            console.error('Failed to fetch dashboard data:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchDashboardData();
+    }, [user.farmerId]);
 
     if (loading) return <Loading fullPage text="Loading dashboard..." />;
 

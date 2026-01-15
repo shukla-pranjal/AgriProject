@@ -19,34 +19,34 @@ const ProductDetail = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                setLoading(true);
+                const response = await productAPI.getById(id);
+                if (response.status === 'success') {
+                    setProduct(response.data);
+                }
+            } catch {
+                console.error('Failed to fetch product');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchReviews = async () => {
+            try {
+                const response = await reviewAPI.getByProduct(id);
+                if (response.status === 'success') {
+                    setReviews(response.data || []);
+                }
+            } catch {
+                console.error('Failed to fetch reviews');
+            }
+        };
+
         fetchProduct();
         fetchReviews();
     }, [id]);
-
-    const fetchProduct = async () => {
-        try {
-            setLoading(true);
-            const response = await productAPI.getById(id);
-            if (response.status === 'success') {
-                setProduct(response.data);
-            }
-        } catch (err) {
-            console.error('Failed to fetch product:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const fetchReviews = async () => {
-        try {
-            const response = await reviewAPI.getByProduct(id);
-            if (response.status === 'success') {
-                setReviews(response.data || []);
-            }
-        } catch (err) {
-            console.error('Failed to fetch reviews:', err);
-        }
-    };
 
     const handleAddToCart = async () => {
         if (!isAuthenticated()) {
@@ -72,8 +72,8 @@ const ProductDetail = () => {
             });
 
             navigate('/user/cart');
-        } catch (err) {
-            console.error('Failed to add to cart:', err);
+        } catch {
+            console.error('Failed to add to cart:');
             alert('Failed to add to cart');
         } finally {
             setAdding(false);

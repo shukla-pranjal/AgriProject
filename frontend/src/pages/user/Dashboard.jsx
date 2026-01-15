@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { orderAPI, productAPI, farmerAPI } from '../../utils/api';
+import { orderAPI, farmerAPI } from '../../utils/api';
 import { getUser } from '../../utils/auth';
 import Card from '../../components/common/Card';
 import Loading from '../../components/common/Loading';
@@ -19,43 +19,43 @@ const Dashboard = () => {
     const [checkingFarmer, setCheckingFarmer] = useState(true);
 
     useEffect(() => {
+        const checkFarmerStatus = async () => {
+            try {
+                const response = await farmerAPI.isFarmer(user.id);
+                if (response.data.status === 'success' && response.data.data) {
+                    setIsFarmer(true);
+                }
+            } catch {
+                // Silent fail
+            } finally {
+                setCheckingFarmer(false);
+            }
+        };
+
+        const fetchDashboardData = async () => {
+            try {
+                setLoading(true);
+                const ordersResponse = await orderAPI.getByUser(user.id);
+
+                if (ordersResponse.status === 'success') {
+                    const orders = ordersResponse.data || [];
+                    setStats({
+                        totalOrders: orders.length,
+                        pendingOrders: orders.filter(o => o.status === 'PENDING').length,
+                        deliveredOrders: orders.filter(o => o.status === 'DELIVERED').length
+                    });
+                    setRecentOrders(orders.slice(0, 5));
+                }
+            } catch {
+                console.error('Failed to fetch dashboard data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchDashboardData();
         checkFarmerStatus();
-    }, []);
-
-    const checkFarmerStatus = async () => {
-        try {
-            const response = await farmerAPI.isFarmer(user.id);
-            if (response.data.status === 'success' && response.data.data) {
-                setIsFarmer(true);
-            }
-        } catch (err) {
-            console.error('Failed to check farmer status:', err);
-        } finally {
-            setCheckingFarmer(false);
-        }
-    };
-
-    const fetchDashboardData = async () => {
-        try {
-            setLoading(true);
-            const ordersResponse = await orderAPI.getByUser(user.id);
-
-            if (ordersResponse.status === 'success') {
-                const orders = ordersResponse.data || [];
-                setStats({
-                    totalOrders: orders.length,
-                    pendingOrders: orders.filter(o => o.status === 'PENDING').length,
-                    deliveredOrders: orders.filter(o => o.status === 'DELIVERED').length
-                });
-                setRecentOrders(orders.slice(0, 5));
-            }
-        } catch (err) {
-            console.error('Failed to fetch dashboard data:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [user.id]);
 
     if (loading) return <Loading fullPage text="Loading dashboard..." />;
 

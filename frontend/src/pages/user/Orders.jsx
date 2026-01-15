@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { orderAPI } from '../../utils/api';
 import { getUser } from '../../utils/auth';
@@ -24,26 +24,26 @@ const Orders = () => {
     const [filter, setFilter] = useState('ALL');
     const [message, setMessage] = useState(location.state?.message || '');
 
-    useEffect(() => {
-        fetchOrders();
-        if (message) {
-            setTimeout(() => setMessage(''), 5000);
-        }
-    }, []);
-
-    const fetchOrders = async () => {
+    const fetchOrders = useCallback(async () => {
         try {
             setLoading(true);
             const response = await orderAPI.getByUser(user.id);
             if (response.status === 'success') {
                 setOrders(response.data || []);
             }
-        } catch (err) {
-            console.error('Failed to fetch orders:', err);
+        } catch {
+            console.error('Failed to fetch orders');
         } finally {
             setLoading(false);
         }
-    };
+    }, [user.id]);
+
+    useEffect(() => {
+        fetchOrders();
+        if (message) {
+            setTimeout(() => setMessage(''), 5000);
+        }
+    }, [fetchOrders, message]);
 
     const handleCancelOrder = async (orderId) => {
         if (!window.confirm('Are you sure you want to cancel this order?')) return;
@@ -51,8 +51,8 @@ const Orders = () => {
         try {
             await orderAPI.cancel(orderId);
             fetchOrders();
-        } catch (err) {
-            console.error('Failed to cancel order:', err);
+        } catch {
+            console.error('Failed to cancel order:');
         }
     };
 
@@ -60,8 +60,8 @@ const Orders = () => {
         try {
             await orderAPI.reorder(orderId);
             fetchOrders();
-        } catch (err) {
-            console.error('Failed to reorder:', err);
+        } catch {
+            console.error('Failed to reorder:');
         }
     };
 

@@ -16,22 +16,22 @@ const Cart = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchCart();
-    }, []);
-
-    const fetchCart = async () => {
-        try {
-            setLoading(true);
-            const response = await cartAPI.getByUser(user.id);
-            if (response.status === 'success') {
-                setCart(response.data);
+        const fetchCart = async () => {
+            try {
+                setLoading(true);
+                const response = await cartAPI.getByUser(user.id);
+                if (response.status === 'success') {
+                    setCart(response.data);
+                }
+            } catch {
+                setError('Failed to load cart');
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            setError('Failed to load cart');
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchCart();
+    }, [user.id]);
 
     const updateQuantity = async (productId, newQuantity) => {
         if (newQuantity < 1) return;
@@ -42,7 +42,7 @@ const Cart = () => {
             if (response.status === 'success') {
                 setCart(response.data);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to update quantity');
         } finally {
             setUpdating(false);
@@ -56,7 +56,7 @@ const Cart = () => {
             if (response.status === 'success') {
                 setCart(response.data);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to increase quantity');
         } finally {
             setUpdating(false);
@@ -70,7 +70,7 @@ const Cart = () => {
             if (response.status === 'success') {
                 setCart(response.data);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to decrease quantity');
         } finally {
             setUpdating(false);
@@ -86,7 +86,7 @@ const Cart = () => {
             if (response.status === 'success') {
                 setCart(response.data);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to remove item');
         } finally {
             setUpdating(false);
@@ -100,7 +100,7 @@ const Cart = () => {
             setUpdating(true);
             await cartAPI.clearCart(cart.id);
             setCart({ ...cart, items: [] });
-        } catch (err) {
+        } catch {
             setError('Failed to clear cart');
         } finally {
             setUpdating(false);

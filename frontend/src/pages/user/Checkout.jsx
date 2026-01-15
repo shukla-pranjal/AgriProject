@@ -18,25 +18,25 @@ const Checkout = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchCart();
-    }, []);
-
-    const fetchCart = async () => {
-        try {
-            setLoading(true);
-            const response = await cartAPI.getByUser(user.id);
-            if (response.status === 'success') {
-                setCart(response.data);
-                if (!response.data?.items || response.data.items.length === 0) {
-                    navigate('/user/cart');
+        const fetchCart = async () => {
+            try {
+                setLoading(true);
+                const response = await cartAPI.getByUser(user.id);
+                if (response.status === 'success') {
+                    setCart(response.data);
+                    if (!response.data?.items || response.data.items.length === 0) {
+                        navigate('/user/cart');
+                    }
                 }
+            } catch {
+                setError('Failed to load cart');
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            setError('Failed to load cart');
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchCart();
+    }, [user.id, navigate]);
 
     const calculateSubtotal = () => {
         if (!cart?.items) return 0;
@@ -69,7 +69,7 @@ const Checkout = () => {
                     state: { message: 'Order placed successfully!' }
                 });
             }
-        } catch (err) {
+        } catch {
             setError('Failed to place order. Please try again.');
         } finally {
             setPlacing(false);

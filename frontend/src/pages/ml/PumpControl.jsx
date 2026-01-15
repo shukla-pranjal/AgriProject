@@ -30,7 +30,7 @@ const PumpControl = () => {
         try {
             const response = await mlAPI.pumpControl(formData);
             setResult(response.response);
-        } catch (err) {
+        } catch {
             setError('Failed to get recommendation. Please try again.');
         } finally {
             setLoading(false);

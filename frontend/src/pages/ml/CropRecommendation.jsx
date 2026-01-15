@@ -35,7 +35,7 @@ const CropRecommendation = () => {
         try {
             const response = await mlAPI.cropRecommendation(formData);
             setResult(response.response);
-        } catch (err) {
+        } catch {
             setError('Failed to get recommendation. Please try again.');
         } finally {
             setLoading(false);

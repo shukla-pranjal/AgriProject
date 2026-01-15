@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { productAPI } from '../../utils/api';
 import { getUser } from '../../utils/auth';
@@ -12,23 +12,23 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
-
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         try {
             setLoading(true);
             const response = await productAPI.getByFarmer(user.farmerId);
             if (response.status === 'success') {
                 setProducts(response.data || []);
             }
-        } catch (err) {
-            console.error('Failed to fetch products:', err);
+        } catch {
+            console.error('Failed to fetch products');
         } finally {
             setLoading(false);
         }
-    };
+    }, [user.farmerId]);
+
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
 
     const handleDelete = async (id) => {
         if (!window.confirm('Delete this product?')) return;
@@ -36,8 +36,8 @@ const Products = () => {
         try {
             await productAPI.delete(id);
             fetchProducts();
-        } catch (err) {
-            console.error('Failed to delete product:', err);
+        } catch {
+            console.error('Failed to delete product:');
         }
     };
 
@@ -48,8 +48,8 @@ const Products = () => {
                 available: !product.available
             });
             fetchProducts();
-        } catch (err) {
-            console.error('Failed to update product:', err);
+        } catch {
+            console.error('Failed to update product:');
         }
     };
 

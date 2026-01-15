@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { productAPI, categoryAPI } from '../../utils/api';
+import { productAPI } from '../../utils/api';
 import { getUser } from '../../utils/auth';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
@@ -64,7 +64,7 @@ const AddProduct = () => {
 
             await productAPI.create(productData);
             navigate('/farmer/products');
-        } catch (err) {
+        } catch {
             setErrors({ submit: 'Failed to add product' });
         } finally {
             setLoading(false);
