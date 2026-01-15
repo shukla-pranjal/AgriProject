@@ -1,4 +1,0 @@
-2025-07-03 23:50:02.327 INFO  [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
-2025-07-03 23:50:27.392 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution Start
-2025-07-03 23:50:27.392 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - Message :/api/v1/admin/email-service/status
-2025-07-03 23:50:27.393 INFO  [http-nio-8080-exec-10] c.farmflow.config.security.JwtFilter - JwtFilter : doFilterInternal() : Execution End

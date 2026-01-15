@@ -1,1 +1,76 @@
-ztemp/*
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+dist/
+build/
+
+# Testing
+coverage/
+
+# Production
+build/
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Java / Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+*.class
+.project
+.classpath
+.settings/
+bin/
+**/.settings/
+**/.classpath
+**/.project
+**/bin/
+
+# Gradle
+.gradle/
+build/
+
+# Python / ML
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+*.pth
+*.pt
+*.h5
+.ipynb_checkpoints/
+
+# System
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temp
+ztemp/
+tmp/
+temp/

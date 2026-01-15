@@ -1,4 +1,0 @@
-2025-05-26 23:26:26.150 ERROR [http-nio-8080-exec-8] c.t.exception.GlobalExceptionHandler - Exception : Content-Type 'application/octet-stream' is not supported
-2025-05-26 23:26:26.151 WARN  [http-nio-8080-exec-8] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content-Type 'application/octet-stream' is not supported]
-2025-05-26 23:26:45.002 ERROR [http-nio-8080-exec-9] c.t.exception.GlobalExceptionHandler - Exception : Content-Type 'application/octet-stream' is not supported
-2025-05-26 23:26:45.004 WARN  [http-nio-8080-exec-9] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content-Type 'application/octet-stream' is not supported]

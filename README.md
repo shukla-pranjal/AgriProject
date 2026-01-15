@@ -1,141 +1,181 @@
-
-# 🌾 AgriProject – FarmFlow with ML & Eureka
+# 🌾 AgriProject – Microservices Platform
 
 [![Docker Hub](https://img.shields.io/badge/Docker-Hub-blue?logo=docker)](https://hub.docker.com/u/pranjalkumar09)
-[![GitHub Workflow](https://github.com/PranjalKumar09/agri-project/actions/workflows/docker.yml/badge.svg)](https://github.com/PranjalKumar09/agri-project/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 ---
 
 ## 📖 Overview
 
-**AgriProject (FarmFlow)** is a **microservice-based agriculture platform** built with:
+**AgriProject** is a complete **microservices-based agriculture platform** with:
 
-* **Spring Boot** – Business logic & APIs
-* **Python ML Models** – Prediction services (95%+ accuracy)
-* **Eureka (Spring Cloud Netflix)** – Service discovery & registry
-* **MySQL** – Relational database persistence
-* **Docker & Docker Compose** – Containerized orchestration
-
-The platform allows **farmers and users** to interact:
-
-* 👨‍🌾 Farmers can **list products for sale**
-* 🛒 Users can **search & buy products**
-* 🔐 Supports **different roles** → Farmer, User, Admin
-
----
-
-## 🚀 Features
-
-* ⚡ **120+ REST APIs** implemented with **Spring Boot**
-* 📦 **Caching** with [Caffeine](https://github.com/ben-manes/caffeine) for high performance
-* 📝 **Logging** integrated for monitoring and debugging
-* 📑 **Pagination & Searching** across product listings and APIs
-* 🔐 **User modes** – Farmer, User, Admin with role-based access
-* 📧 **Active Email Authentication** (via Spring Mail + Gmail SMTP)
-* 🤖 **Machine Learning Service** – 3 models with **95%+ accuracy**
-* 🌍 **Service Discovery** using Eureka
-* 🗂️ **Swagger UI & API Docs** integrated (`/farmer_app_shopping-doc`)
+* **Spring Boot Backend** – 120+ REST APIs
+* **React Frontend** – Modern, premium UI
+* **Python ML Models** – 3 prediction models (95%+ accuracy)
+* **Eureka Service Discovery** – Microservices orchestration
+* **MySQL Database** – Data persistence
 
 ---
 
 ## 🏗️ Architecture
 
-The project is split into **3 microservices**:
-
-1. **Eureka Service** → Service registry (`http://localhost:8761`)
-2. **ML Service (Python)** → Model predictions (`http://localhost:5000`)
-3. **FarmFlow App (Spring Boot)** → Core business logic (`http://localhost:8080`)
-
-All services are orchestrated via **Docker Compose**.
-
----
-
-## 📂 Project Structure
-
 ```
-.
-├── ML_py/                # ML Service (Python + Models)
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   ├── model.py
-│   └── *.pkl
-│
-├── agri_eureka/          # Eureka Server (Spring Boot)
-│   ├── Dockerfile
-│   └── src/...
-│
-├── FarmFlow/             # Main Business Logic (Spring Boot)
-│   ├── Dockerfile
-│   └── src/...
-│
-├── docker-compose.yml
-├── LICENSE
-└── README.md
+agri-project/
+├── backend/
+│   ├── eureka/          # Service Discovery (port 8761)
+│   └── farmflow/        # Main Backend (port 8080)
+├── frontend/            # React App (port 5173)
+├── ml/                  # ML Service (port 5000)
+└── docker-compose.yml
 ```
 
 ---
 
-## 🐳 Running with Docker Compose
+## 🚀 Quick Start
 
-Make sure you have **Docker** and **Docker Compose** installed.
+### Prerequisites
+- Docker & Docker Compose
+- Node.js 18+ (for frontend development)
+- Java 21 (for backend development)
+
+### Run with Docker Compose
 
 ```bash
-# Clone repository
-git clone https://github.com/PranjalKumar09/agri-project.git
-cd agri-project
-
-# Start services
+# Start all services
 docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d
 ```
 
 This will start:
+- **MySQL** → `localhost:3306`
+- **Eureka Server** → `http://localhost:8761`
+- **Backend (AGRI-JAVA)** → `http://localhost:8080`
+- **ML Service** → `http://localhost:5000`
 
-* **ML Service** → [http://localhost:5000](http://localhost:5000)
-* **Eureka Server** → [http://localhost:8761](http://localhost:8761)
-* **FarmFlow App** → [http://localhost:8080](http://localhost:8080)
-* **MySQL** → localhost:3306
+### Run Frontend (Development)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend will be available at `http://localhost:5173`
 
 ---
 
-## 🔍 Health Check Endpoints
+## 🔍 Service Endpoints
 
-To quickly test services:
-
-* **ML Service** → `http://localhost:5000/test`
-* **Eureka** → `http://localhost:8761/test`
-* **FarmFlow App** → `http://localhost:8080/test`
+| Service | URL | Description |
+|---------|-----|-------------|
+| Frontend | http://localhost:5173 | React application |
+| Backend API | http://localhost:8080/api/v1 | REST APIs |
+| Eureka Dashboard | http://localhost:8761 | Service registry |
+| ML Service | http://localhost:5000 | ML predictions |
+| Swagger UI | http://localhost:8080/farmer_app_shopping-doc | API documentation |
 
 ---
 
-## ⚙️ Environment Variables
+## 🎯 Features
 
-Already defined inside `docker-compose.yml`:
+### Backend (FarmFlow)
+- ✅ 120+ REST APIs
+- ✅ JWT Authentication
+- ✅ Role-based access (Admin, Farmer, User)
+- ✅ Email verification
+- ✅ Caching with Caffeine
+- ✅ Pagination & Search
+- ✅ File upload support
+- ✅ Eureka client integration
+
+### Frontend
+- ✅ Modern React with Vite
+- ✅ Premium glassmorphism UI
+- ✅ Complete shopping flow (Cart → Checkout → Orders)
+- ✅ Address management (37 Indian states)
+- ✅ Product marketplace
+- ✅ ML predictions interface
+- ✅ User/Farmer/Admin dashboards
+- ✅ Responsive mobile-first design
+
+### ML Service
+- ✅ Crop Recommendation (Model 5)
+- ✅ Smart Pump Control (Model 6)
+- ✅ Fertilizer Recommendation (Model 7)
+- ✅ 95%+ accuracy
+
+---
+
+## 🔐 Default Credentials
+
+**Database:**
+- Username: `root`
+- Password: `09072005`
+- Database: `agri`
+
+---
+
+## 📝 Development
+
+### Backend Development
+```bash
+cd backend/farmflow
+./mvnw spring-boot:run
+```
+
+### Frontend Development
+```bash
+cd frontend
+npm run dev
+```
+
+### Eureka Server
+```bash
+cd backend/eureka
+./mvnw spring-boot:run
+```
+
+---
+
+## 🐳 Docker Services
+
+```yaml
+services:
+  - mysql (port 3306)
+  - eureka (port 8761)
+  - backend (port 8080)
+  - ml (port 5000)
+```
+
+---
+
+## 📊 Service Discovery
+
+The backend automatically registers with Eureka as **AGRI-JAVA**. 
+
+View registered services at: http://localhost:8761
+
+---
+
+## 🔧 Environment Variables
+
+Set in `docker-compose.yml`:
 
 ```yaml
 SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/agri
-SPRING_DATASOURCE_USERNAME=root
-SPRING_DATASOURCE_PASSWORD=09072005
 EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
 ```
 
 ---
 
-## 🔮 Future Enhancements
-
-* ☸️ **Kubernetes (K8s)** deployment for scalability
-* 📊 **Grafana** & **Prometheus** for monitoring and observability
-* 🎨 **React Frontend** for rich user experience
-* 🛡️ **Enhanced Security** with JWT/OAuth2
-* 📦 **CI/CD pipeline improvements** for production readiness
-
----
-
 ## 📝 License
 
-This project is licensed under the **MIT License** – see [LICENSE](./LICENSE).
+MIT License - see [LICENSE](./LICENSE)
 
 ---
 
-👉 GitHub Repo: [PranjalKumar09](https://github.com/PranjalKumar09)
+## 👨‍💻 Author
 
+[PranjalKumar09](https://github.com/PranjalKumar09)
