@@ -1,0 +1,11 @@
+
+# m5
+Flask
+numpy
+pandas
+scikit-learn
+joblib
+
+#m6
+seaborn
+matplotlib
