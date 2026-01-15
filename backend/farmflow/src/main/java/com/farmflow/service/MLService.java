@@ -1,0 +1,14 @@
+package com.farmflow.service;
+
+import com.farmflow.dto.ml.ML5Dto;
+import com.farmflow.dto.ml.ML6Dto;
+import com.farmflow.dto.ml.ML7Dto;
+
+public interface MLService {
+
+    String predictM5(ML5Dto ml5Dto);
+
+    String predictM6(ML6Dto ml6Dto);
+
+    String predictM7(ML7Dto ml7Dto);
+}
