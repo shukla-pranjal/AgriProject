@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - dev 
-      - p-ml_m-5
-      - p_ml_models
+      - main
+      - master
   workflow_dispatch: 
 
 jobs:
@@ -26,35 +26,52 @@ jobs:
         id: vars
         run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      # ===== Build and Push ML Service =====
-      - name: Build and Tag ML Service Image
-        run: |
-          docker build -t pranjalkumar09/agriproject_ml:${{ env.SHA }} ML_py/
-          docker tag pranjalkumar09/agriproject_ml:${{ env.SHA }} pranjalkumar09/agriproject_ml:latest
+      # ===== ML Service =====
+      - name: Build and Push ML Service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./ml
+          push: true
+          tags: |
+            pranjalkumar09/agriproject_ml:${{ env.SHA }}
+            pranjalkumar09/agriproject_ml:latest
 
-      - name: Push ML Service Image
-        run: |
-          docker push pranjalkumar09/agriproject_ml:${{ env.SHA }}
-          docker push pranjalkumar09/agriproject_ml:latest
+      # ===== Eureka Server =====
+      - name: Build and Push Eureka Server
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/eureka
+          push: true
+          tags: |
+            pranjalkumar09/agri_eureka:${{ env.SHA }}
+            pranjalkumar09/agri_eureka:latest
 
-      # ===== Build and Push Eureka Server =====
-      - name: Build and Tag Eureka Image
-        run: |
-          docker build -t pranjalkumar09/agri_eureka:${{ env.SHA }} agri_eureka/
-          docker tag pranjalkumar09/agri_eureka:${{ env.SHA }} pranjalkumar09/agri_eureka:latest
+      # ===== API Gateway =====
+      - name: Build and Push API Gateway
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/api-gateway
+          push: true
+          tags: |
+            pranjalkumar09/agri_gateway:${{ env.SHA }}
+            pranjalkumar09/agri_gateway:latest
 
-      - name: Push Eureka Image
-        run: |
-          docker push pranjalkumar09/agri_eureka:${{ env.SHA }}
-          docker push pranjalkumar09/agri_eureka:latest
+      # ===== FarmFlow Backend =====
+      - name: Build and Push FarmFlow Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/farmflow
+          push: true
+          tags: |
+            pranjalkumar09/farmflow:${{ env.SHA }}
+            pranjalkumar09/farmflow:latest
 
-      # ===== Build and Push FarmFlow App =====
-      - name: Build and Tag FarmFlow Image
-        run: |
-          docker build -t pranjalkumar09/farmflow:${{ env.SHA }} FarmFlow/
-          docker tag pranjalkumar09/farmflow:${{ env.SHA }} pranjalkumar09/farmflow:latest
-
-      - name: Push FarmFlow Image
-        run: |
-          docker push pranjalkumar09/farmflow:${{ env.SHA }}
-          docker push pranjalkumar09/farmflow:latest
+      # ===== Frontend =====
+      - name: Build and Push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            pranjalkumar09/agri_frontend:${{ env.SHA }}
+            pranjalkumar09/agri_frontend:latest

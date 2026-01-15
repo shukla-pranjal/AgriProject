@@ -2,13 +2,12 @@
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
-LABEL authors="pranjal"
-
-# Copy pom and source code
+# Copy pom.xml first to cache dependencies
 COPY pom.xml .
-COPY src ./src
+RUN mvn dependency:go-offline -B
 
-# Package the application
+# Copy source and build
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application
@@ -16,7 +15,7 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
 # Copy the jar from the build stage
-COPY --from=build /app/target/agri_eureka-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 # Expose Eureka server port
 EXPOSE 8761

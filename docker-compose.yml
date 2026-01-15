@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.0
     container_name: agri_mysql
     restart: always
     environment:
@@ -29,13 +29,31 @@ services:
       timeout: 10s
       retries: 5
 
+  api-gateway:
+    build: ./backend/api-gateway
+    container_name: agri_gateway
+    restart: always
+    depends_on:
+      eureka:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+      SPRING_APPLICATION_NAME: api-gateway
+      SERVER_PORT: 8082
+    networks:
+      - agri-network
+
   backend:
     build: ./backend/farmflow
     container_name: agri_backend
     restart: always
     depends_on:
-      - mysql
-      - eureka
+      mysql:
+        condition: service_started
+      eureka:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/agri
       SPRING_DATASOURCE_USERNAME: root
@@ -53,6 +71,17 @@ services:
     restart: always
     ports:
       - "5000:5000"
+    networks:
+      - agri-network
+
+  frontend:
+    build: ./frontend
+    container_name: agri_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - api-gateway
     networks:
       - agri-network
 
