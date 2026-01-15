@@ -1,680 +1,175 @@
-know making BaseModel not enitity but other enitity may extends it , features like -> CreatedBy, CreatedOn, UpdatedBy, UpdatedOn
- i should extends it -> except Farmer, AccountStatus everything should do it
+# Agri-Project Master Developer Guide & Learning Resources
 
-
----
-
-When working with entities in Spring Boot / JPA (Hibernate), the choice between java.util.Date, java.sql.Date, or newer date-time types like java.time.* matters a lot for correctness, readability, and future-proofing.
-✅ Recommended: Use java.time (Java 8+ Date and Time API)
-Use:
-
-    java.time.LocalDate – for dates only (e.g. birth date, no time).
-
-    java.time.LocalDateTime – for date and time (e.g. createdOn, updatedOn).
-
-    java.time.OffsetDateTime or ZonedDateTime – for timezone-aware timestamps (optional, use if needed).
+> This document is designed not just as project documentation, but as a learning resource for full-stack development with Spring Boot, React, and Microservices.
 
 ---
 
-@EntityListeners(AuditingEntityListener.class) adding in BaseModel is better than 
-
-
----
-
-Swagger
-
-add @Tag(name, description), @Operation (summary, description, tags)
-
----
-    @Bean
-    ModelMapper modelMapper() {
-        ModelMapper mm = new ModelMapper();
-        mm.typeMap(UserDTO.class, User.class)
-                .addMappings(mapper -> mapper.skip(User::setId));
-        return mm;
-    }
----
-
-@Inheritance(strategy = InheritanceType.JOINED):
-✅ Pros:
-    Normalized database design
-    Easy to extend
-    Avoids null columns in child types
-    Good for queries involving only base type (User)
-
-    A JPA inheritance strategy where each class in the hierarchy is mapped to its own table, and child tables use a foreign key to reference the parent table.
-    
----
----
----
-
-### Assumptions:
-
-* You want to **promote a `User` to a `Farmer`**, and `Farmer` extends `User`.
-* The issue is related to **JPA inheritance** and the way the entities are being persisted.
-
-### Goal:
-
-We will fix this by ensuring that Hibernate properly recognizes the `Farmer` entity and avoids the `StaleObjectStateException`.
-
-### 1. **Update Entity Hierarchy (JPA Inheritance)**
-
-Since `Farmer` is a subtype of `User`, we need to define inheritance for the `User` class so that Hibernate can handle `Farmer` as a proper subclass of `User`.
-
-#### **User Class** (`User.java`):
-
-We'll use `@Inheritance` and `@DiscriminatorColumn` to ensure proper inheritance mapping.
-
-```java
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)  // or SINGLE_TABLE
-@DiscriminatorColumn(name = "user_type")  // Defines a discriminator column for the subclass
-public class User extends BaseModel {
-
-    // Fields shared by both User and Farmer
-    private String name;
-    private String email;
-    private String password;
-    private String phone;
-
-    // Getters, Setters, Constructor, etc.
-}
-```
-
-#### **Farmer Class** (`Farmer.java`):
-
-We'll use `@DiscriminatorValue` to specify the subclass value for `Farmer`.
-
-```java
-@Entity
-@DiscriminatorValue("FARMER")  // Marks this class as a subclass of User
-public class Farmer extends User {
-
-    private String farmName;
-    private String farmType;
-    private String locationDiscription;
-    private String governmentId;
-
-    // Getters, Setters, Constructor, etc.
-}
-```
-
-Now, `Farmer` is a subclass of `User` and will be treated as a distinct entity by JPA.
-
-### 2. **Update the `promoteUserToFarmer` Method**:
-
-In your service method, you can now safely handle the promotion of a `User` to a `Farmer`.
-
-Here's the updated code with the proper handling:
-
-```java
-@Override
-public FarmerDTO promoteUserToFarmer(Integer id, FarmerDTO farmerDTO) throws Exception {
-    // 1. Fetch existing user
-    User user = userRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
-
-    // 2. Manually copy User fields to Farmer and set Farmer-specific fields
-    Farmer farmer = new Farmer();  // Create a new Farmer entity
-    BeanUtils.copyProperties(user, farmer);  // Copy common properties
-
-    // Set Farmer-specific fields
-    farmer.setFarmName(farmerDTO.getFarmName());
-    farmer.setFarmType(farmerDTO.getFarmType());
-    farmer.setLocationDiscription(farmerDTO.getLocationDiscription());
-    farmer.setGovernmentId(farmerDTO.getGovernmentId());
-
-    // 3. Validate the farmer DTO
-    farmerDTO = modelMapper.map(farmer, FarmerDTO.class);
-    validation.farmerValidate(farmerDTO);
-
-    // 4. Save the Farmer entity (Hibernate will treat this as a new `Farmer` entity)
-    Farmer savedFarmer = farmerRepository.save(farmer);
-
-    // 5. Return the DTO (can still use ModelMapper here if it's just output)
-    return modelMapper.map(savedFarmer, FarmerDTO.class);
-}
-```
-
-### Key Changes Explained:
-
-1. **Inheritance Strategy**:
-
-   * The `User` class is now mapped with `@Inheritance(strategy = InheritanceType.JOINED)`, which means each subclass (`Farmer`, etc.) will have its own table but will share common fields from `User`.
-   * You can also use `SINGLE_TABLE`, but `JOINED` is often better if you want to avoid bloating the `User` table.
-
-2. **Farmer-Specific Fields**:
-
-   * We're now **explicitly creating a new `Farmer` entity** and **copying properties** from the `User` instance into the `Farmer` instance (using `BeanUtils.copyProperties(user, farmer)`).
-   * This avoids trying to directly map the `User` object to a `Farmer` object, which could cause issues with entity state tracking in Hibernate.
-
-3. **Hibernate Handling**:
-
-   * **No ID conflict**: We manually set `id = null` when creating a new `Farmer` instance, which ensures that Hibernate treats it as a new entity. It will not try to update the old `User` entity with the same ID.
-   * **Save `Farmer` as a new entity**: The `farmerRepository.save(farmer)` will persist this new `Farmer` entity correctly.
-
-4. **Validation**:
-
-   * We ensure that the `FarmerDTO` is validated before being saved.
+## 📚 Table of Contents
+1. [Microservices Architecture Deep Dive](#1-microservices-architecture-deep-dive)
+2. [Spring Boot Internals & Best Practices](#2-spring-boot-internals--best-practices)
+3. [Data Persistence (JPA/Hibernate) Advanced](#3-data-persistence-jpahibernate-advanced)
+4. [Security Implementation (JWT & Gateway)](#4-security-implementation-jwt--gateway)
+5. [Infrastructure & DevOps (Docker/CI/CD)](#5-infrastructure--devops-dockercicd)
+6. [Frontend Architecture (React)](#6-frontend-architecture-react)
+7. [Machine Learning Integration](#7-machine-learning-integration)
 
 ---
 
-### 3. **Transaction and Optimistic Locking**:
+## 1. Microservices Architecture Deep Dive
 
-If you are using **optimistic locking** in your `User` or `Farmer` entities, you need to ensure that the versioning mechanism is handled correctly.
+### Monolith vs. Microservices
+- **Monolith**: Single deployable unit (JAR/WAR).
+  - *Pros*: Simple to develop/test initially, ACID transactions easy.
+  - *Cons*: Tight coupling, hard to scale specific parts, single point of failure (one memory leak crashes everything).
+- **Microservices**: Loosely coupled services.
+  - *Pros*: Independent scaling/deployment, fault isolation, technology agnostic (use Python for ML, Java for Backend).
+  - *Cons*: Complexity (network latency, distributed transactions), operational overhead.
 
-* Ensure that you have `@Version` field in your `User` and `Farmer` entities:
+### Our Architecture Components
+1.  **Service Discovery (Netflix Eureka)**:
+    -   *Problem*: In cloud, IP addresses change dynamically. How does Service A find Service B?
+    -   *Solution*: Services register with Eureka on startup ("I am USER-SERVICE at 10.0.0.1").
+    -   *Client-Side Load Balancing*: Clients query Eureka to get available instances.
 
-```java
-@Version
-private Integer version;
-```
+2.  **API Gateway (Spring Cloud Gateway)**:
+    -   *Pattern*: **Gateway Routing Pattern**.
+    -   *Role*: Reverse proxy. It hides the internal architecture from the client.
+    -   *Features*:
+        -   **Routing**: `/api/users/**` -> User Service.
+        -   **Tech**: Built on **Spring WebFlux** (Reactive, Non-blocking I/O) using Project Reactor (Netty Server), widely preferred over blockage Zuul.
 
-* If you don't want optimistic locking (i.e., to prevent simultaneous updates), you can remove the `@Version` field.
-
-### Final Thoughts:
-
-* **Inheritance**: Make sure you understand how inheritance works with JPA (`SINGLE_TABLE`, `JOINED`, or `TABLE_PER_CLASS`). The solution here assumes you're going with a joined strategy, but it can be adjusted.
-* **Entity Promotion**: Instead of copying the `User` entity to `Farmer` using `modelMapper`, we manually copy the necessary properties to avoid any potential problems with entity states.
-
-Let me know if you'd like any further explanations or adjustments!
-
-
----
----
----
----
-
-If you’re still developing and need schema updates, use update temporarily, but switch to validate in production.
-
-
----
----
----
-
-Annotation	Default Fetch Type
-@ManyToOne	LAZY
-@OneToOne	EAGER
-@OneToMany	LAZY
-@ManyToMany	LAZY
-
-
-
-----
-
-@ToString.Exclude
-used in entity -> Cart           
-
-
-
------
-
-
-AOP
-Aspecte oriented Programming is programming paradigm that allows you to modlularize cross cutting concern- code that affect multiple parts of application but is not core to buisneess logic (eg logging, security, trasaction management)
-
-
-Core concept if AOP
-    1. Aspect: A module that encapuslates a cross cutting concern
-    2. Join Point: A point in application (like method execution) where aspect can be applied
-    3. Advice: The action at join point (eg @Before, @After, @Around)
-    4. Pointcut: An expression that matches join points
-    5. Weaving: Linking aspects with application code during runtime or compile time
-
-
-Real World Scenarios in Spring Boot
-
-Logging: Log Method execution, input parameter, return values, or exception
-
-security checks
-1. Validate permission or roles before accessing a method`
-2. Common when integrating with spring secuity or custom role checks
-
-
-Transaction management
-Spring uses AOP internallly for @Transactional to befin, commit or roll bacm transaction
-
-Performance monitoring: measure method execution time using @Around Advice
-
-Audit Trails/User Activity Logs: Automiatically record who access what API and when
-
-Exceptional Handling/Custom Error Logging: Capture & log exception in centralized way without cluttering business logic
-
-
-===============================
-
-
-## Spring Caching: Enhanced Notes
-
-### 1. Add Dependency
-
-Add the Spring Cache starter to your `pom.xml`:
-
-````xml
-<!-- ...existing code... -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-cache</artifactId>
-</dependency>
-<!-- ...existing code... -->
-````
+3.  **Cross-Cutting Concerns**:
+    -   Things that affect all services: Logging, Metrics, Security.
+    -   Handled at the Gateway or via AOP libraries included in services.
 
 ---
 
-### 2. Enable Caching
+## 2. Spring Boot Internals & Best Practices
 
-In your main application class, enable caching:
+### Dependency Injection (DI) & IoC Container
+-   **Inversion of Control (IoC)**: Instead of you creating objects (`new UserService()`), Spring does it.
+-   **ApplicationContext**: The container that manages these objects (Beans).
+-   **Bean Scopes**:
+    -   `@Scope("singleton")`: (Default) One instance per container. Good for stateless services.
+    -   `@Scope("prototype")`: New instance every request.
+    -   `@Scope("request")`: One per HTTP request.
 
-````java
-// ...existing code...
-import org.springframework.cache.annotation.EnableCaching;
+### Spring Bean Lifecycle
+1.  **Instantiation**: Constructor called.
+2.  **Populate Properties**: Dependencies injected (`@Autowired`).
+3.  **Initialization**: `@PostConstruct` methods run.
+4.  **Destruction**: `@PreDestroy` methods run before shutdown.
 
-@SpringBootApplication
-@EnableCaching
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
-// ...existing code...
-````
-
----
-
-### 3. Use Cache Annotations in Service Layer
-
-Use Spring’s cache annotations in your service implementation:
-
-- `@Cacheable` – Caches the result of a method.
-- `@CachePut` – Updates the cache with the latest value.
-- `@CacheEvict` – Removes entries from the cache.
-
-Example:
-
-````java
-// ...existing code...
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.CacheEvict;
-
-@Service
-public class NoteService {
-    @Cacheable(value = "notes", key = "#id")
-    public Note getNoteById(Long id) {
-        // fetch note from DB
-    }
-
-    @CachePut(value = "notes", key = "#note.id")
-    public Note updateNote(Note note) {
-        // update note in DB
-    }
-
-    @CacheEvict(value = "notes", key = "#id")
-    public void deleteNote(Long id) {
-        // delete note from DB
-    }
-}
-// ...existing code...
-````
+### AOP (Aspect Oriented Programming)
+-   *Why?* To separate business logic from system services (Logging, Transaction management).
+-   **Weaving**: Connecting aspects to your code. Spring uses **Runtime Weaving** (via Proxy objects).
+-   *Example*: `@Transactional` creates a proxy around your method. It opens a transaction *before* your code runs and commits *after* it returns.
 
 ---
 
-### 4. Optional: Caching Controller Endpoints
+## 3. Data Persistence (JPA/Hibernate) Advanced
 
-You can create a controller to manage cache operations, such as:
+### Hibernate Entity States
+1.  **Transient**: Just created (`new User()`), not in DB, no ID.
+2.  **Persistent**: Associated with a Session/EntityManager. Changes are automatically saved (Dirty Checking).
+3.  **Detached**: Session closed. Changes not saved unless re-attached (`merge()`).
+4.  **Removed**: Scheduled for deletion.
 
-- `getAllCache()`
-- `getCache(String name)`
-- `removeAllCache()`
-- `removeCache(String name)`
+### Fetch Types & Performance
+-   **Lazy Loading (`FetchType.LAZY`)**:
+    -   Default for `@OneToMany` / `@ManyToMany`.
+    -   Data fetched only when accessed.
+    -   *Risk*: **N+1 Problem** (1 query for parents, N queries for children).
+    -   *Fix*: Use `JOIN FETCH` directly in JPQL queries.
+-   **Eager Loading (`FetchType.EAGER`)**:
+    -   Default for `@ManyToOne` / `@OneToOne`.
+    -   Data fetched immediately.
 
-Example:
-
-````java
-// ...existing code...
-import org.springframework.cache.CacheManager;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/cache")
-public class CacheController {
-
-    private final CacheManager cacheManager;
-
-    public CacheController(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
-
-    @GetMapping("/all")
-    public Set<String> getAllCacheNames() {
-        return cacheManager.getCacheNames();
-    }
-
-    @DeleteMapping("/clear")
-    public void clearAllCaches() {
-        cacheManager.getCacheNames().forEach(name -> {
-            cacheManager.getCache(name).clear();
-        });
-    }
-
-    @DeleteMapping("/{name}")
-    public void clearCacheByName(@PathVariable String name) {
-        cacheManager.getCache(name).clear();
-    }
-}
-// ...existing code...
-````
+### Caching Strategies
+1.  **L1 Cache (Session)**: Enabled by default. Within distinct transaction.
+2.  **L2 Cache (SessionFactory)**: Shared across sessions. Needs provider (EhCache, **Redis**, Caffeine).
+    -   *Use Case*: Read-heavy, rarely-changing data (e.g., Categories, Cities).
 
 ---
 
-### 5. Important Considerations
+## 4. Security Implementation (JWT & Gateway)
 
-- **Cache Consistency:**  
-  Cached values and real database values can become inconsistent. Always update or evict cache entries when data changes.
-- **Cache Key:**  
-  Use unique keys (like `#id`) to avoid collisions and stale data.
-- **Annotations:**  
-  Place cache annotations at the service implementation level for best results.
+### Stateful vs. Stateless Auth
+-   **Stateful (Session)**: Server keeps session ID in memory. Hard to scale (need sticky sessions or shared Redis session store).
+-   **Stateless (JWT)**: Server signs a token. Client holds it. Any server can verify signature. easy horizontal scaling.
+
+### JWT Structure (Header.Payload.Signature)
+-   **Header**: Algo used (HS256).
+-   **Payload (Claims)**: Data (User ID, Role, Expiry). **Open to read!** Do not put secrets here.
+-   **Signature**: Hash of Header+Payload+SecretKey. Ensures integrity.
+
+### Our Flow
+1.  User posts Credentials to Auth Service.
+2.  Auth Service validates & generates JWT.
+3.  Client sends JWT in `Authorization: Bearer <token>` header.
+4.  **Gateway** acts as the enforcement point:
+    -   Intercepts request.
+    -   Parses JWT.
+    -   Validates Signature.
+    -   Extracts Roles.
+    -   Passes Identity to downstream services (via Header).
 
 ---
-spring.cache.type=caffeine
-spring.cache.caffeine.spec=maximumSize=500,expireAfterWrite=30m
 
-
-
-
-=============
-=============
-=============
-=============
-=============
-=============
-
-
-Redis
-Remote Distribution Server
-extremely fast
-
-In memory data structure store that can be used as db, cache and message broker
-
-reddis supports various data structure such as strings, hashes, lists, sets, sorted sets, bit maps, hyperloglogs and geospatial indexes
-
-
-Feature of Redis
-
-    in memory storage
-        fast read & write operation
-        ideal for real time requirement
-    
-    presentence
-        provide option to dump data to disk
-
-    data structure
-        support various data structures
-    
-    replication
-        redis support master slave application, allowing data to be replicated to multiple servers for redundancy & failover
-
-    pub sub messaging
-        redis can be act as message broker using its publish/subscribe capabilities, allowing for real time messing application
-
-redis architecture
-    works on server client architecture
-
-client/slave <-> redis server / master  
-
-
-
-cahicng 
-    for reducing latency
-    improve speed
-
-    types of caching
-        in memory
-        distributed
-
-but in horizontal scalling in memory cause problem
-
-distributed -> reddis
-
-
-
-CachePut -> for consistency in updating cache
-
-key => #-- its like key 
-
-@Cacheable(value="weather", key="#city")
-
-
-similarly with 
-
-@CacheEvict
-
-
-
-
-so Caffeine  caching is in memory no network latency
-
-and redis is distributed (we have to download it & configure like mysql) it support horizontal scaling
-
-
-
-we can check cahing else in test 
-
-also by assert in test
-
-
-but 
-
-
-
-in reddis website told reddis is in memory data stored  by miilions  in Ram (however it is distributed cache)
-
-
-
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-data-redis</artifactId>
-</dependency>
-
-
-sudo apt-get install redis
-sudo service redis-server start
-
-
-redis-cli
-127.0.0.1:6379> set name pranjal
-OK
-127.0.0.1:6379> get name
-"pranjal"
-127.0.0.1:6379> 
-
-
-
-then in properties we have to put the
-
-    sping:
-        redis:
-            host: localhost
-            port: 6479
-
-
-setting up the reddis bean
-
-
-@Bean
-public RedisTemplate redisTemplate(RedisConnectionFactory  factory){
-    RedisTemplate redisTemplate = new RedisTemplate<>();
-    redisTemplate.setConnectionFactory(factory);
-
-    redisTemplate.setKeySerializer(new StringRedisSerializer());
-    redisTemplate.setValueSerializer(new StringRedisSerializer());
-}
-
-
-
-further redisService putten like for get, set
-
-
-
-
-1. @Cacheable
-
-Purpose → Used for reading (lookup) methods.
-
-It checks if the result is already in the cache:
-
-If present, it returns from cache (method is not executed).
-
-If absent, it executes the method, stores the result in cache, and returns it.
-
-
-
-@Caching
-Purpose → A container annotation that lets you combine multiple cache annotations on the same method.
-Useful when you need to:
-Evict some cache(s)
-Put into another cache
-Maybe even Cacheable at the same time
-
-
-
-
-
-127.0.0.1:6379> ACL USERS
-1) "default"
-127.0.0.1:6379> ACL WHOAMI
-"default"
-127.0.0.1:6379> TIME
-1) "1756486873"
-2) "168100"
-127.0.0.1
-:6379> help
-redis-cli 7.0.15
-
-
-
-
-7.0.0.1:6379> client info
-id=3 addr=127.0.0.1:48750 laddr=127.0.0.1:6379 fd=8 name= age=91 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 qbuf=26 qbuf-free=20448 argv-mem=10 multi-mem=0 rbs=1024 rbp=0 obl=0 oll=0 omem=0 tot-mem=22298 events=r cmd=client|info user=default redir=-1 resp=2
-
-
-echo hello\
-"hello\\"
-
-
-client list
-id=3 addr=127.0.0.1:48750 laddr=127.0.0.1:6379 fd=8 name= age=134 idle=0 flags=N db=0 sub=0 psub=0 
-
-
-
-127.0.0.1:6379> help string
-
-127.0.0.1:6379> help @string
-
-  APPEND key value
-  summary: Append 
-
-
-
-
-REDIS types
-    String
-        The most basic redis string any type of data or binary data
-
-        SET key value
-        GET key
-        INCR key
-        APPEND key value
-
-    getrange <key> <start> <end> 
-        getting substring, inclusive
-
-
-    Hashes
-        a collection of key - value both string,   representing object
-
-        HSET key field value
-        HSET key field
-        HGETALL key
-        HDEL key field
-        HEXIST key
-        HKEYS key
-            to get all keys
-
-        HMSET key value [field value ..]
-            setting multiple value
-
-
-
-    Lists
-        ordered collection of string
-
-        LPUSH key val1 val2
-
-        LSET 
-        LLEN key
-        LRANGE key start end
-
-
-
-        it is in reverse as, we are pushing
-
-
-        for same ordering we can use RPUSH
-            (right push)
-
-        LPOP
-        RPOP
-         
-
-
-        LINDEX key index
-            returns value in that index
-
-        LINSERT key BEFORE | AFTER pivot element
-
-        inserts an element before or after another elemeent in list
-
-
-    Set 
-        unordered collection of unque striing
-
-
-        SADD key x1 s2 x3
-        SACARD
-
-
-    geospatial indexes
-        store geospatial indexes & perform queries by radius or bouding box
-
-    stream
-        used for managing data logs & real time messaging streaming
-
-
-
-
-
-
-in frontend
-=========== 
-    in react there is library which help in connecting spring-> axios 
-
-    npm install axios
-
-
-    CORS is only for Web Browsers!
-🎯 Key Insight:
-CORS is a browser security feature - it only affects web browsers (like your React app)
-
-Internal service-to-service communication (Java to Java, Python to Java) is NOT affected by CORS
-
-CORS doesn't affect: Postman, curl, service mesh, Eureka, internal API calls
-
-
-
-cors in security config, this will 
-
-this is for react
-
-
+## 5. Infrastructure & DevOps (Docker/CI/CD)
+
+### Docker Concepts
+-   **Image vs Container**: Image is the recipe (Read-only class), Container is the instance (Runtime object).
+-   **Layers**: Docker images are built in layers. Changing the last line of Dockerfile only rebuilds that layer.
+    -   *Tip*: Copy `pom.xml` before source code. This caches the "Download Maven Dependencies" layer.
+
+### CI/CD Pipeline Stages
+1.  **Checkout**: Get code.
+2.  **Build/Test**: Run unit tests (`mvn test`). Fail fast if bugs.
+3.  **Package**: Create Docker image (`docker build`).
+4.  **Push**: Upload to Registry (DockerHub).
+5.  **Deploy**: (Future) SSH into server and `docker compose up -d`.
+
+---
+
+## 6. Frontend Architecture (React)
+
+### React Hooks
+-   `useState`: Local component state.
+-   `useEffect`: Side effects (API calls, subscriptions). Dependency array `[]` controls when it runs.
+-   `useContext`: Global state without Prop Drilling.
+
+### Virtual DOM
+-   React keeps a lightweight copy of DOM.
+-   When state changes, it diffs new Virtual DOM with old one.
+-   Only minimal real DOM updates are made. (Performance Booster).
+
+---
+
+## 7. Machine Learning Integration
+
+### Workflow
+-   **Training (Offline)**:
+    1.  Data Collection (CSVs).
+    2.  Preprocessing (Label Encoding, Normalization).
+    3.  Model Training (`RandomForestClassifier`).
+    4.  Serialization (`pickle.dump` -> `.pkl`).
+-   **Inference (Online)**:
+    1.  Flask App loads `.pkl` on startup.
+    2.  Receives JSON input.
+    3.  Calls `model.predict()`.
+    4.  Returns prediction.
+
+---
+
+## 💡 Developer Cheat Sheet
+
+### Git
+-   `git stash`: Temporarily store changes.
+-   `git rebase main`: Update your branch with main (cleaner history than merge).
+-   `git cherry-pick <hash>`: Take one specific commit from another branch.
+
+### Docker
+-   `docker system prune -a`: Clean up all unused images/containers (Space saver!).
+-   `docker logs --tail 100 -f <container_id>`: Live tail logs.
+-   `docker exec -it <container_id> /bin/sh`: SSH into running container.
