@@ -90,21 +90,37 @@ Frontend will be available at `http://localhost:5173`
 - ✅ File upload support
 - ✅ Eureka client integration
 
-### Frontend
-- ✅ Modern React with Vite
-- ✅ Premium glassmorphism UI
-- ✅ Complete shopping flow (Cart → Checkout → Orders)
-- ✅ Address management (37 Indian states)
-- ✅ Product marketplace
-- ✅ ML predictions interface
-- ✅ User/Farmer/Admin dashboards
-- ✅ Responsive mobile-first design
+### 💻 Frontend (React + Vite)
+Built with a focus on **User Experience** and **Performance**.
+- **Modern Tech Stack**: React.js with Vite for lightning-fast builds.
+- **Premium UI/UX**: Custom Glassmorphism design system for a sleek, modern aesthetic.
+- **Responsive Design**: Fully responsive layout optimized for Mobile, Tablet, and Desktop.
+- **Interactive Elements**: Smooth animations, hover effects, and dynamic transitions.
+- **Key Features**:
+  - 🛒 **Marketplace**: Full e-commerce flow (Browse, Cart, Checkout, Orders).
+  - 👤 **User Profiles**: Comprehensive dashboard for Farmers and Users.
+  - 🧠 **AI Integration**: Seamless interface for ML model predictions.
+  - 🌍 **Localization**: Support for 37 Indian states in address management.
 
 ### ML Service
 - ✅ Crop Recommendation (Model 5)
 - ✅ Smart Pump Control (Model 6)
 - ✅ Fertilizer Recommendation (Model 7)
 - ✅ 95%+ accuracy
+
+---
+
+## 📸 Project Gallery
+
+### User Interface
+| Home Page | Profile Dashboard |
+|-----------|-------------------|
+| ![Home](./images/frontend_home.png) | ![Profile](./images/frontend_profile.png) |
+
+### AI & Documentation
+| ML Services | API Documentation |
+|-------------|-------------------|
+| ![ML](./images/frontend_ml.png) | ![Swagger](./images/swagger_page.png) |
 
 ---
 
