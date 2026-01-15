@@ -1,0 +1,37 @@
+.profile-page {
+    padding: var(--space-12) 0;
+    min-height: 600px;
+    background: var(--bg-secondary);
+}
+
+.profile-page h1 {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--space-8);
+}
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-8);
+}
+
+.profile-card {
+    padding: var(--space-8);
+}
+
+.profile-card h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-6);
+}
+
+.profile-card form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+@media (max-width: 768px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+}

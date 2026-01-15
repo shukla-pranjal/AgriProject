@@ -1,9 +1,11 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Images
 
 on:
   push:
     branches:
-      - dev
+      - dev 
+      - main
+      - master
   workflow_dispatch: 
 
 jobs:
@@ -24,12 +26,52 @@ jobs:
         id: vars
         run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Build and Tag Docker Image
-        run: |
-          docker build -t pranjalkumar09/agriproject:${{ env.SHA }} AgriProject_java/
-          docker tag pranjalkumar09/agriproject:${{ env.SHA }} pranjalkumar09/agriproject:latest
+      # ===== ML Service =====
+      - name: Build and Push ML Service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./ml
+          push: true
+          tags: |
+            pranjalkumar09/agriproject_ml:${{ env.SHA }}
+            pranjalkumar09/agriproject_ml:latest
 
-      - name: Push Docker Image
-        run: |
-          docker push pranjalkumar09/agriproject:${{ env.SHA }}
-          docker push pranjalkumar09/agriproject:latest
+      # ===== Eureka Server =====
+      - name: Build and Push Eureka Server
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/eureka
+          push: true
+          tags: |
+            pranjalkumar09/agri_eureka:${{ env.SHA }}
+            pranjalkumar09/agri_eureka:latest
+
+      # ===== API Gateway =====
+      - name: Build and Push API Gateway
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/api-gateway
+          push: true
+          tags: |
+            pranjalkumar09/agri_gateway:${{ env.SHA }}
+            pranjalkumar09/agri_gateway:latest
+
+      # ===== FarmFlow Backend =====
+      - name: Build and Push FarmFlow Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/farmflow
+          push: true
+          tags: |
+            pranjalkumar09/farmflow:${{ env.SHA }}
+            pranjalkumar09/farmflow:latest
+
+      # ===== Frontend =====
+      - name: Build and Push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            pranjalkumar09/agri_frontend:${{ env.SHA }}
+            pranjalkumar09/agri_frontend:latest

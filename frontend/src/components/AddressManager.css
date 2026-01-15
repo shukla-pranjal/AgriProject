@@ -1,0 +1,120 @@
+.address-manager {
+    margin: var(--space-6) 0;
+}
+
+.address-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.address-header h3 {
+    font-size: var(--font-size-xl);
+    margin: 0;
+}
+
+.address-list {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.address-card {
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.address-card:hover {
+    border-color: var(--color-primary);
+}
+
+.address-card.selected {
+    border-color: var(--color-primary);
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.address-content {
+    margin-bottom: var(--space-3);
+}
+
+.address-type-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-2);
+}
+
+.address-text {
+    color: var(--text-primary);
+    margin: var(--space-1) 0;
+    line-height: var(--line-height-relaxed);
+}
+
+.address-actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.address-actions button {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-gray-300);
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+}
+
+.address-actions button:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.selected-indicator {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.no-addresses {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--text-secondary);
+}
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: flex-end;
+    margin-top: var(--space-4);
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

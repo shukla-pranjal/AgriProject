@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: AGRI-JAVA
+  datasource:
+    url: jdbc:mysql://localhost:3306/agri?useSSL=false&serverTimezone=UTC # url: jdbc:mysql://localhost:3306/agri # (do this in prod)
+    username: root
+    password: ${DB_PASSWORD:09072005}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=3h
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:debuggerdiaries@gmail.com}
+    password: ${MAIL_PASSWORD:pawgeywzrvxhkmqx}
+    properties:
+      mail":
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          debug: true # disable this in prod
+
+
+
+
+
+file:
+  upload:
+    path: files/
+management:
+  endpoints:
+    web:
+      exposure: # TODO  change include exclude in prod
+        include: "*"
+#        exclude: beans, logger
+  endpoint:
+
+    health:
+      show-details: always
+    shutdown:
+      access: unrestricted
+
+
+springdoc:
+  api-docs:
+    path: /farmer_app_shopping-docs
+#    enabled: true # todo it false in production
+  swagger-ui:
+    path: /farmer_app_shopping-doc
+    operationsSorter: method
+server:
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
