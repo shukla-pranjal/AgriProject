@@ -17,6 +17,27 @@
 
 ---
 
+## 📸 Screenshots
+
+### Frontend Application
+![Frontend Home Page](./images/frontend_home.png)
+*Modern, premium UI with responsive design*
+
+![User Profile](./images/frontend_profile.png)
+*User dashboard and profile management*
+
+![ML Predictions Interface](./images/frontend_ml.png)
+*Machine Learning predictions with interactive UI*
+
+### Backend & API
+![Swagger API Documentation](./images/swagger_page.png)
+*Complete API documentation with 120+ endpoints*
+
+![Backend Folder Structure](./images/backend_folder.png)
+*Organized microservices architecture*
+
+---
+
 ## 🏗️ Architecture
 
 ```
@@ -176,6 +197,10 @@ MIT License - see [LICENSE](./LICENSE)
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Authors & Collaborators
 
-[PranjalKumar09](https://github.com/PranjalKumar09)
+**Creator:**
+- [PranjalKumar09](https://github.com/PranjalKumar09)
+
+**Collaborator:**
+- [Amritesh Singh](https://github.com/Amritesh-Singh-11)

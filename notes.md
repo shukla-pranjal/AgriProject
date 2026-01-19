@@ -2,6 +2,8 @@
 
 > This document is designed not just as project documentation, but as a learning resource for full-stack development with Spring Boot, React, and Microservices.
 
+
+
 ---
 
 ## 📚 Table of Contents

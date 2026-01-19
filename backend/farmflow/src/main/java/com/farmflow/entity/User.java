@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @ToString
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends BaseModel {
+public class    User extends BaseModel {
     private String name;
     private String email;
     private String password;
