@@ -20,6 +20,7 @@ spring:
       spec: maximumSize=1000,expireAfterWrite=3h
 
   mail:
+    enabled: ${MAIL_ENABLED:false}
     host: smtp.gmail.com
     port: 587
     username: ${MAIL_USERNAME:debuggerdiaries@gmail.com}
