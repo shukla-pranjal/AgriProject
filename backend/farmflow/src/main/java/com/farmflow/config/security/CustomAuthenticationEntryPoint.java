@@ -26,7 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint{
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeVaCustomAuthenticationEntryPointlue(response.getOutputStream(), responseObj);
+        mapper.writeValue(response.getOutputStream(), responseObj);
         response.flushBuffer();
     }
 }
