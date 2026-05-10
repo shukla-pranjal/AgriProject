@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-// API Gateway Configuration (Local Development)
+// API Gateway Configuration
 // Frontend → API Gateway (8080) → Backend Services (via Eureka discovery locator)
-const API_GATEWAY = 'http://localhost:8080';
+const API_GATEWAY = import.meta.env.VITE_API_GATEWAY || 'http://localhost:8080';
 
 // API Base URLs through API Gateway (using discovery locator)
 const API_BASE_URL = `${API_GATEWAY}/agri-java/api/v1`;
-const ML_BASE_URL = 'http://localhost:5000'; // ML service direct
+const ML_BASE_URL = import.meta.env.VITE_ML_BASE_URL || 'http://localhost:5000'; // ML service direct
 
 // Create axios instance for main API
 const api = axios.create({

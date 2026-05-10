@@ -10,7 +10,7 @@ spring:
           predicates:
             - Path=/api/**
           filters:
-            - AddRequestHeader=X-Gateway-Request, true
+            - AddRequestHeader=X-Gateway-Request, gateway-secret-key-12345
       
       # Global CORS Configuration
       globalcors:
