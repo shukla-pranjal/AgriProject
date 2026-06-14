@@ -3,8 +3,11 @@
 Flask
 numpy
 pandas
-scikit-learn
+scikit-learn==1.6.1
 joblib
+flask-cors
+py-eureka-client
+xgboost
 
 #m6
 seaborn

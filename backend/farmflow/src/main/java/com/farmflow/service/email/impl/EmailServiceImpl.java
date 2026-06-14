@@ -7,6 +7,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -25,7 +26,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
 
-    private final AtomicBoolean emailServiceEnabled  = new AtomicBoolean( true);
+    private final AtomicBoolean emailServiceEnabled  = new AtomicBoolean(false);
+
+    @Value("${spring.mail.enabled:false}")
+    private void setInitialEmailServiceEnabled(boolean enabled) {
+        emailServiceEnabled.set(enabled);
+    }
 
     @Autowired
     private JavaMailSender mailSender;
@@ -34,6 +40,9 @@ public class EmailServiceImpl implements EmailService {
     private SpringTemplateEngine templateEngine;
     @Override
     public void sendEmail(EmailRequest emailRequest) throws Exception {
+        if (!isEmailServiceEnabled()) {
+            throw new EmailServiceDisabledException();
+        }
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
@@ -49,6 +58,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmailAndAttachment(EmailRequest emailRequest, MultipartFile[] fileList) throws IOException, MessagingException {
+        if (!isEmailServiceEnabled()) {
+            throw new EmailServiceDisabledException();
+        }
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
@@ -73,7 +85,7 @@ public class EmailServiceImpl implements EmailService {
     }
     @Override
     public boolean isEmailServiceEnabled() {
-        return !emailServiceEnabled.get();
+        return emailServiceEnabled.get();
     }
 
     @Override

@@ -8,8 +8,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "09072005"
       MYSQL_DATABASE: "agri"
-    ports:
-      - "3306:3306"
+
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -24,9 +23,9 @@ services:
     networks:
       - agri-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8761/actuator/health | grep -q UP || exit 1"]
+      interval: 10s
+      timeout: 5s
       retries: 5
 
   api-gateway:
@@ -37,11 +36,11 @@ services:
       eureka:
         condition: service_healthy
     ports:
-      - "8082:8082"
+      - "8080:8080"
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
       SPRING_APPLICATION_NAME: api-gateway
-      SERVER_PORT: 8082
+      SERVER_PORT: 8080
     networks:
       - agri-network
 
@@ -60,8 +59,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: "09072005"
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+      SERVER_PORT: 8081
     ports:
-      - "8080:8080"
+      - "8081:8081"
     networks:
       - agri-network
 
@@ -69,6 +69,8 @@ services:
     build: ./ml
     container_name: agri_ml
     restart: always
+    environment:
+      EUREKA_SERVER: http://eureka:8761/eureka
     ports:
       - "5000:5000"
     networks:

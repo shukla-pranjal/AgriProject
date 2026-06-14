@@ -8,23 +8,35 @@ import py_eureka_client.eureka_client as eureka_client
 
 ML_REST_PORT = 5000
 
+import os
+
+eureka_server = os.environ.get("EUREKA_SERVER", "http://localhost:8761/eureka")
+
 eureka_client.init(
-    eureka_server="http://localhost:8761/eureka",
+    eureka_server=eureka_server,
     app_name="ML-SERVICE",
     instance_port=ML_REST_PORT
 )
 
 # Initialize Flask App
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:8081"])
+CORS(app)
+
+import os
 
 # Load Models
+def load_file(filename):
+    for path in [filename, os.path.join("ML_py", filename), os.path.join("ml", filename)]:
+        if os.path.exists(path):
+            return joblib.load(path)
+    return joblib.load(filename)
+
 models = {
-    "5": joblib.load("ML_py/m5.pkl"),
-    "6": joblib.load("ML_py/m6.pkl"),
-    "7": joblib.load("ML_py/model7.pkl"),
+    "5": load_file("model5.pkl"),
+    "6": load_file("model6.pkl"),
+    "7": load_file("model7.pkl"),
 }
-label_encoder7 = joblib.load("ML_py/label_encoder7.pkl")  # For Model 7 (Fertilizer)
+label_encoder7 = load_file("label_encoder7.pkl")  # For Model 7 (Fertilizer)
 
 # Define Required Fields
 REQUIRED_FIELDS = {

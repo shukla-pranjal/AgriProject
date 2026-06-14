@@ -38,17 +38,44 @@
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ System Architecture
 
+This project implements a **Stateless Microservices Architecture** designed for high availability and scalability.
+
+```mermaid
+graph TD
+    Client[📱 React Frontend UI] -->|HTTP/REST| Gateway[🚪 API Gateway / Router]
+    
+    subgraph Spring Boot Microservices
+        Gateway -->|Routes| FarmFlow[⚙️ FarmFlow Service <br/> port: 8080]
+        Gateway -->|Discovers| Eureka[🧭 Eureka Registry <br/> port: 8761]
+        FarmFlow <-->|Registers| Eureka
+    end
+    
+    subgraph Data & Persistence Layer
+        FarmFlow -->|Persists Data| MySQL[(🗄️ MySQL Database <br/> port: 3306)]
+        FarmFlow <-->|Reduces DB Load| Caffeine[⚡ Caffeine Cache Layer]
+    end
+
+    subgraph Python Ecosystem
+        FarmFlow -->|HTTP Requests| ML[🧠 ML Prediction Service <br/> port: 5000]
+        ML --> Models[(📦 3 ML Models)]
+    end
+    
+    style Client fill:#3b82f6,stroke:#fff,color:#fff
+    style Gateway fill:#f59e0b,stroke:#fff,color:#fff
+    style FarmFlow fill:#10b981,stroke:#fff,color:#fff
+    style Eureka fill:#8b5cf6,stroke:#fff,color:#fff
+    style ML fill:#ef4444,stroke:#fff,color:#fff
+    style MySQL fill:#3b82f6,stroke:#fff,color:#fff
+    style Caffeine fill:#f59e0b,stroke:#fff,color:#fff
 ```
-agri-project/
-├── backend/
-│   ├── eureka/          # Service Discovery (port 8761)
-│   └── farmflow/        # Main Backend (port 8080)
-├── frontend/            # React App (port 5173)
-├── ml/                  # ML Service (port 5000)
-└── docker-compose.yml
-```
+
+* **Frontend:** Built with React, featuring a responsive, premium glassmorphism UI.
+* **Service Discovery:** Netflix Eureka ensures dynamic routing and horizontal scalability.
+* **Core Backend:** A Spring Boot service (FarmFlow) handling 120+ REST APIs, secured by JWT.
+* **Machine Learning:** An isolated Python microservice exposing prediction endpoints for crop/fertilizer recommendations.
+* **Persistence & Caching:** Uses MySQL for stateful data and Caffeine Cache to optimize high-frequency read operations.
 
 ---
 
@@ -140,19 +167,28 @@ Frontend will be available at `http://localhost:5173`
 
 ## 📝 Development
 
-### Backend Development
+### One-Command Startup (Recommended)
+You can run all microservices, API Gateway, Eureka, ML Service, and Frontend development servers simultaneously using the root startup helper script:
+```bash
+./start-dev.sh
+```
+This script will launch everything in the background, redirect service outputs to their respective log files, and gracefully terminate all of them when you press `Ctrl+C`.
+
+### Manual Startup (Individual Services)
+
+#### Backend Development
 ```bash
 cd backend/farmflow
 ./mvnw spring-boot:run
 ```
 
-### Frontend Development
+#### Frontend Development
 ```bash
 cd frontend
 npm run dev
 ```
 
-### Eureka Server
+#### Eureka Server
 ```bash
 cd backend/eureka
 ./mvnw spring-boot:run
