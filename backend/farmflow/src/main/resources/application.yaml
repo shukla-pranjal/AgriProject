@@ -65,8 +65,13 @@ springdoc:
 server:
   port: 8081
 
+gateway:
+  validation:
+    enabled: ${GATEWAY_VALIDATION_ENABLED:false}
+
 eureka:
   client:
+    enabled: ${EUREKA_ENABLED:false}
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
     register-with-eureka: true
