@@ -1,14 +1,9 @@
 spring:
   application:
     name: AGRI-JAVA
-
-ml:
-  service:
-    url: ${ML_SERVICE_URL:}
-
   datasource:
-    url: jdbc:mysql://localhost:3306/agri?useSSL=false&serverTimezone=UTC # url: jdbc:mysql://localhost:3306/agri # (do this in prod)
-    username: root
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/agri?useSSL=false&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${DB_PASSWORD:09072005}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -84,3 +79,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${random.value}
+
+ml:
+  service:
+    url: ${ML_SERVICE_URL:}
