@@ -23,8 +23,8 @@ spring:
     enabled: ${MAIL_ENABLED:false}
     host: smtp.gmail.com
     port: 587
-    username: ${MAIL_USERNAME:debuggerdiaries@gmail.com}
-    password: ${MAIL_PASSWORD:pawgeywzrvxhkmqx}
+    username: ${MAIL_USERNAME:mail@gmail.com}
+    password: ${MAIL_PASSWORD:password}
     properties:
       mail":
         smtp:

@@ -236,7 +236,7 @@ MIT License - see [LICENSE](./LICENSE)
 ## 👨‍💻 Authors & Collaborators
 
 **Creator:**
-- [PranjalKumar09](https://github.com/PranjalKumar09)
+- [shukla-pranjal](https://github.com/shukla-pranjal)
 
 **Collaborator:**
 - [Amritesh Singh](https://github.com/Amritesh-Singh-11)
