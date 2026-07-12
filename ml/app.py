@@ -6,23 +6,30 @@ import pandas as pd
 import traceback
 import py_eureka_client.eureka_client as eureka_client
 
-ML_REST_PORT = 5000
+import os
+
+ML_REST_PORT = int(os.environ.get("PORT", 7860))
 
 import os
 
 eureka_server = os.environ.get("EUREKA_SERVER", "http://localhost:8761/eureka")
 
-eureka_client.init(
-    eureka_server=eureka_server,
-    app_name="ML-SERVICE",
-    instance_port=ML_REST_PORT
-)
+eureka_enabled = os.environ.get("EUREKA_ENABLED", "true").lower() != "false"
+if eureka_enabled:
+    try:
+        eureka_client.init(
+            eureka_server=eureka_server,
+            app_name="ML-SERVICE",
+            instance_port=ML_REST_PORT
+        )
+    except Exception as e:
+        print(f"Warning: Failed to initialize Eureka client: {e}")
 
 # Initialize Flask App
 app = Flask(__name__)
 CORS(app)
 
-import os
+
 
 # Load Models
 def load_file(filename):

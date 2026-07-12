@@ -17,6 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
 COPY *.pkl ./
 
-EXPOSE 5000
+EXPOSE 7860
 
 CMD ["python3", "app.py"]

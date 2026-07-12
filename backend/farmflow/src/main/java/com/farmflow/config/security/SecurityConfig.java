@@ -59,7 +59,7 @@ public class SecurityConfig {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable) // Disable CORS - handled by API Gateway
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS for direct access
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(Constants.PUBLIC_PATHS).permitAll()
                         .anyRequest().authenticated())
