@@ -35,7 +35,7 @@ const FertilizerRecommendation = () => {
 
         try {
             const response = await mlAPI.fertilizerRecommendation(formData);
-            setResult(response.response);
+            setResult(response.fertilizer);
         } catch {
             setError('Failed to get recommendation. Please try again.');
         } finally {

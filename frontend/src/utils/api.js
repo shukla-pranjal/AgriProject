@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-// Direct Backend Configuration (Bypassing API Gateway for Production/Free Tier)
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8081';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || `${BACKEND_URL}/api/v1`;
-const ML_BASE_URL = import.meta.env.VITE_ML_BASE_URL || 'http://localhost:5000'; // ML service direct
 
 // Create axios instance for main API
 const api = axios.create({
@@ -13,13 +11,6 @@ const api = axios.create({
   },
 });
 
-// Create axios instance for ML API
-const mlApi = axios.create({
-  baseURL: ML_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 // Request interceptor to add JWT token
 api.interceptors.request.use(
@@ -46,10 +37,6 @@ api.interceptors.response.use(
   }
 );
 
-mlApi.interceptors.response.use(
-  (response) => response.data,
-  (error) => Promise.reject(error.response?.data || error.message)
-);
 
 // Auth API
 export const authAPI = {
@@ -197,9 +184,9 @@ export const adminAPI = {
 
 // ML API
 export const mlAPI = {
-  cropRecommendation: (data) => mlApi.post('/predict/5', data),
-  pumpControl: (data) => mlApi.post('/predict/6', data),
-  fertilizerRecommendation: (data) => mlApi.post('/predict/7', data),
+  cropRecommendation: (data) => api.post('/ml/5', data),
+  pumpControl: (data) => api.post('/ml/6', data),
+  fertilizerRecommendation: (data) => api.post('/ml/7', data),
 };
 
 export default api;

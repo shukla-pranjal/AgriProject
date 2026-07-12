@@ -1,6 +1,11 @@
 spring:
   application:
     name: AGRI-JAVA
+
+ml:
+  service:
+    url: ${ML_SERVICE_URL:}
+
   datasource:
     url: jdbc:mysql://localhost:3306/agri?useSSL=false&serverTimezone=UTC # url: jdbc:mysql://localhost:3306/agri # (do this in prod)
     username: root

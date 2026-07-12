@@ -38,7 +38,8 @@ public final class Constants {
             "/farmer_app_shopping-docs/**",
             "/farmer_app_shopping-doc/**",
             "/swagger-ui.html",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/api/v1/ml/**"
     };
 
     // --------------------------------

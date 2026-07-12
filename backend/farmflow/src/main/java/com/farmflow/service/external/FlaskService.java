@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name= "ML-SERVICE")
+@FeignClient(name= "ML-SERVICE", url = "${ml.service.url:}")
 public interface FlaskService {
 
     @PostMapping("/predict/5")
