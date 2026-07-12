@@ -20,11 +20,9 @@ public class GatewayCorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
 
-        // Allow specific origins (frontend applications)
-        corsConfig.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173", // Vite dev server
-                "http://localhost:3000" // React dev server
-        ));
+        // Allow all origins — includes Vercel deployment, local dev, and any future domains.
+        // Using allowedOriginPatterns instead of allowedOrigins so it works with allowCredentials=true.
+        corsConfig.setAllowedOriginPatterns(List.of("*"));
 
         // Allow all standard HTTP methods
         corsConfig.setAllowedMethods(Arrays.asList(
