@@ -12,24 +12,6 @@ spring:
           filters:
             - AddRequestHeader=X-Gateway-Request, gateway-secret-key-12345
       
-      # Global CORS Configuration
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOriginPatterns:
-              - "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-              - PATCH
-            allowedHeaders:
-              - "*"
-            allowCredentials: true
-            maxAge: 3600
-      
       # Enable discovery locator for dynamic routing
       discovery:
         locator:
@@ -44,7 +26,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:https://agri-eureka-latest.onrender.com/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:

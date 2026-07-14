@@ -1,10 +1,7 @@
 import axios from 'axios';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8081';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://agri-eureka-latest-1.onrender.com';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || `${BACKEND_URL}/api/v1`;
-
-console.log("DEBUG: VITE_BACKEND_URL from environment:", import.meta.env.VITE_BACKEND_URL);
-console.log("DEBUG: Final BACKEND_URL being used:", BACKEND_URL);
 
 // Create axios instance for main API
 const api = axios.create({
